@@ -109,10 +109,10 @@ def find_current_project(conn):
 #     cur.execute(sql, (id,))
 #     conn.commit()
 
-# def delete_materials_table(conn):
-#     cur = conn.cursor()
-#     cur.execute('DROP TABLE IF EXISTS materials')
-#     conn.commit()
+def delete_table(conn):
+    cur = conn.cursor()
+    cur.execute('DROP TABLE IF EXISTS customer')
+    conn.commit()
 
 def mark_as_complete(conn, id):
 
@@ -184,7 +184,7 @@ def main():
     conn = create_connection(database)
 
     with conn:
-        data = get_customer_data(conn, 61)
+        delete_table(conn)
 
     #     customer_id = find_customer_id(conn, "Grace Smith")
     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")

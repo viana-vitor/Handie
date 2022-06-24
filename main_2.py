@@ -34,23 +34,23 @@ class MainWindow(QMainWindow):
         toolbar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.addToolBar(Qt.LeftToolBarArea, toolbar)
 
-        self.button_home = QAction(QIcon("home (2).png"), "Home", self)
+        self.button_home = QAction(QIcon("app/data/img/home.png"), "Home", self)
         self.button_home.setCheckable(True)
         self.button_home.triggered.connect(self.home_toggle)
         self.button_home.setChecked(self.home_button_checked)
         toolbar.addAction(self.button_home)
         
-        self.button_customer = QAction(QIcon("contact.png"), "Customers", self)
+        self.button_customer = QAction(QIcon("app/data/img/contact.png"), "Customers", self)
         self.button_customer.setCheckable(True)
         self.button_customer.triggered.connect(self.customer_toggle)
         toolbar.addAction(self.button_customer)
 
-        self.button_projects = QAction(QIcon("sketch (1).png"), "Projects", self)
+        self.button_projects = QAction(QIcon("app/data/img/sketch.png"), "Projects", self)
         self.button_projects.setCheckable(True)
         self.button_projects.triggered.connect(self.projects_toggle)
         toolbar.addAction(self.button_projects)
 
-        self.button_estimates = QAction(QIcon("budget.png"), "Estimates", self)
+        self.button_estimates = QAction(QIcon("app/data/img/budget.png"), "Estimates", self)
         self.button_estimates.setCheckable(True)
         toolbar.addAction(self.button_estimates)
 
