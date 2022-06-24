@@ -10,8 +10,8 @@ from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWindow, QDialog, QVBoxLayout, QLabel, QCheckBox,
  QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem)
 
-from Ui_add_proj_new_version import Ui_Form as Ui_new_home
-from Ui_task_list_widget import Ui_Form as Ui_task_widget
+from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
+from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
 from ProjectEstimateWidget import ProjectEstimate
 import insert_data_sql
 

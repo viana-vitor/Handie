@@ -8,8 +8,8 @@ from PySide6.QtWidgets import QWidget, QListWidgetItem, QButtonGroup, QHBoxLayou
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
 import insert_data_sql
 
-from Ui_customer_estimate import Ui_Form
-from Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
+from app.ui.Ui_customer_estimate import Ui_Form
+from app.ui.Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
 
 db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("customer_data.db")

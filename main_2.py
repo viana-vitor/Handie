@@ -8,9 +8,8 @@ from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QLabel, QMainWindow, QLineEdit,
 QPushButton, QStackedWidget, QToolBar, QToolButton, QVBoxLayout, QWidget, QDialog, QListWidgetItem, QHBoxLayout, QHeaderView)
 
-from Ui_customer_widget import Ui_Customers
-from add_customer_copy import addCustomerWindow
-from Ui_project_widget import Ui_Projects
+from app.ui.Ui_customer_widget import Ui_Customers
+from app.ui.Ui_project_widget import Ui_Projects
 from HomeWidget import HomeWidget
 from ProjectEstimateWidget import ProjectEstimate
 import insert_data_sql
