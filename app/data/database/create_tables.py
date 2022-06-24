@@ -30,7 +30,7 @@ def create_table(conn, create_table_sql):
         print(e)
 
 def main():
-    database = r"customer_data.db"
+    database = r"app/data/database/customer_data.db"
 
     sql_create_customer_table = """ CREATE TABLE IF NOT EXISTS customer (
                                         id integer PRIMARY KEY,
@@ -77,9 +77,9 @@ def main():
     #create tables
     if conn is not None:
         create_table(conn, sql_create_customer_table)
-        #create_table(conn, sql_create_projects_table)
-        #create_table(conn, sql_create_materials_table)
-        #create_table(conn, sql_create_task_table)
+        create_table(conn, sql_create_projects_table)
+        create_table(conn, sql_create_materials_table)
+        create_table(conn, sql_create_task_table)
 
     else:
         print("Error! cannot create the database connection")

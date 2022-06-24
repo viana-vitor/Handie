@@ -6,13 +6,13 @@ import sqlite3
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView, QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
-import insert_data_sql
+import app.data.database.insert_data_sql as insert_data_sql
 
 from app.ui.Ui_customer_estimate import Ui_Form
 from app.ui.Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
 
 db = QSqlDatabase("QSQLITE")
-db.setDatabaseName("customer_data.db")
+db.setDatabaseName("app/data/database/customer_data.db")
 db.open()
 
 class ProjectEstimate(QWidget, Ui_Form): 
@@ -26,7 +26,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.task_id = task_id
 
         
-        database = r"customer_data.db" #Database path
+        database = r"app/data/database/customer_data.db" #Database path
         self.conn = insert_data_sql.create_connection(database) #Creates database connection
         with self.conn:
             self.customer_data = insert_data_sql.get_customer_data(self.conn, self.customer_id)

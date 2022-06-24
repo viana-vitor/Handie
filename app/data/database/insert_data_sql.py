@@ -177,24 +177,24 @@ def get_customer_data(conn, customer_id):
     return row
 
 
-def main():
+# def main():
 
-    database = r"customer_data.db"
+#     database = r"app/data/database/customer_data.db"
 
-    conn = create_connection(database)
+#     conn = create_connection(database)
 
-    with conn:
-        delete_table(conn)
+#     with conn:
+#         delete_table(conn)
 
-    #     customer_id = find_customer_id(conn, "Grace Smith")
-    #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
-    #     project_id = create_new_project(conn, project)
-        #find_current_project(conn)
+#     #     customer_id = find_customer_id(conn, "Grace Smith")
+#     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
+#     #     project_id = create_new_project(conn, project)
+#         #find_current_project(conn)
     
 
 
 
-if __name__== '__main__':
-    main()
+# if __name__== '__main__':
+#     main()
 
 

@@ -1,4 +1,3 @@
-
 import sys
 import re
 import sqlite3
@@ -6,25 +5,28 @@ import sqlite3
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QAction, QActionGroup, QIcon
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel, QSqlQueryModel, QSqlQuery
-from PySide6.QtWidgets import QApplication, QDialogButtonBox, QLabel, QMainWindow, QLineEdit, QPushButton, QStackedWidget, QToolBar, QToolButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QLabel, QMainWindow, QLineEdit,
+QPushButton, QStackedWidget, QToolBar, QToolButton, QVBoxLayout, QWidget, QDialog, QListWidgetItem, QHBoxLayout, QHeaderView)
 
-from Ui_home_widget import Ui_Home
-from Ui_customer_widget import Ui_Customers
-from add_customer_copy import addCustomerWindow
-from Ui_add_project import Ui_MainWindow as addProjectWindow
-from Ui_project_widget import Ui_Form
-import insert_data_sql
+from app.ui.Ui_customer_widget import Ui_Customers
+from app.ui.Ui_project_widget import Ui_Projects
+from HomeWidget import HomeWidget
+from ProjectEstimateWidget import ProjectEstimate
+import app.data.database.create_tables as create_tables
+import app.data.database.insert_data_sql as insert_data_sql
 
 db = QSqlDatabase("QSQLITE")
-db.setDatabaseName("customer_data.db")
+db.setDatabaseName("app/data/database/customer_data.db")
 db.open()
 
 #Create Main Window
 class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent= None):
+        super().__init__(parent)
 
-        self.resize(743, 653)
+        self.resize(900, 700)
+
+        create_tables.main()
 
         self.home_button_checked = True
         
@@ -34,23 +36,23 @@ class MainWindow(QMainWindow):
         toolbar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.addToolBar(Qt.LeftToolBarArea, toolbar)
 
-        self.button_home = QAction(QIcon("home (2).png"), "Home", self)
+        self.button_home = QAction(QIcon("app/data/img/home.png"), "Home", self)
         self.button_home.setCheckable(True)
         self.button_home.triggered.connect(self.home_toggle)
         self.button_home.setChecked(self.home_button_checked)
         toolbar.addAction(self.button_home)
         
-        self.button_customer = QAction(QIcon("contact.png"), "Customers", self)
+        self.button_customer = QAction(QIcon("app/data/img/contact.png"), "Customers", self)
         self.button_customer.setCheckable(True)
         self.button_customer.triggered.connect(self.customer_toggle)
         toolbar.addAction(self.button_customer)
 
-        self.button_projects = QAction(QIcon("sketch (1).png"), "Projects", self)
+        self.button_projects = QAction(QIcon("app/data/img/sketch.png"), "Projects", self)
         self.button_projects.setCheckable(True)
         self.button_projects.triggered.connect(self.projects_toggle)
         toolbar.addAction(self.button_projects)
 
-        self.button_estimates = QAction(QIcon("budget.png"), "Estimates", self)
+        self.button_estimates = QAction(QIcon("app/data/img/budget.png"), "Estimates", self)
         self.button_estimates.setCheckable(True)
         toolbar.addAction(self.button_estimates)
 
@@ -58,87 +60,42 @@ class MainWindow(QMainWindow):
         action_group.addAction(self.button_home)
         action_group.addAction(self.button_customer)
         action_group.addAction(self.button_projects)
-        action_group.addAction(self.button_estimates)      
+        action_group.addAction(self.button_estimates)
         
-        self.setCentralWidget(HomeWidget())
+        self.home_widget = HomeWidget()
+        self.customer_widget = CustomerWidget()
+        self.project_widget = ProjectWidget()
+        
+        self.setCentralWidget(self.home_widget)
+
+        #self.home_widget.main_window_connection.EstimatePageSignal.connect(self.custom_slot)
+
+        self.home_widget.EstimatePageSignal.connect(self.open_estimate)
+        #self.setCentralWidget(self.home_widget)
+    
+    
     
     def home_toggle(self):
-        self.setCentralWidget(HomeWidget())
+        self.home_widget = HomeWidget()
+        self.home_widget.EstimatePageSignal.connect(self.open_estimate)
+        self.setCentralWidget(self.home_widget)
     
     def customer_toggle(self):
-        self.setCentralWidget(CustomerWidget())
+        self.customer_widget = CustomerWidget()
+        self.setCentralWidget(self.customer_widget)
     
     def projects_toggle(self):
-        self.setCentralWidget(ProjectWidget())
-
-
-#Home Page widget
-class HomeWidget(QWidget, Ui_Home):
-    def __init__(self, parent = MainWindow):
-        super().__init__()
-        self.setupUi(self)
-
-        self.pushButton.clicked.connect(self.open_customer_add)
-
-        self.quickAddProject = add_project()
-        self.pushButton_2.clicked.connect(self.open_project_add)
-
-        
-        database = r"customer_data.db" #Database path
-        conn = insert_data_sql.create_connection(database) #Creates database connection 
-        with conn:
-            self.dict = insert_data_sql.find_current_project(conn) #Create dictionary to store ids and names of current projects
-
-        self.comboBox.addItems(self.dict.values()) #Add current projects to homepage combo box
-        self.comboBox.activated.connect(self.populate_table)
-
-        self.model = QSqlQueryModel()
-        self.tableView.setModel(self.model)
-
-        query = QSqlQuery("SELECT * FROM materials WHERE project_id = ?", db=db)
-        current_id = self.get_key(self.comboBox.currentText())
-        query.bindValue(0, current_id)
-        query.exec()
-       
-        self.model.setQuery(query)
-
-        headers = ["Project Id", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
-        for i in range(len(headers)):
-            self.model.setHeaderData(i, Qt.Horizontal, headers[i])
-
+        self.project_widget = ProjectWidget()
+        self.setCentralWidget(self.project_widget)
     
-    def get_key(self, val):
-        """ Get the project id from dictionary based on the project name value in combo box """
-        
-        for key, value in self.dict.items():
-            if val == value:
-                return key
-        return "key doesn't exist"
+    def setMyCentral(self, widgetClass):
+        myWidget = widgetClass()
+        self.setCentralWidget(myWidget)
 
-    def populate_table(self):
-        """
-        Set new query when value of combo box is changed
-        """
-        id = self.get_key(self.comboBox.currentText())
+    def open_estimate(self, customer_id, project_id, task_id):
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)
+        self.setCentralWidget(self.project_estimate)
 
-        query = QSqlQuery("SELECT * FROM materials WHERE project_id = ?", db=db)
-        query.bindValue(0, id)
-        query.exec()
-
-        self.model.setQuery(query)
-
-        headers = ["Project Id", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
-        for i in range(len(headers)):
-            self.model.setHeaderData(i, Qt.Horizontal, headers[i])
-        
-    
-    def open_customer_add(self):
-        self.quickAddCustomer = addCustomerWindow()
-        self.quickAddCustomer.show()
-
-    def open_project_add(self):
-        self.quickAddProject.show()
-    
 
 class CustomerWidget(QWidget, Ui_Customers):
     def __init__(self):
@@ -150,7 +107,7 @@ class CustomerWidget(QWidget, Ui_Customers):
 
         self.model.setTable("Customer")
         column_titles = {
-            "id": "Id",
+            "id": "ID",
             "first_name": "First Name",
             "last_name": "Last Name",
             "phone": "Phone #",
@@ -163,6 +120,7 @@ class CustomerWidget(QWidget, Ui_Customers):
             self.model.setHeaderData(idx, Qt.Horizontal, t)
         
         self.model.select()
+        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.lineEdit.setPlaceholderText("Search...")
         self.lineEdit.textChanged.connect(self.update_search) #filter customer table
@@ -173,28 +131,90 @@ class CustomerWidget(QWidget, Ui_Customers):
         self.model.setFilter(filter_str)
 
 
-class ProjectWidget(QWidget, Ui_Form):
+class ProjectWidget(QWidget, Ui_Projects):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
-        self.model_2 = QSqlTableModel(db=db)
-        self.tableView_2.setModel(self.model_2)
+        database = r"app/data/database/customer_data.db" #Database path
+        self.conn = insert_data_sql.create_connection(database)
         
-        self.model_2.setTable("projects")
-        self.model_2.select()
+        self.searchLineEdit.setPlaceholderText("Search...")
+        self.searchLineEdit.textChanged.connect(self.on_text_changed)
 
-        self.addProject = add_project()
+        with self.conn:
+            self.projects = insert_data_sql.get_project_customer_name(self.conn)
+        for id, customer_id, project, customer, status in self.projects:
+            myListWidget = customListItem()
+            myListWidget.id(id)
+            myListWidget.customer_id(customer_id)
+            myListWidget.setProject(project)
+            myListWidget.setCustomer(customer)
+            myListWidget.setStatus(status)
+            listWidgetItem = QListWidgetItem(self.listWidget)
+            listWidgetItem.setSizeHint(QSize(15, 40))
+            self.listWidget.addItem(listWidgetItem)
+            self.listWidget.setItemWidget(listWidgetItem, myListWidget)
+
+            self.listWidget.itemClicked.connect(self.populate_fields)
+        
+    def on_text_changed(self, text):
+        for row in range(self.listWidget.count()):
+            item = self.listWidget.item(row)
+            widg = self.listWidget.itemWidget(item)
+            if text:
+                item.setHidden(not self.filter(text.lower(), widg.customerText.text().lower()))
+            else:
+                item.setHidden(False)
     
-        self.pushButton_3.clicked.connect(self.open_project_add)
-    def open_project_add(self):
-        self.addProject.show()
+    def filter(self, text, customer):
+        return text in customer
+
+    def populate_fields(self, item):
+        
+        widget = self.listWidget.itemWidget(item)
+        project = widget.projectText.text()
+        customer = widget.customerText.text()
+        self.projectLabel.setText(project)
+        self.customerLabel.setText(customer)
+        project_id = widget.id
+        customer_id = widget.customer_id
+        
+        with self.conn:
+            dates = insert_data_sql.get_dates(self.conn, project_id)
+        
+        self.begDateLabel.setText(dates[0])
+        self.endDateLabel.setText(dates[1])
 
 
-class add_project(QMainWindow, addProjectWindow):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
+
+
+class customListItem(QWidget):
+    def __init__(self, parent=None):
+        super(customListItem, self).__init__(parent)
+        self.textLayout = QHBoxLayout()
+        self.projectText = QLabel()
+        self.customerText = QLabel()
+        self.statusText = QLabel()
+        self.textLayout.addWidget(self.projectText)
+        self.textLayout.addWidget(self.customerText)
+        self.textLayout.addWidget(self.statusText)
+        self.setLayout(self.textLayout)
+    
+    def id(self, id):
+        self.id = id
+    
+    def customer_id(self, customer_id):
+        self.customer_id = customer_id
+
+    def setProject(self, text):
+        self.projectText.setText(text)
+    
+    def setCustomer(self, text):
+        self.customerText.setText(text)
+    
+    def setStatus(self, text):
+        self.statusText.setText(text)
 
 
 
@@ -203,4 +223,3 @@ app = QApplication(sys.argv)
 w = MainWindow()
 w.show()
 app.exec()
-
