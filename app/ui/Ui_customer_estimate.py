@@ -19,14 +19,14 @@ from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDo
     QFrame, QGridLayout, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QPushButton,
     QRadioButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSpinBox, QStackedWidget, QTableView, QVBoxLayout,
-    QWidget)
+    QSpinBox, QStackedWidget, QTableWidget, QTableWidgetItem,
+    QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1160, 877)
+        Form.resize(1163, 900)
         self.verticalLayout = QVBoxLayout(Form)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.stackedWidget = QStackedWidget(Form)
@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -18, 1097, 987))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -142, 1100, 952))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -272,6 +272,10 @@ class Ui_Form(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.descMaterialLineEdit.sizePolicy().hasHeightForWidth())
         self.descMaterialLineEdit.setSizePolicy(sizePolicy3)
+        font2 = QFont()
+        font2.setPointSize(11)
+        self.descMaterialLineEdit.setFont(font2)
+        self.descMaterialLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_11.addWidget(self.descMaterialLineEdit)
 
@@ -315,13 +319,13 @@ class Ui_Form(object):
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
 
-        self.materialsTableView = QTableView(self.scrollAreaWidgetContents)
-        self.materialsTableView.setObjectName(u"materialsTableView")
-        self.materialsTableView.setMinimumSize(QSize(0, 250))
-        self.materialsTableView.setFrameShape(QFrame.StyledPanel)
-        self.materialsTableView.setFrameShadow(QFrame.Sunken)
+        self.materialsTableWidget = QTableWidget(self.scrollAreaWidgetContents)
+        self.materialsTableWidget.setObjectName(u"materialsTableWidget")
+        sizePolicy3.setHeightForWidth(self.materialsTableWidget.sizePolicy().hasHeightForWidth())
+        self.materialsTableWidget.setSizePolicy(sizePolicy3)
+        self.materialsTableWidget.setMinimumSize(QSize(0, 215))
 
-        self.horizontalLayout_6.addWidget(self.materialsTableView)
+        self.horizontalLayout_6.addWidget(self.materialsTableWidget)
 
         self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
@@ -569,9 +573,9 @@ class Ui_Form(object):
         self.line_4.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.line_4.sizePolicy().hasHeightForWidth())
         self.line_4.setSizePolicy(sizePolicy1)
-        font2 = QFont()
-        font2.setBold(False)
-        self.line_4.setFont(font2)
+        font3 = QFont()
+        font3.setBold(False)
+        self.line_4.setFont(font3)
         self.line_4.setStyleSheet(u"")
         self.line_4.setFrameShadow(QFrame.Plain)
         self.line_4.setMidLineWidth(4)

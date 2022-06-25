@@ -43,10 +43,8 @@ tasks_dict = {
     }
 }
 
-with open("tasks_kw.json", "w") as f:
-    json.dump(tasks_dict, f)
+def main():
+    
+    with open("app/data/database/tasks_kw.json", "w") as f:
+        json.dump(tasks_dict, f)
 
-# with open("tasks_kw.json", "r") as f:
-#     json_file = json.load(f)
-
-# print(json_file)

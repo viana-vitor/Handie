@@ -30,16 +30,16 @@ def create_table(conn, create_table_sql):
         print(e)
 
 def main():
-    database = r"customer_data.db"
+    database = r"app/data/database/customer_data.db"
 
     sql_create_customer_table = """ CREATE TABLE IF NOT EXISTS customer (
                                         id integer PRIMARY KEY,
-                                        FirstName nvarchar(30) NOT NULL,
-                                        LastName nvarchar(30) NOT NULL,
-                                        Phone nvarchar(24),
-                                        Address nvarchar(70),
-                                        City nvarchar(40),
-                                        ZipCode nvarchar(10)
+                                        first_name nvarchar(30) NOT NULL,
+                                        last_name nvarchar(30) NOT NULL,
+                                        phone nvarchar(24),
+                                        address nvarchar(70),
+                                        city nvarchar(40),
+                                        zip nvarchar(10)
                                     ); """
     
     sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS projects (
@@ -51,6 +51,7 @@ def main():
                                         construction_area text,
                                         total_cost real,
                                         total_revenue real,
+                                        status text,
                                         FOREIGN KEY (customer_id) REFERENCES customer (id)
                                     );"""
     
@@ -75,9 +76,9 @@ def main():
 
     #create tables
     if conn is not None:
-        #create_table(conn, sql_create_customer_table)
-        #create_table(conn, sql_create_projects_table)
-        #create_table(conn, sql_create_materials_table)
+        create_table(conn, sql_create_customer_table)
+        create_table(conn, sql_create_projects_table)
+        create_table(conn, sql_create_materials_table)
         create_table(conn, sql_create_task_table)
 
     else:
