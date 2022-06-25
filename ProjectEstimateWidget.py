@@ -93,7 +93,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     def construction_area_widgets(self):
         
-        with open("user_tasks.json", "r") as f:
+        with open("app/data/database/user_tasks.json", "r") as f:
             user_tasks = json.load(f)
         
         index = 4

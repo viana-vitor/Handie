@@ -14,6 +14,7 @@ from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
 from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
 from ProjectEstimateWidget import ProjectEstimate
 import app.data.database.insert_data_sql as insert_data_sql
+import app.data.database.tasks_keywords_json as tasks_keywords_json
 
 db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("app/data/database/customer_data.db")
@@ -189,9 +190,17 @@ class HomeWidget(QWidget, Ui_new_home):
     def new_task(self):
         ''' Populate tasks on list widget according to construction area'''
 
-        with open("tasks_kw.json", "r") as f:
-            tasks_data = json.load(f)
+        
+        if not os.path.exists("app/data/database/tasks_kw.json"):
+            tasks_keywords_json.main()
 
+            with open("app/data/database/tasks_kw.json", "r") as f:
+                tasks_data = json.load(f)
+        else: 
+            with open("app/data/database/tasks_kw.json", "r") as f:
+                tasks_data = json.load(f)
+
+        
         checked_buttons = 0
         
         for button in self.tasks_button_grp.buttons():
@@ -243,7 +252,7 @@ class HomeWidget(QWidget, Ui_new_home):
                 
     def add_new_task_keyword(self):
         '''Read data from json tasks, and add new keywords from user imput'''
-        with open("tasks_kw.json", "r") as f:
+        with open("app/data/database/tasks_kw.json", "r") as f:
             tasks_data = json.load(f)
 
             # for i in range(self.gridLayout_11.count()):
@@ -276,7 +285,7 @@ class HomeWidget(QWidget, Ui_new_home):
                                 widget.lineEdit_3.clear()
                                 widget.listWidget_3.addItem(item)
             
-        with open("tasks_kw.json", "w") as new:
+        with open("app/data/database/tasks_kw.json", "w") as new:
             json.dump(tasks_data, new)
         
     
@@ -314,13 +323,12 @@ class HomeWidget(QWidget, Ui_new_home):
 
     def same_address_check(self):
         ''' Input customer address as project name'''      
-        
-        id = self.get_key(self.full_name_dict, self.customerNameComboBox.currentText())
-
-        address = insert_data_sql.get_customer_address(self.conn, id)
 
         if self.stackedWidget_3.currentIndex() == 0: #index 0 shows existing customer page
             if self.addressCheckBox.isChecked():
+                id = self.get_key(self.full_name_dict, self.customerNameComboBox.currentText())
+                address = insert_data_sql.get_customer_address(self.conn, id)
+
                 self.projectNameLineEdit.setText(address)
                 self.projectNameLineEdit.setEnabled(False)
             else:
@@ -393,16 +401,16 @@ class HomeWidget(QWidget, Ui_new_home):
                     "tasks": checked_tasks
                 }
 
-        if not os.path.exists("user_tasks.json"):
-            with open("user_tasks.json", "w") as f:
+        if not os.path.exists("app/data/database/user_tasks.json"):
+            with open("app/data/database/user_tasks.json", "w") as f:
                 json.dump([user_tasks], f)
         else:
-            with open("user_tasks.json", "r") as f:
+            with open("app/data/database/user_tasks.json", "r") as f:
                 user_tasks_data = json.load(f)
 
             user_tasks_data.append(user_tasks)
 
-            with open("user_tasks.json", "w") as new:
+            with open("app/data/database/user_tasks.json", "w") as new:
                 json.dump(user_tasks_data, new)
     
 
