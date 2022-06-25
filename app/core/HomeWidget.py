@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWin
 
 from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
 from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
-from ProjectEstimateWidget import ProjectEstimate
+from app.core.ProjectEstimateWidget import ProjectEstimate
 import app.data.database.insert_data_sql as insert_data_sql
 import app.data.database.tasks_keywords_json as tasks_keywords_json
 

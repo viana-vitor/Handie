@@ -10,8 +10,8 @@ QPushButton, QStackedWidget, QToolBar, QToolButton, QVBoxLayout, QWidget, QDialo
 
 from app.ui.Ui_customer_widget import Ui_Customers
 from app.ui.Ui_project_widget import Ui_Projects
-from HomeWidget import HomeWidget
-from ProjectEstimateWidget import ProjectEstimate
+from app.core.HomeWidget import HomeWidget
+from app.core.ProjectEstimateWidget import ProjectEstimate
 import app.data.database.create_tables as create_tables
 import app.data.database.insert_data_sql as insert_data_sql
 
