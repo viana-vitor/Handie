@@ -176,6 +176,20 @@ def get_customer_data(conn, customer_id):
     row = cur.fetchone()
     return row
 
+def get_materials_total(conn, project_id):
+
+    sql = 'SELECT total FROM materials WHERE project_id = ?'
+
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    rows = cur.fetchall()
+
+    overall = 0
+    for value in rows:
+        overall += value[0]
+    
+    return overall
+
 
 # def main():
 
@@ -184,7 +198,7 @@ def get_customer_data(conn, customer_id):
 #     conn = create_connection(database)
 
 #     with conn:
-#         delete_table(conn)
+#         get_total(conn, 1)
 
 #     #     customer_id = find_customer_id(conn, "Grace Smith")
 #     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")

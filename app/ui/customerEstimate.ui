@@ -36,9 +36,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-142</y>
+            <y>-106</y>
             <width>1100</width>
-            <height>952</height>
+            <height>916</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -269,7 +269,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>$0</string>
                  </property>
                 </widget>
                </item>
@@ -476,17 +476,11 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QTableWidget" name="materialsTableWidget">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
+                <widget class="QTableView" name="materialsTableView">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>215</height>
+                   <height>250</height>
                   </size>
                  </property>
                 </widget>
@@ -544,7 +538,7 @@
                <item>
                 <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>$0</string>
                  </property>
                 </widget>
                </item>
@@ -673,7 +667,7 @@
                <item>
                 <widget class="QLabel" name="label_16">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>$0</string>
                  </property>
                 </widget>
                </item>
@@ -700,73 +694,6 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_9">
-                   <item>
-                    <widget class="QLabel" name="label_26">
-                     <property name="text">
-                      <string>Contractor fee:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="pctgFeeRadioButton">
-                     <property name="text">
-                      <string>Percentage</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="amntFeeRadioButton">
-                     <property name="text">
-                      <string>Amount</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLineEdit" name="feeLineEdit">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="inputMethodHints">
-                      <set>Qt::ImhNone</set>
-                     </property>
-                     <property name="inputMask">
-                      <string/>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="maxLength">
-                      <number>32767</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="feeDoubleSpinBox">
-                     <property name="suffix">
-                      <string>%</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_13">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_10">
                    <item>
                     <widget class="QLabel" name="label_4">
@@ -779,28 +706,14 @@
                     <widget class="QLineEdit" name="newFeeNameLineEdit"/>
                    </item>
                    <item>
-                    <widget class="QRadioButton" name="pctgNewFeeRadioButton">
+                    <widget class="QLabel" name="label_26">
                      <property name="text">
-                      <string>Percentage</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="amntNewFeeRadioButton">
-                     <property name="text">
-                      <string>Amount</string>
+                      <string>Amount ($):</string>
                      </property>
                     </widget>
                    </item>
                    <item>
                     <widget class="QLineEdit" name="newFeeLineEdit"/>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="newFeeDoubleSpinBox">
-                     <property name="suffix">
-                      <string>%</string>
-                     </property>
-                    </widget>
                    </item>
                    <item>
                     <widget class="QPushButton" name="addFeepushButton">
@@ -883,7 +796,7 @@
                <item>
                 <widget class="QLabel" name="label_19">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>$0</string>
                  </property>
                 </widget>
                </item>
@@ -909,46 +822,6 @@
                </item>
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_15">
-                   <item>
-                    <widget class="QLabel" name="label_29">
-                     <property name="text">
-                      <string>State Tax:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="taxDoubleSpinBox">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="suffix">
-                      <string>%</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_12">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeType">
-                      <enum>QSizePolicy::Expanding</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>80</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_16">
                    <item>
@@ -1057,28 +930,25 @@
               <layout class="QHBoxLayout" name="horizontalLayout_17">
                <item>
                 <widget class="QLabel" name="label_31">
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
-                  <string>Total</string>
+                  <string>Total:</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="horizontalSpacer_22">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
                 <widget class="QLabel" name="label_20">
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>$0</string>
                  </property>
                 </widget>
                </item>

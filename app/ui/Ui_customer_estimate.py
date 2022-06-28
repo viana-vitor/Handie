@@ -18,9 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDoubleSpinBox,
     QFrame, QGridLayout, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QPushButton,
-    QRadioButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSpinBox, QStackedWidget, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
+    QStackedWidget, QTableView, QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -43,7 +42,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -142, 1100, 952))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -106, 1100, 916))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -319,13 +318,11 @@ class Ui_Form(object):
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
 
-        self.materialsTableWidget = QTableWidget(self.scrollAreaWidgetContents)
-        self.materialsTableWidget.setObjectName(u"materialsTableWidget")
-        sizePolicy3.setHeightForWidth(self.materialsTableWidget.sizePolicy().hasHeightForWidth())
-        self.materialsTableWidget.setSizePolicy(sizePolicy3)
-        self.materialsTableWidget.setMinimumSize(QSize(0, 215))
+        self.materialsTableView = QTableView(self.scrollAreaWidgetContents)
+        self.materialsTableView.setObjectName(u"materialsTableView")
+        self.materialsTableView.setMinimumSize(QSize(0, 250))
 
-        self.horizontalLayout_6.addWidget(self.materialsTableWidget)
+        self.horizontalLayout_6.addWidget(self.materialsTableView)
 
         self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
@@ -463,47 +460,6 @@ class Ui_Form(object):
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.label_26 = QLabel(self.scrollAreaWidgetContents)
-        self.label_26.setObjectName(u"label_26")
-
-        self.horizontalLayout_9.addWidget(self.label_26)
-
-        self.pctgFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.pctgFeeRadioButton.setObjectName(u"pctgFeeRadioButton")
-
-        self.horizontalLayout_9.addWidget(self.pctgFeeRadioButton)
-
-        self.amntFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.amntFeeRadioButton.setObjectName(u"amntFeeRadioButton")
-
-        self.horizontalLayout_9.addWidget(self.amntFeeRadioButton)
-
-        self.feeLineEdit = QLineEdit(self.scrollAreaWidgetContents)
-        self.feeLineEdit.setObjectName(u"feeLineEdit")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.feeLineEdit.sizePolicy().hasHeightForWidth())
-        self.feeLineEdit.setSizePolicy(sizePolicy4)
-        self.feeLineEdit.setInputMethodHints(Qt.ImhNone)
-        self.feeLineEdit.setMaxLength(32767)
-
-        self.horizontalLayout_9.addWidget(self.feeLineEdit)
-
-        self.feeDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
-        self.feeDoubleSpinBox.setObjectName(u"feeDoubleSpinBox")
-
-        self.horizontalLayout_9.addWidget(self.feeDoubleSpinBox)
-
-        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_9.addItem(self.horizontalSpacer_13)
-
-
-        self.verticalLayout_6.addLayout(self.horizontalLayout_9)
-
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
@@ -516,25 +472,15 @@ class Ui_Form(object):
 
         self.horizontalLayout_10.addWidget(self.newFeeNameLineEdit)
 
-        self.pctgNewFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.pctgNewFeeRadioButton.setObjectName(u"pctgNewFeeRadioButton")
+        self.label_26 = QLabel(self.scrollAreaWidgetContents)
+        self.label_26.setObjectName(u"label_26")
 
-        self.horizontalLayout_10.addWidget(self.pctgNewFeeRadioButton)
-
-        self.amntNewFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.amntNewFeeRadioButton.setObjectName(u"amntNewFeeRadioButton")
-
-        self.horizontalLayout_10.addWidget(self.amntNewFeeRadioButton)
+        self.horizontalLayout_10.addWidget(self.label_26)
 
         self.newFeeLineEdit = QLineEdit(self.scrollAreaWidgetContents)
         self.newFeeLineEdit.setObjectName(u"newFeeLineEdit")
 
         self.horizontalLayout_10.addWidget(self.newFeeLineEdit)
-
-        self.newFeeDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
-        self.newFeeDoubleSpinBox.setObjectName(u"newFeeDoubleSpinBox")
-
-        self.horizontalLayout_10.addWidget(self.newFeeDoubleSpinBox)
 
         self.addFeepushButton = QPushButton(self.scrollAreaWidgetContents)
         self.addFeepushButton.setObjectName(u"addFeepushButton")
@@ -599,27 +545,6 @@ class Ui_Form(object):
 
         self.verticalLayout_9 = QVBoxLayout()
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.horizontalLayout_15 = QHBoxLayout()
-        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.label_29 = QLabel(self.scrollAreaWidgetContents)
-        self.label_29.setObjectName(u"label_29")
-
-        self.horizontalLayout_15.addWidget(self.label_29)
-
-        self.taxDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
-        self.taxDoubleSpinBox.setObjectName(u"taxDoubleSpinBox")
-        sizePolicy4.setHeightForWidth(self.taxDoubleSpinBox.sizePolicy().hasHeightForWidth())
-        self.taxDoubleSpinBox.setSizePolicy(sizePolicy4)
-
-        self.horizontalLayout_15.addWidget(self.taxDoubleSpinBox)
-
-        self.horizontalSpacer_12 = QSpacerItem(80, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_15.addItem(self.horizontalSpacer_12)
-
-
-        self.verticalLayout_9.addLayout(self.horizontalLayout_15)
-
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.label_8 = QLabel(self.scrollAreaWidgetContents)
@@ -687,15 +612,15 @@ class Ui_Form(object):
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.label_31 = QLabel(self.scrollAreaWidgetContents)
         self.label_31.setObjectName(u"label_31")
+        font4 = QFont()
+        font4.setPointSize(16)
+        self.label_31.setFont(font4)
 
         self.horizontalLayout_17.addWidget(self.label_31)
 
-        self.horizontalSpacer_22 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_17.addItem(self.horizontalSpacer_22)
-
         self.label_20 = QLabel(self.scrollAreaWidgetContents)
         self.label_20.setObjectName(u"label_20")
+        self.label_20.setFont(font4)
 
         self.horizontalLayout_17.addWidget(self.label_20)
 
@@ -767,7 +692,7 @@ class Ui_Form(object):
         self.label_12.setText(QCoreApplication.translate("Form", u"Construction Area:", None))
         self.label_13.setText(QCoreApplication.translate("Form", u"Estimate:", None))
         self.label_14.setText(QCoreApplication.translate("Form", u"Materials", None))
-        self.label_5.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.label_5.setText(QCoreApplication.translate("Form", u"$0", None))
         self.label_21.setText(QCoreApplication.translate("Form", u"Material Name:", None))
         self.label_23.setText(QCoreApplication.translate("Form", u"Quantity:", None))
         self.label_24.setText(QCoreApplication.translate("Form", u"Price:", None))
@@ -776,7 +701,7 @@ class Ui_Form(object):
         self.addMaterialButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.showMaterialButton.setText(QCoreApplication.translate("Form", u"Show/Hide Materials", None))
         self.label_15.setText(QCoreApplication.translate("Form", u"Labor", None))
-        self.label_11.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.label_11.setText(QCoreApplication.translate("Form", u"$0", None))
         self.label_17.setText(QCoreApplication.translate("Form", u"workers at ", None))
         self.label_18.setText(QCoreApplication.translate("Form", u"/hr", None))
         self.durationComboBox.setItemText(0, QCoreApplication.translate("Form", u"Months", None))
@@ -784,29 +709,19 @@ class Ui_Form(object):
 
         self.addLaborPushButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.label_25.setText(QCoreApplication.translate("Form", u"Fees", None))
-        self.label_16.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.label_26.setText(QCoreApplication.translate("Form", u"Contractor fee:", None))
-        self.pctgFeeRadioButton.setText(QCoreApplication.translate("Form", u"Percentage", None))
-        self.amntFeeRadioButton.setText(QCoreApplication.translate("Form", u"Amount", None))
-        self.feeLineEdit.setInputMask("")
-        self.feeLineEdit.setText("")
-        self.feeDoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
+        self.label_16.setText(QCoreApplication.translate("Form", u"$0", None))
         self.label_4.setText(QCoreApplication.translate("Form", u"Fee (Name):", None))
-        self.pctgNewFeeRadioButton.setText(QCoreApplication.translate("Form", u"Percentage", None))
-        self.amntNewFeeRadioButton.setText(QCoreApplication.translate("Form", u"Amount", None))
-        self.newFeeDoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
+        self.label_26.setText(QCoreApplication.translate("Form", u"Amount ($):", None))
         self.addFeepushButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.label_28.setText(QCoreApplication.translate("Form", u"Taxes", None))
-        self.label_19.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.label_29.setText(QCoreApplication.translate("Form", u"State Tax:", None))
-        self.taxDoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
+        self.label_19.setText(QCoreApplication.translate("Form", u"$0", None))
         self.label_8.setText(QCoreApplication.translate("Form", u"Tax (Name):", None))
         self.label_9.setText(QCoreApplication.translate("Form", u"Rate:", None))
         self.newTaxdoubleSpinBox.setPrefix("")
         self.newTaxdoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
         self.addTaxPushButton.setText(QCoreApplication.translate("Form", u"Add", None))
-        self.label_31.setText(QCoreApplication.translate("Form", u"Total", None))
-        self.label_20.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.label_31.setText(QCoreApplication.translate("Form", u"Total:", None))
+        self.label_20.setText(QCoreApplication.translate("Form", u"$0", None))
         self.pushButton_2.setText(QCoreApplication.translate("Form", u"Close", None))
         self.pushButton_3.setText(QCoreApplication.translate("Form", u"PDF", None))
         self.pushButton.setText(QCoreApplication.translate("Form", u"Home", None))

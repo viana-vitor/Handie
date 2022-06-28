@@ -24,7 +24,10 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.customer_id = customer_id
         self.project_id = project_id
         self.task_id = task_id
-
+        
+        self.total_labor_cost = 0
+        self.total_fee_amount = 0
+        self.total_tax = 0
         
         database = r"app/data/database/customer_data.db" #Database path
         self.conn = insert_data_sql.create_connection(database) #Creates database connection
@@ -41,26 +44,17 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.construction_area_widgets()
 
 
-        self.contractor_fee_group = QButtonGroup()
-        self.contractor_fee_group.addButton(self.pctgFeeRadioButton)
-        self.contractor_fee_group.addButton(self.amntFeeRadioButton)
+        # self.contractor_new_fee_group = QButtonGroup()
+        # self.contractor_new_fee_group.addButton(self.pctgNewFeeRadioButton)
+        # self.contractor_new_fee_group.addButton(self.amntNewFeeRadioButton)
 
-        self.contractor_new_fee_group = QButtonGroup()
-        self.contractor_new_fee_group.addButton(self.pctgNewFeeRadioButton)
-        self.contractor_new_fee_group.addButton(self.amntNewFeeRadioButton)
-
-        self.pctgFeeRadioButton.setChecked(True)
-        self.pctgNewFeeRadioButton.setChecked(True)
+        #self.pctgNewFeeRadioButton.setChecked(True)
         
-        self.feeLineEdit.hide()
-        self.feeDoubleSpinBox.show()
-        self.newFeeLineEdit.hide()
-        self.newFeeDoubleSpinBox.show()
+        # self.newFeeLineEdit.hide()
+        # self.newFeeDoubleSpinBox.show()
 
-        self.pctgFeeRadioButton.toggled.connect(self.show_fee)
-        self.amntFeeRadioButton.toggled.connect(self.show_fee)
-        self.pctgNewFeeRadioButton.toggled.connect(self.show_new_fee)
-        self.amntNewFeeRadioButton.toggled.connect(self.show_new_fee)
+        # self.pctgNewFeeRadioButton.toggled.connect(self.show_new_fee)
+        # self.amntNewFeeRadioButton.toggled.connect(self.show_new_fee)
 
         self.addFeepushButton.clicked.connect(self.add_fee)
         self.addLaborPushButton.clicked.connect(self.add_labor)
@@ -68,22 +62,24 @@ class ProjectEstimate(QWidget, Ui_Form):
 
         
         ## Set up table with construction materials
-        self.materialsTableWidget.hide()
-        # headers = ["Project ID", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
-        # self.model_materials = QSqlTableModel(db=db)
-        # self.model_materials.setTable('materials')
-        # filter_str = 'project_id = {}'.format(self.project_id)
-        # self.model_materials.setFilter(filter_str)
-        # self.model_materials.select()
-        # self.materialsTableWidget.setModel(self.model_materials)
-        # for i in range(len(headers)):
-        #     self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
-        # self.materialsTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.materialsTableView.hide()
 
-        
-        #self.materialsWidget.hide() #Contains widgets for adding material information
+        headers = ["Project ID", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
+        self.model_materials = QSqlTableModel(db=db)
+        self.model_materials.setTable('materials')
+        filter_str = 'project_id = {}'.format(self.project_id)
+        self.model_materials.setFilter(filter_str)
+        self.model_materials.setEditStrategy(QSqlTableModel.OnFieldChange)
+        self.model_materials.select()
+        self.materialsTableView.setModel(self.model_materials)
+        for i in range(len(headers)):
+            self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
+        self.materialsTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.get_materials_total()
+        self.get_total_cost()
+
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
-        #self.newMaterialPushButton.clicked.connect(self.new_material)
         self.addMaterialButton.clicked.connect(self.add_material)
 
         self.pushButton.clicked.connect(self.customer_info)
@@ -132,7 +128,7 @@ class ProjectEstimate(QWidget, Ui_Form):
             nbr_of_days = self.durationSpinBox.value()
         elif self.durationComboBox.currentText() == 'Months':
             nbr_of_months = self.durationSpinBox.value()
-            nbr_of_days = 30 * nbr_of_months
+            nbr_of_days = 24 * nbr_of_months #Assuming 4 week month with 6 days work week
 
         self.laborHorizontalLayout = QHBoxLayout()
         self.nworkers_label = QLabel('{}'.format(nbr_of_workers))
@@ -144,64 +140,67 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.laborHorizontalLayout.addWidget(self.rate_label)
         self.laborHorizontalLayout.addWidget(self.duration_label)
         self.verticalLayout_4.insertLayout(index, self.laborHorizontalLayout)
-        index += 1
+
+
+        self.get_labor_total(nbr_of_workers, worker_rate, nbr_of_days)
+        self.get_total_cost()
 
         self.nbrWorkersSpinBox.setValue(0)
         self.workerRateDoubleSpinBox.setValue(0)
         self.durationSpinBox.setValue(0)
     
     
-    
-    def show_fee(self):
+    def get_labor_total(self, wkrs, rate, duration):
 
-        if self.pctgFeeRadioButton.isChecked():
-            self.feeLineEdit.hide()
-            self.feeDoubleSpinBox.show()
-        elif self.amntFeeRadioButton.isChecked():
-            self.feeDoubleSpinBox.hide()
-            self.feeLineEdit.show()
+        hours = duration * 8 #Assuming an 8hr work day 
+        total_labor = wkrs * rate * hours
+        self.total_labor_cost += total_labor
+        self.label_11.setText('${}'.format(self.total_labor_cost))
+
     
-    def show_new_fee(self):
+    # def show_new_fee(self):
         
-        if self.pctgNewFeeRadioButton.isChecked():
-            self.newFeeLineEdit.hide()
-            self.newFeeDoubleSpinBox.show()
-        elif self.amntNewFeeRadioButton.isChecked():
-            self.newFeeDoubleSpinBox.hide()
-            self.newFeeLineEdit.show()
+    #     if self.pctgNewFeeRadioButton.isChecked():
+    #         self.newFeeLineEdit.hide()
+    #         self.newFeeDoubleSpinBox.show()
+    #     elif self.amntNewFeeRadioButton.isChecked():
+    #         self.newFeeDoubleSpinBox.hide()
+    #         self.newFeeLineEdit.show()
  
     
     def add_fee(self):
 
-        index = 1
+        index = 0
 
         name = self.newFeeNameLineEdit.text()
         self.feeHorizontalLayout = QHBoxLayout()
         self.feeName = QLabel('{}:'.format(name))
         self.feeHorizontalLayout.addWidget(self.feeName)
-        
-        if self.pctgNewFeeRadioButton.isChecked():
-            rate = self.newFeeDoubleSpinBox.value()
-            self.rate = QLabel('{}%'.format(rate))
-            self.feeHorizontalLayout.addWidget(self.rate)
-            self.newFeeNameLineEdit.clear()
-            self.newFeeDoubleSpinBox.setValue(0)
-        elif self.amntFeeRadioButton.isChecked():
-            amount = self.newFeeLineEdit.text()
-            self.amount = QLabel("$".format(amount))
-            self.feeHorizontalLayout.addWidget(self.amount)
-            self.newFeeNameLineEdit.clear()
-            self.newFeeLineEdit.clear()
-        
+    
+        amount = int(self.newFeeLineEdit.text())
+        self.amount = QLabel("${}".format(amount))
+        self.feeHorizontalLayout.addWidget(self.amount)
+        self.newFeeNameLineEdit.clear()
+        self.newFeeLineEdit.clear()
+    
         self.delButton = QPushButton("-")
         self.delButton.setFlat(True)
         self.feeHorizontalLayout.addWidget(self.delButton)
         self.verticalLayout_6.insertLayout(index, self.feeHorizontalLayout)
-        index += 1
+        self.get_total_fee(amount)
+        self.get_total_cost()
+
+
+
+    def get_total_fee(self, amount):
+
+        self.total_fee_amount += amount
+        self.label_16.setText('${}'.format(self.total_fee_amount))
+
 
     def add_tax(self):
 
-        index = 1
+        index = 0
 
         name = self.newTaxNameLineEdit.text()
         self.newTaxNameLineEdit.clear()
@@ -219,21 +218,21 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.taxHorinzontalLayout.addWidget(self.rate)
         self.taxHorinzontalLayout.addWidget(self.delTaxButton)
         self.verticalLayout_9.insertLayout(index, self.taxHorinzontalLayout)
-        index += 1
+        self.get_total_tax(rate)
+        self.get_total_cost()
+
+    def get_total_tax(self, pctg):
+
+        self.total_tax = pctg/100 * (self.total_labor_cost + self.overall_materials_cost)
+        self.label_19.setText('${}'.format(self.total_tax))
+
 
     def show_hide_materials(self):
         
         if self.showMaterialButton.isChecked():
-            self.materialsTableWidget.show()
+            self.materialsTableView.show()
         else:
-            self.materialsTableWidget.hide()
-    
-    # def new_material(self):
-
-    #     if self.newMaterialPushButton.isChecked():
-    #         self.materialsWidget.show()
-    #     else:
-    #         self.materialsWidget.hide()
+            self.materialsTableView.hide()
         
     
     def add_material(self):
@@ -250,11 +249,35 @@ class ProjectEstimate(QWidget, Ui_Form):
             insert_data_sql.add_materials(self.conn, new_material)
 
         self.model_materials.select()
-    
-    #def cell_changed(self):
+        self.get_materials_total()
+        self.get_total_cost()
 
+        self.newMaterialLineEdit.clear()
+        self.descMaterialLineEdit.clear()
+        self.qtyMaterialSpinBox.setValue(0)
+        self.priceMaterialSpinBox.setValue(0)
 
+    def get_materials_total(self):
+
+        sql = 'SELECT total FROM materials WHERE project_id = ?'
+
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            rows = cur.fetchall()
+
+            self.overall_materials_cost = 0
+            for value in rows:
+                self.overall_materials_cost += value[0]
+            self.label_5.setText('${}'.format(self.overall_materials_cost))
+
+    def get_total_cost(self):
+
+        total_cost = (self.overall_materials_cost + self.total_labor_cost + 
+                self.total_fee_amount + self.total_tax)
         
+        self.label_20.setText('${}'.format(total_cost))
+
 
 
 class TasksSummaryWidget(QWidget, Ui_construction_tasks):
