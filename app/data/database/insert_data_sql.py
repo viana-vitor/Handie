@@ -1,5 +1,6 @@
 
 from re import I
+from select import select
 import sqlite3
 from sqlite3 import Error
 
@@ -63,6 +64,25 @@ def add_new_task(conn, project_id):
     conn.commit()
     return cur.lastrowid
 
+def add_labor(conn, labor):
+    """ Add project labor"""
+
+    sql = ''' INSERT INTO labor (project_id, nbr_workers, rate, duration, labor_cost)
+                VALUES(?,?,?,?,?)'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, labor)
+    conn.commit()
+
+def add_fee(conn, fee):
+    """Add project fees"""
+
+    sql = ''' INSERT INTO fees (project_id, fee_name, fee_amount)
+                VALUES(?,?,?)'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, fee)
+    conn.commit()
 
 def find_customer_id(conn, name):
 

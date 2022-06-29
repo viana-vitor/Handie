@@ -28,6 +28,8 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.total_labor_cost = 0
         self.total_fee_amount = 0
         self.total_tax = 0
+        self.labor_list = []
+        self.fee_list = []
         
         database = r"app/data/database/customer_data.db" #Database path
         self.conn = insert_data_sql.create_connection(database) #Creates database connection
@@ -82,10 +84,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
         self.addMaterialButton.clicked.connect(self.add_material)
 
-        self.pushButton.clicked.connect(self.customer_info)
-
-    def customer_info(self):
-        print(self.customer_data)
+        self.pushButton.clicked.connect(self.save_costs)
     
     def construction_area_widgets(self):
         
@@ -129,6 +128,8 @@ class ProjectEstimate(QWidget, Ui_Form):
         elif self.durationComboBox.currentText() == 'Months':
             nbr_of_months = self.durationSpinBox.value()
             nbr_of_days = 24 * nbr_of_months #Assuming 4 week month with 6 days work week
+        
+        self.labor_list.append((nbr_of_workers, worker_rate, nbr_of_days))
 
         self.laborHorizontalLayout = QHBoxLayout()
         self.nworkers_label = QLabel('{}'.format(nbr_of_workers))
@@ -182,6 +183,8 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.feeHorizontalLayout.addWidget(self.amount)
         self.newFeeNameLineEdit.clear()
         self.newFeeLineEdit.clear()
+
+        self.fee_list.append((name, amount))
     
         self.delButton = QPushButton("-")
         self.delButton.setFlat(True)
@@ -277,6 +280,24 @@ class ProjectEstimate(QWidget, Ui_Form):
                 self.total_fee_amount + self.total_tax)
         
         self.label_20.setText('${}'.format(total_cost))
+    
+
+    def save_costs(self):
+
+        for i in self.labor_list:
+            nbr_of_workers = i[0]
+            worker_rate = i[1]
+            nbr_of_days = i[2]
+            hours = nbr_of_days * 8 #Assuming an 8hr work shift
+            labor_cost = nbr_of_workers * worker_rate * hours
+            with self.conn:
+                insert_data_sql.add_labor(self.conn, [self.project_id, nbr_of_workers, worker_rate, nbr_of_days, labor_cost])
+        
+        for i in self.fee_list:
+            fee_name = i[0]
+            fee_amount = i[1]
+            with self.conn:
+                insert_data_sql.add_fee(self.conn, [self.project_id, fee_name, fee_amount])
 
 
 
