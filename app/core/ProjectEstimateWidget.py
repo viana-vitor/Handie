@@ -28,6 +28,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.total_labor_cost = 0
         self.total_fee_amount = 0
         self.total_tax = 0
+        self.total_cost = 0
         self.labor_list = []
         self.fee_list = []
         
@@ -80,6 +81,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
         self.get_materials_total()
         self.get_total_cost()
+        self.populate_client_version()
 
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
         self.addMaterialButton.clicked.connect(self.add_material)
@@ -91,7 +93,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         with open("app/data/database/user_tasks.json", "r") as f:
             user_tasks = json.load(f)
         
-        index = 4
+        index = 5
         for dict in user_tasks[::-1]:
             if dict["task_id"] == self.task_id:
                 for area in dict["tasks"].keys():
@@ -145,6 +147,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
         self.get_labor_total(nbr_of_workers, worker_rate, nbr_of_days)
         self.get_total_cost()
+        self.populate_client_version()
 
         self.nbrWorkersSpinBox.setValue(0)
         self.workerRateDoubleSpinBox.setValue(0)
@@ -192,6 +195,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.verticalLayout_6.insertLayout(index, self.feeHorizontalLayout)
         self.get_total_fee(amount)
         self.get_total_cost()
+        self.populate_client_version()
 
 
 
@@ -223,6 +227,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.verticalLayout_9.insertLayout(index, self.taxHorinzontalLayout)
         self.get_total_tax(rate)
         self.get_total_cost()
+        self.populate_client_version()
 
     def get_total_tax(self, pctg):
 
@@ -254,6 +259,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.model_materials.select()
         self.get_materials_total()
         self.get_total_cost()
+        self.populate_client_version()
 
         self.newMaterialLineEdit.clear()
         self.descMaterialLineEdit.clear()
@@ -276,10 +282,10 @@ class ProjectEstimate(QWidget, Ui_Form):
 
     def get_total_cost(self):
 
-        total_cost = (self.overall_materials_cost + self.total_labor_cost + 
+        self.total_cost = (self.overall_materials_cost + self.total_labor_cost + 
                 self.total_fee_amount + self.total_tax)
         
-        self.label_20.setText('${}'.format(total_cost))
+        self.label_20.setText('${}'.format(self.total_cost))
     
 
     def save_costs(self):
@@ -298,6 +304,28 @@ class ProjectEstimate(QWidget, Ui_Form):
             fee_amount = i[1]
             with self.conn:
                 insert_data_sql.add_fee(self.conn, [self.project_id, fee_name, fee_amount])
+    
+    def populate_client_version(self):
+        
+        self.clientMaterialCostLineEdit.setText('${}'.format(self.overall_materials_cost))
+        self.clientLaborCostLineEdit.setText('${}'.format(self.total_labor_cost))
+        self.clientFeeCostLineEdit.setText('${}'.format(self.total_fee_amount))
+        self.clientTaxCostLineEdit.setText('${}'.format(self.total_tax))
+        self.clientTotalCostLineEdit.setText('${}'.format(self.total_cost))
+        ### Work on this part so changing one line edit changes the total cost
+        ## Create customers own total_cost as well as other variables 
+        ## Set the variables equal to the contractor variables initially
+
+
+    
+    #Need to work on getting the correct data type for each variable
+    def save_client_version(self):
+
+        estimate = [self.project_id, self.clientMaterialCostLineEdit.text(), self.clientLaborCostLineEdit.text(),
+            self.clientFeeCostLineEdit.text(), self.clientTaxCostLineEdit.text()]
+
+        with self.conn:
+            insert_data_sql.add_client_estimate(self.conn, estimate)
 
 
 

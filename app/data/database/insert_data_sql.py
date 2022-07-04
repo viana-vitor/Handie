@@ -84,6 +84,15 @@ def add_fee(conn, fee):
     cur.execute(sql, fee)
     conn.commit()
 
+def add_client_estimate(conn, estimate):
+
+    sql = ''' INSERT INTO estimates (project_id, material_cost, labor_cost, fee_cost, tax_cost)
+                VALUES (?,?,?,?,?)'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, estimate)
+    conn.commit()
+
 def find_customer_id(conn, name):
 
     sql = '''SELECT id FROM customer

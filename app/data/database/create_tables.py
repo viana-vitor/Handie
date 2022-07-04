@@ -86,6 +86,15 @@ def main():
                                     fee_amount real,
                                     FOREIGN KEY (project_id) REFERENCES projects (id)
                                     );"""
+    
+    sql_create_client_costs_table = """ CREATE TABLE IF NOT EXISTS estimates (
+                                            project_id integer,
+                                            material_cost real,
+                                            labor_cost real,
+                                            fee_cost real,
+                                            tax_cost real,
+                                            FOREIGN KEY (project_id) REFERENCES projects (id)
+                                            );"""
 
     
 
@@ -100,6 +109,7 @@ def main():
         create_table(conn, sql_create_task_table)
         create_table(conn, sql_create_labor_table)
         create_table(conn, sql_create_fees_table)
+        create_table(conn, sql_create_client_costs_table)
 
     else:
         print("Error! cannot create the database connection")

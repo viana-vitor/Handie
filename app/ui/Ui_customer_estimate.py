@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'customerEstimate.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.1
+## Created by: Qt User Interface Compiler version 6.3.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,16 +16,17 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDoubleSpinBox,
-    QFrame, QGridLayout, QHBoxLayout, QHeaderView,
-    QLabel, QLayout, QLineEdit, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
-    QStackedWidget, QTableView, QVBoxLayout, QWidget)
+    QFrame, QGridLayout, QGroupBox, QHBoxLayout,
+    QHeaderView, QLabel, QLayout, QLineEdit,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSpinBox, QStackedWidget, QTableView, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1163, 900)
+        Form.resize(1126, 833)
         self.verticalLayout = QVBoxLayout(Form)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.stackedWidget = QStackedWidget(Form)
@@ -42,18 +43,26 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -106, 1100, 916))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -748, 1063, 1495))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
         font = QFont()
-        font.setPointSize(16)
+        font.setPointSize(18)
         font.setUnderline(True)
         self.label.setFont(font)
         self.label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_12.addWidget(self.label)
+
+        self.label_27 = QLabel(self.scrollAreaWidgetContents)
+        self.label_27.setObjectName(u"label_27")
+        font1 = QFont()
+        font1.setPointSize(16)
+        self.label_27.setFont(font1)
+
+        self.verticalLayout_12.addWidget(self.label_27)
 
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
@@ -138,9 +147,9 @@ class Ui_Form(object):
 
         self.label_12 = QLabel(self.scrollAreaWidgetContents)
         self.label_12.setObjectName(u"label_12")
-        font1 = QFont()
-        font1.setPointSize(14)
-        self.label_12.setFont(font1)
+        font2 = QFont()
+        font2.setPointSize(14)
+        self.label_12.setFont(font2)
 
         self.verticalLayout_12.addWidget(self.label_12)
 
@@ -157,7 +166,7 @@ class Ui_Form(object):
 
         self.label_13 = QLabel(self.scrollAreaWidgetContents)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font1)
+        self.label_13.setFont(font2)
 
         self.verticalLayout_12.addWidget(self.label_13)
 
@@ -271,9 +280,9 @@ class Ui_Form(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.descMaterialLineEdit.sizePolicy().hasHeightForWidth())
         self.descMaterialLineEdit.setSizePolicy(sizePolicy3)
-        font2 = QFont()
-        font2.setPointSize(11)
-        self.descMaterialLineEdit.setFont(font2)
+        font3 = QFont()
+        font3.setPointSize(11)
+        self.descMaterialLineEdit.setFont(font3)
         self.descMaterialLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_11.addWidget(self.descMaterialLineEdit)
@@ -519,9 +528,9 @@ class Ui_Form(object):
         self.line_4.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.line_4.sizePolicy().hasHeightForWidth())
         self.line_4.setSizePolicy(sizePolicy1)
-        font3 = QFont()
-        font3.setBold(False)
-        self.line_4.setFont(font3)
+        font4 = QFont()
+        font4.setBold(False)
+        self.line_4.setFont(font4)
         self.line_4.setStyleSheet(u"")
         self.line_4.setFrameShadow(QFrame.Plain)
         self.line_4.setMidLineWidth(4)
@@ -597,7 +606,7 @@ class Ui_Form(object):
         self.line_3 = QFrame(self.scrollAreaWidgetContents)
         self.line_3.setObjectName(u"line_3")
         self.line_3.setFrameShadow(QFrame.Plain)
-        self.line_3.setLineWidth(2)
+        self.line_3.setLineWidth(1)
         self.line_3.setFrameShape(QFrame.HLine)
 
         self.verticalLayout_12.addWidget(self.line_3)
@@ -612,15 +621,13 @@ class Ui_Form(object):
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.label_31 = QLabel(self.scrollAreaWidgetContents)
         self.label_31.setObjectName(u"label_31")
-        font4 = QFont()
-        font4.setPointSize(16)
-        self.label_31.setFont(font4)
+        self.label_31.setFont(font1)
 
         self.horizontalLayout_17.addWidget(self.label_31)
 
         self.label_20 = QLabel(self.scrollAreaWidgetContents)
         self.label_20.setObjectName(u"label_20")
-        self.label_20.setFont(font4)
+        self.label_20.setFont(font1)
 
         self.horizontalLayout_17.addWidget(self.label_20)
 
@@ -629,6 +636,231 @@ class Ui_Form(object):
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_18)
+
+        self.line_8 = QFrame(self.scrollAreaWidgetContents)
+        self.line_8.setObjectName(u"line_8")
+        self.line_8.setFrameShadow(QFrame.Plain)
+        self.line_8.setLineWidth(3)
+        self.line_8.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_12.addWidget(self.line_8)
+
+        self.groupBox = QGroupBox(self.scrollAreaWidgetContents)
+        self.groupBox.setObjectName(u"groupBox")
+        sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
+        self.groupBox.setSizePolicy(sizePolicy)
+        self.groupBox.setMinimumSize(QSize(0, 0))
+        font5 = QFont()
+        font5.setPointSize(17)
+        self.groupBox.setFont(font5)
+        self.verticalLayout_13 = QVBoxLayout(self.groupBox)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.label_29 = QLabel(self.groupBox)
+        self.label_29.setObjectName(u"label_29")
+        self.label_29.setFont(font3)
+
+        self.verticalLayout_13.addWidget(self.label_29)
+
+        self.label_40 = QLabel(self.groupBox)
+        self.label_40.setObjectName(u"label_40")
+        self.label_40.setFrameShape(QFrame.Box)
+        self.label_40.setLineWidth(2)
+        self.label_40.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_13.addWidget(self.label_40)
+
+        self.textEdit = QTextEdit(self.groupBox)
+        self.textEdit.setObjectName(u"textEdit")
+        self.textEdit.setMinimumSize(QSize(0, 250))
+        font6 = QFont()
+        font6.setPointSize(13)
+        self.textEdit.setFont(font6)
+
+        self.verticalLayout_13.addWidget(self.textEdit)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_30 = QLabel(self.groupBox)
+        self.label_30.setObjectName(u"label_30")
+        self.label_30.setFont(font6)
+
+        self.horizontalLayout_9.addWidget(self.label_30)
+
+        self.line_9 = QFrame(self.groupBox)
+        self.line_9.setObjectName(u"line_9")
+        sizePolicy1.setHeightForWidth(self.line_9.sizePolicy().hasHeightForWidth())
+        self.line_9.setSizePolicy(sizePolicy1)
+        self.line_9.setMaximumSize(QSize(16777215, 16777215))
+        self.line_9.setFrameShadow(QFrame.Plain)
+        self.line_9.setLineWidth(1)
+        self.line_9.setMidLineWidth(1)
+        self.line_9.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_9.addWidget(self.line_9)
+
+        self.label_33 = QLabel(self.groupBox)
+        self.label_33.setObjectName(u"label_33")
+        self.label_33.setFont(font6)
+
+        self.horizontalLayout_9.addWidget(self.label_33)
+
+        self.clientMaterialCostLineEdit = QLineEdit(self.groupBox)
+        self.clientMaterialCostLineEdit.setObjectName(u"clientMaterialCostLineEdit")
+        self.clientMaterialCostLineEdit.setEnabled(True)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.clientMaterialCostLineEdit.sizePolicy().hasHeightForWidth())
+        self.clientMaterialCostLineEdit.setSizePolicy(sizePolicy4)
+        self.clientMaterialCostLineEdit.setFont(font6)
+        self.clientMaterialCostLineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.horizontalLayout_9.addWidget(self.clientMaterialCostLineEdit)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_9)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_34 = QLabel(self.groupBox)
+        self.label_34.setObjectName(u"label_34")
+        self.label_34.setFont(font6)
+
+        self.horizontalLayout_15.addWidget(self.label_34)
+
+        self.line_10 = QFrame(self.groupBox)
+        self.line_10.setObjectName(u"line_10")
+        sizePolicy1.setHeightForWidth(self.line_10.sizePolicy().hasHeightForWidth())
+        self.line_10.setSizePolicy(sizePolicy1)
+        self.line_10.setFrameShadow(QFrame.Plain)
+        self.line_10.setMidLineWidth(1)
+        self.line_10.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_15.addWidget(self.line_10)
+
+        self.label_35 = QLabel(self.groupBox)
+        self.label_35.setObjectName(u"label_35")
+        self.label_35.setFont(font6)
+
+        self.horizontalLayout_15.addWidget(self.label_35)
+
+        self.clientLaborCostLineEdit = QLineEdit(self.groupBox)
+        self.clientLaborCostLineEdit.setObjectName(u"clientLaborCostLineEdit")
+        sizePolicy4.setHeightForWidth(self.clientLaborCostLineEdit.sizePolicy().hasHeightForWidth())
+        self.clientLaborCostLineEdit.setSizePolicy(sizePolicy4)
+        self.clientLaborCostLineEdit.setFont(font6)
+        self.clientLaborCostLineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.horizontalLayout_15.addWidget(self.clientLaborCostLineEdit)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_15)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.label_36 = QLabel(self.groupBox)
+        self.label_36.setObjectName(u"label_36")
+        self.label_36.setFont(font6)
+
+        self.horizontalLayout_22.addWidget(self.label_36)
+
+        self.line_11 = QFrame(self.groupBox)
+        self.line_11.setObjectName(u"line_11")
+        sizePolicy1.setHeightForWidth(self.line_11.sizePolicy().hasHeightForWidth())
+        self.line_11.setSizePolicy(sizePolicy1)
+        self.line_11.setFrameShadow(QFrame.Plain)
+        self.line_11.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_22.addWidget(self.line_11)
+
+        self.label_37 = QLabel(self.groupBox)
+        self.label_37.setObjectName(u"label_37")
+        self.label_37.setFont(font6)
+
+        self.horizontalLayout_22.addWidget(self.label_37)
+
+        self.clientFeeCostLineEdit = QLineEdit(self.groupBox)
+        self.clientFeeCostLineEdit.setObjectName(u"clientFeeCostLineEdit")
+        sizePolicy4.setHeightForWidth(self.clientFeeCostLineEdit.sizePolicy().hasHeightForWidth())
+        self.clientFeeCostLineEdit.setSizePolicy(sizePolicy4)
+        self.clientFeeCostLineEdit.setFont(font6)
+        self.clientFeeCostLineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.horizontalLayout_22.addWidget(self.clientFeeCostLineEdit)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_22)
+
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.label_38 = QLabel(self.groupBox)
+        self.label_38.setObjectName(u"label_38")
+        self.label_38.setFont(font6)
+
+        self.horizontalLayout_23.addWidget(self.label_38)
+
+        self.line_12 = QFrame(self.groupBox)
+        self.line_12.setObjectName(u"line_12")
+        sizePolicy1.setHeightForWidth(self.line_12.sizePolicy().hasHeightForWidth())
+        self.line_12.setSizePolicy(sizePolicy1)
+        self.line_12.setFrameShadow(QFrame.Plain)
+        self.line_12.setMidLineWidth(1)
+        self.line_12.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_23.addWidget(self.line_12)
+
+        self.label_39 = QLabel(self.groupBox)
+        self.label_39.setObjectName(u"label_39")
+        self.label_39.setFont(font6)
+
+        self.horizontalLayout_23.addWidget(self.label_39)
+
+        self.clientTaxCostLineEdit = QLineEdit(self.groupBox)
+        self.clientTaxCostLineEdit.setObjectName(u"clientTaxCostLineEdit")
+        sizePolicy4.setHeightForWidth(self.clientTaxCostLineEdit.sizePolicy().hasHeightForWidth())
+        self.clientTaxCostLineEdit.setSizePolicy(sizePolicy4)
+        self.clientTaxCostLineEdit.setFont(font6)
+        self.clientTaxCostLineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.horizontalLayout_23.addWidget(self.clientTaxCostLineEdit)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_23)
+
+        self.line_13 = QFrame(self.groupBox)
+        self.line_13.setObjectName(u"line_13")
+        self.line_13.setFrameShadow(QFrame.Plain)
+        self.line_13.setLineWidth(2)
+        self.line_13.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_13.addWidget(self.line_13)
+
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_24.addItem(self.horizontalSpacer_8)
+
+        self.label_41 = QLabel(self.groupBox)
+        self.label_41.setObjectName(u"label_41")
+        self.label_41.setFont(font1)
+
+        self.horizontalLayout_24.addWidget(self.label_41)
+
+        self.clientTotalCostLineEdit = QLineEdit(self.groupBox)
+        self.clientTotalCostLineEdit.setObjectName(u"clientTotalCostLineEdit")
+        sizePolicy4.setHeightForWidth(self.clientTotalCostLineEdit.sizePolicy().hasHeightForWidth())
+        self.clientTotalCostLineEdit.setSizePolicy(sizePolicy4)
+        self.clientTotalCostLineEdit.setFont(font1)
+        self.clientTotalCostLineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.horizontalLayout_24.addWidget(self.clientTotalCostLineEdit)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_24)
+
+
+        self.verticalLayout_12.addWidget(self.groupBox)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -677,6 +909,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.label.setText(QCoreApplication.translate("Form", u"Project Estimate:", None))
+        self.label_27.setText(QCoreApplication.translate("Form", u"Contractor:", None))
         self.customerDataLabel.setText("")
         self.label_6.setText(QCoreApplication.translate("Form", u"Email:", None))
         self.label_3.setText(QCoreApplication.translate("Form", u"City:", None))
@@ -722,6 +955,18 @@ class Ui_Form(object):
         self.addTaxPushButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.label_31.setText(QCoreApplication.translate("Form", u"Total:", None))
         self.label_20.setText(QCoreApplication.translate("Form", u"$0", None))
+        self.groupBox.setTitle(QCoreApplication.translate("Form", u"Customer:", None))
+        self.label_29.setText(QCoreApplication.translate("Form", u"This section will be used to create the customer estimate pdf document.", None))
+        self.label_40.setText(QCoreApplication.translate("Form", u"Kitchen", None))
+        self.label_30.setText(QCoreApplication.translate("Form", u"Materials:", None))
+        self.label_33.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.label_34.setText(QCoreApplication.translate("Form", u"Labor:", None))
+        self.label_35.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.label_36.setText(QCoreApplication.translate("Form", u"Fees:", None))
+        self.label_37.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.label_38.setText(QCoreApplication.translate("Form", u"Tax:", None))
+        self.label_39.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.label_41.setText(QCoreApplication.translate("Form", u"Customer Total:", None))
         self.pushButton_2.setText(QCoreApplication.translate("Form", u"Close", None))
         self.pushButton_3.setText(QCoreApplication.translate("Form", u"PDF", None))
         self.pushButton.setText(QCoreApplication.translate("Form", u"Home", None))
