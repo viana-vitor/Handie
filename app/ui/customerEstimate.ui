@@ -36,9 +36,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-748</y>
+            <y>0</y>
             <width>1063</width>
-            <height>1495</height>
+            <height>1539</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -267,21 +267,24 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                <widget class="QDoubleSpinBox" name="materialsSpinBox">
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
+                 <property name="readOnly">
+                  <bool>true</bool>
                  </property>
-                 <property name="text">
-                  <string>$0</string>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>true</bool>
+                 </property>
+                 <property name="prefix">
+                  <string>$</string>
+                 </property>
+                 <property name="maximum">
+                  <double>100000000.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -519,6 +522,9 @@
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMinimumSize</enum>
+             </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <item>
@@ -548,9 +554,30 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_11">
-                 <property name="text">
-                  <string>$0</string>
+                <widget class="QDoubleSpinBox" name="laborSpinBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>true</bool>
+                 </property>
+                 <property name="prefix">
+                  <string>$</string>
+                 </property>
+                 <property name="maximum">
+                  <double>100000000.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -578,8 +605,18 @@
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
                    <item>
-                    <widget class="QSpinBox" name="nbrWorkersSpinBox"/>
+                    <widget class="QSpinBox" name="nbrWorkersSpinBox">
+                     <property name="maximum">
+                      <number>1000</number>
+                     </property>
+                    </widget>
                    </item>
                    <item>
                     <widget class="QLabel" name="label_17">
@@ -589,17 +626,25 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDoubleSpinBox" name="workerRateDoubleSpinBox"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_18">
-                     <property name="text">
-                      <string>/hr</string>
+                    <widget class="QDoubleSpinBox" name="workerRateDoubleSpinBox">
+                     <property name="maximum">
+                      <double>1000.000000000000000</double>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QSpinBox" name="durationSpinBox"/>
+                    <widget class="QLabel" name="label_18">
+                     <property name="text">
+                      <string>/hr for</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="durationSpinBox">
+                     <property name="maximum">
+                      <number>1000</number>
+                     </property>
+                    </widget>
                    </item>
                    <item>
                     <widget class="QComboBox" name="durationComboBox">
@@ -623,6 +668,21 @@
                     </widget>
                    </item>
                   </layout>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="font">
+                    <font>
+                     <pointsize>11</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>*Assumes a 5 day work week with 22 work days.</string>
+                   </property>
+                   <property name="margin">
+                    <number>0</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -677,9 +737,24 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_16">
-                 <property name="text">
-                  <string>$0</string>
+                <widget class="QDoubleSpinBox" name="feeSpinBox">
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>true</bool>
+                 </property>
+                 <property name="prefix">
+                  <string>$</string>
+                 </property>
+                 <property name="maximum">
+                  <double>100000000.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -725,7 +800,23 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="newFeeLineEdit"/>
+                    <widget class="QDoubleSpinBox" name="addFeeSpinBox">
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                     <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                     </property>
+                     <property name="showGroupSeparator" stdset="0">
+                      <bool>true</bool>
+                     </property>
+                     <property name="prefix">
+                      <string/>
+                     </property>
+                     <property name="maximum">
+                      <double>100000000.000000000000000</double>
+                     </property>
+                    </widget>
                    </item>
                    <item>
                     <widget class="QPushButton" name="addFeepushButton">
@@ -806,9 +897,24 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_19">
-                 <property name="text">
-                  <string>$0</string>
+                <widget class="QDoubleSpinBox" name="taxSpinBox">
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>true</bool>
+                 </property>
+                 <property name="prefix">
+                  <string>$</string>
+                 </property>
+                 <property name="maximum">
+                  <double>100000000.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -953,14 +1059,24 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_20">
-                 <property name="font">
-                  <font>
-                   <pointsize>16</pointsize>
-                  </font>
+                <widget class="QDoubleSpinBox" name="totalCostSpinBox">
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
-                 <property name="text">
-                  <string>$0</string>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>true</bool>
+                 </property>
+                 <property name="prefix">
+                  <string>$</string>
+                 </property>
+                 <property name="maximum">
+                  <double>100000000.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -1045,6 +1161,14 @@
                   <pointsize>13</pointsize>
                  </font>
                 </property>
+                <property name="html">
+                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                </widget>
               </item>
               <item>
@@ -1102,23 +1226,44 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="clientMaterialCostLineEdit">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
+                 <widget class="QDoubleSpinBox" name="estimateMaterialSpinBox">
                   <property name="font">
                    <font>
                     <pointsize>13</pointsize>
                    </font>
                   </property>
+                  <property name="wrapping">
+                   <bool>false</bool>
+                  </property>
+                  <property name="frame">
+                   <bool>true</bool>
+                  </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="readOnly">
+                   <bool>false</bool>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="accelerated">
+                   <bool>false</bool>
+                  </property>
+                  <property name="correctionMode">
+                   <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="prefix">
+                   <string>$</string>
+                  </property>
+                  <property name="minimum">
+                   <double>0.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>100000000.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -1170,13 +1315,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="clientLaborCostLineEdit">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
+                 <widget class="QDoubleSpinBox" name="estimateLaborSpinBox">
                   <property name="font">
                    <font>
                     <pointsize>13</pointsize>
@@ -1184,6 +1323,18 @@
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="prefix">
+                   <string>$</string>
+                  </property>
+                  <property name="maximum">
+                   <double>100000000.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -1232,9 +1383,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="clientFeeCostLineEdit">
+                 <widget class="QDoubleSpinBox" name="estimateFeeSpinBox">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -1244,8 +1395,23 @@
                     <pointsize>13</pointsize>
                    </font>
                   </property>
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="prefix">
+                   <string>$</string>
+                  </property>
+                  <property name="maximum">
+                   <double>100000000.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -1297,13 +1463,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="clientTaxCostLineEdit">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
+                 <widget class="QDoubleSpinBox" name="estimateTaxSpinBox">
                   <property name="font">
                    <font>
                     <pointsize>13</pointsize>
@@ -1311,6 +1471,18 @@
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="prefix">
+                   <string>$</string>
+                  </property>
+                  <property name="maximum">
+                   <double>100000000.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -1357,13 +1529,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="clientTotalCostLineEdit">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
+                 <widget class="QDoubleSpinBox" name="estimateTotalCostSpinBox">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -1371,6 +1537,18 @@
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>true</bool>
+                  </property>
+                  <property name="prefix">
+                   <string>$</string>
+                  </property>
+                  <property name="maximum">
+                   <double>100000000.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -1386,7 +1564,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="closePushButton">
            <property name="text">
             <string>Close</string>
            </property>
@@ -1406,16 +1584,19 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="homePushButton">
            <property name="text">
-            <string>PDF</string>
+            <string>Home</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="pdfPushButton">
            <property name="text">
-            <string>Home</string>
+            <string>Generate PDF</string>
+           </property>
+           <property name="default">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

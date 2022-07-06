@@ -93,6 +93,7 @@ def main():
                                             labor_cost real,
                                             fee_cost real,
                                             tax_cost real,
+                                            total_cost real,
                                             FOREIGN KEY (project_id) REFERENCES projects (id)
                                             );"""
 

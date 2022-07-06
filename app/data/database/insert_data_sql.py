@@ -86,8 +86,8 @@ def add_fee(conn, fee):
 
 def add_client_estimate(conn, estimate):
 
-    sql = ''' INSERT INTO estimates (project_id, material_cost, labor_cost, fee_cost, tax_cost)
-                VALUES (?,?,?,?,?)'''
+    sql = ''' INSERT INTO estimates (project_id, material_cost, labor_cost, fee_cost, tax_cost, total_cost)
+                VALUES (?,?,?,?,?,?)'''
     
     cur = conn.cursor()
     cur.execute(sql, estimate)

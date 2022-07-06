@@ -2,14 +2,17 @@
 import sys
 import json
 import sqlite3
+import os
 
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView, QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout
+from PySide6.QtCore import Qt, QThreadPool
+from PySide6.QtWidgets import (QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView,
+ QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox)
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
 import app.data.database.insert_data_sql as insert_data_sql
 
 from app.ui.Ui_customer_estimate import Ui_Form
 from app.ui.Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
+from app.core.EstimatePDFGenerator import Generator as Generator
 
 db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("app/data/database/customer_data.db")
@@ -24,6 +27,8 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.customer_id = customer_id
         self.project_id = project_id
         self.task_id = task_id
+
+        self.threadpool = QThreadPool()
         
         self.total_labor_cost = 0
         self.total_fee_amount = 0
@@ -45,19 +50,6 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.zipDataLabel.setText(str(self.customer_data[4]))
   
         self.construction_area_widgets()
-
-
-        # self.contractor_new_fee_group = QButtonGroup()
-        # self.contractor_new_fee_group.addButton(self.pctgNewFeeRadioButton)
-        # self.contractor_new_fee_group.addButton(self.amntNewFeeRadioButton)
-
-        #self.pctgNewFeeRadioButton.setChecked(True)
-        
-        # self.newFeeLineEdit.hide()
-        # self.newFeeDoubleSpinBox.show()
-
-        # self.pctgNewFeeRadioButton.toggled.connect(self.show_new_fee)
-        # self.amntNewFeeRadioButton.toggled.connect(self.show_new_fee)
 
         self.addFeepushButton.clicked.connect(self.add_fee)
         self.addLaborPushButton.clicked.connect(self.add_labor)
@@ -82,6 +74,11 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.get_materials_total()
         self.get_total_cost()
         self.populate_client_version()
+
+        self.estimateMaterialSpinBox.valueChanged.connect(self.estimate_version_changed)
+        self.estimateLaborSpinBox.valueChanged.connect(self.estimate_version_changed)
+        self.estimateFeeSpinBox.valueChanged.connect(self.estimate_version_changed)
+        self.estimateTaxSpinBox.valueChanged.connect(self.estimate_version_changed)
 
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
         self.addMaterialButton.clicked.connect(self.add_material)
@@ -129,7 +126,7 @@ class ProjectEstimate(QWidget, Ui_Form):
             nbr_of_days = self.durationSpinBox.value()
         elif self.durationComboBox.currentText() == 'Months':
             nbr_of_months = self.durationSpinBox.value()
-            nbr_of_days = 24 * nbr_of_months #Assuming 4 week month with 6 days work week
+            nbr_of_days = 22 * nbr_of_months #Assuming a 5 day work week with 22 work days in a month
         
         self.labor_list.append((nbr_of_workers, worker_rate, nbr_of_days))
 
@@ -137,7 +134,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.nworkers_label = QLabel('{}'.format(nbr_of_workers))
         self.extra_label = QLabel('workers at')
         self.rate_label = QLabel('${}/hr'.format(worker_rate))
-        self.duration_label = QLabel('{} days'.format(nbr_of_days))
+        self.duration_label = QLabel('for {} days'.format(nbr_of_days))
         self.laborHorizontalLayout.addWidget(self.nworkers_label)
         self.laborHorizontalLayout.addWidget(self.extra_label)
         self.laborHorizontalLayout.addWidget(self.rate_label)
@@ -159,18 +156,8 @@ class ProjectEstimate(QWidget, Ui_Form):
         hours = duration * 8 #Assuming an 8hr work day 
         total_labor = wkrs * rate * hours
         self.total_labor_cost += total_labor
-        self.label_11.setText('${}'.format(self.total_labor_cost))
+        self.laborSpinBox.setValue(self.total_labor_cost)
 
-    
-    # def show_new_fee(self):
-        
-    #     if self.pctgNewFeeRadioButton.isChecked():
-    #         self.newFeeLineEdit.hide()
-    #         self.newFeeDoubleSpinBox.show()
-    #     elif self.amntNewFeeRadioButton.isChecked():
-    #         self.newFeeDoubleSpinBox.hide()
-    #         self.newFeeLineEdit.show()
- 
     
     def add_fee(self):
 
@@ -181,11 +168,11 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.feeName = QLabel('{}:'.format(name))
         self.feeHorizontalLayout.addWidget(self.feeName)
     
-        amount = int(self.newFeeLineEdit.text())
+        amount = self.addFeeSpinBox.value()
         self.amount = QLabel("${}".format(amount))
         self.feeHorizontalLayout.addWidget(self.amount)
         self.newFeeNameLineEdit.clear()
-        self.newFeeLineEdit.clear()
+        self.addFeeSpinBox.setValue(0)
 
         self.fee_list.append((name, amount))
     
@@ -202,7 +189,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     def get_total_fee(self, amount):
 
         self.total_fee_amount += amount
-        self.label_16.setText('${}'.format(self.total_fee_amount))
+        self.feeSpinBox.setValue(self.total_fee_amount)
 
 
     def add_tax(self):
@@ -232,7 +219,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     def get_total_tax(self, pctg):
 
         self.total_tax = pctg/100 * (self.total_labor_cost + self.overall_materials_cost)
-        self.label_19.setText('${}'.format(self.total_tax))
+        self.taxSpinBox.setValue(self.total_tax)
 
 
     def show_hide_materials(self):
@@ -278,14 +265,14 @@ class ProjectEstimate(QWidget, Ui_Form):
             self.overall_materials_cost = 0
             for value in rows:
                 self.overall_materials_cost += value[0]
-            self.label_5.setText('${}'.format(self.overall_materials_cost))
+            self.materialsSpinBox.setValue(self.overall_materials_cost)
 
     def get_total_cost(self):
 
         self.total_cost = (self.overall_materials_cost + self.total_labor_cost + 
                 self.total_fee_amount + self.total_tax)
         
-        self.label_20.setText('${}'.format(self.total_cost))
+        self.totalCostSpinBox.setValue(self.total_cost)
     
 
     def save_costs(self):
@@ -307,26 +294,44 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     def populate_client_version(self):
         
-        self.clientMaterialCostLineEdit.setText('${}'.format(self.overall_materials_cost))
-        self.clientLaborCostLineEdit.setText('${}'.format(self.total_labor_cost))
-        self.clientFeeCostLineEdit.setText('${}'.format(self.total_fee_amount))
-        self.clientTaxCostLineEdit.setText('${}'.format(self.total_tax))
-        self.clientTotalCostLineEdit.setText('${}'.format(self.total_cost))
-        ### Work on this part so changing one line edit changes the total cost
-        ## Create customers own total_cost as well as other variables 
-        ## Set the variables equal to the contractor variables initially
-
-
+        self.estimateMaterialSpinBox.setValue(self.overall_materials_cost)
+        self.estimateLaborSpinBox.setValue(self.total_labor_cost)
+        self.estimateFeeSpinBox.setValue(self.total_fee_amount)
+        self.estimateTaxSpinBox.setValue(self.total_tax)
+        self.estimateTotalCostSpinBox.setValue(self.total_cost)
     
-    #Need to work on getting the correct data type for each variable
+    def estimate_version_changed(self):
+
+        client_total = (self.estimateMaterialSpinBox.value() + self.estimateLaborSpinBox.value() + 
+            self.estimateFeeSpinBox.value() + self.estimateTaxSpinBox.value())
+
+        self.estimateTotalCostSpinBox.setValue(client_total)
+
     def save_client_version(self):
 
-        estimate = [self.project_id, self.clientMaterialCostLineEdit.text(), self.clientLaborCostLineEdit.text(),
-            self.clientFeeCostLineEdit.text(), self.clientTaxCostLineEdit.text()]
+        estimate = [self.project_id, self.estimateTotalCostSpinBox.value(), self.estimateLaborSpinBox.value(),
+            self.estimateFeeSpinBox.value(), self.estimateTaxSpinBox.value(), self.estimateTotalCostSpinBox.value()]
 
         with self.conn:
             insert_data_sql.add_client_estimate(self.conn, estimate)
+    
+    def generate_pdf(self):
 
+        self.save_costs()
+        self.save_client_version()
+
+        self.pdfPushButton.setDisabled(True)
+        data = {}
+
+        g = Generator(data)
+    
+    def pdf_generated(self, outfile):
+
+        try:
+            os.startfile(outfile)
+        except Exception:
+            # If startfile not available, show dialog.
+            QMessageBox.information(self, "Finished", "PDF has been generated")
 
 
 class TasksSummaryWidget(QWidget, Ui_construction_tasks):
