@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1063, 1539))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -796, 1063, 1539))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -714,6 +714,7 @@ class Ui_Form(object):
         font6 = QFont()
         font6.setPointSize(13)
         self.textEdit.setFont(font6)
+        self.textEdit.setAutoFormatting(QTextEdit.AutoBulletList)
 
         self.verticalLayout_13.addWidget(self.textEdit)
 

@@ -38,15 +38,36 @@ class Generator(QRunnable):
     @Slot()
     def run(self):
         try:
-            outfile = "pdf_work/result.pdf"
+            outfile = "pdf_work/estimate.pdf"
 
-            template = PdfReader("pdf_work/template.pdf", decompress=False).pages[0]
+            template = PdfReader("pdf_work/stanford_green.pdf", decompress=False).pages[0]
             template_obj = pagexobj(template)
 
             canvas = Canvas(outfile)
 
             xobj_name = makerl(canvas, template_obj)
             canvas.doForm(xobj_name)
+
+            ystart = 698
+
+            #Write customer name
+            canvas.drawString(98, ystart, self.data['customer_name'])
+
+            #Write date
+            today = datetime.today()
+            canvas.drawString(335, ystart, today.strftime('%F'))
+
+            #Write address
+            canvas.drawString(98, ystart-22.7, self.data["address"])
+
+            #Write phone number
+            canvas.drawString(98, ystart-(2*22.7), self.data['phone'])
+
+            #Tasks
+            #consruction_tasks = self.data['construction_tasks'].replace('/n', ' ') #Get rid of line breakes
+
+            canvas
+
 
             canvas.save()
 

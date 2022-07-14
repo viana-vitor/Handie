@@ -6,7 +6,7 @@ import os
 
 from PySide6.QtCore import Qt, QThreadPool
 from PySide6.QtWidgets import (QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView,
- QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox)
+ QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit)
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
 import app.data.database.insert_data_sql as insert_data_sql
 
@@ -24,12 +24,14 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.setupUi(self)
         self.show()
 
+        #Database keys for current project
         self.customer_id = customer_id
         self.project_id = project_id
         self.task_id = task_id
 
         self.threadpool = QThreadPool()
         
+        #Total cost variables
         self.total_labor_cost = 0
         self.total_fee_amount = 0
         self.total_tax = 0
@@ -40,7 +42,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         database = r"app/data/database/customer_data.db" #Database path
         self.conn = insert_data_sql.create_connection(database) #Creates database connection
         with self.conn:
-            self.customer_data = insert_data_sql.get_customer_data(self.conn, self.customer_id)
+            self.customer_data = insert_data_sql.get_customer_data(self.conn, self.customer_id) #Customer data
         
         self.customerDataLabel.setText(self.customer_data[0])
         #self.emailDataLabel
@@ -71,6 +73,9 @@ class ProjectEstimate(QWidget, Ui_Form):
             self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
         self.materialsTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
+        self.showMaterialButton.clicked.connect(self.show_hide_materials)
+        self.addMaterialButton.clicked.connect(self.add_material)
+
         self.get_materials_total()
         self.get_total_cost()
         self.populate_client_version()
@@ -80,8 +85,8 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.estimateFeeSpinBox.valueChanged.connect(self.estimate_version_changed)
         self.estimateTaxSpinBox.valueChanged.connect(self.estimate_version_changed)
 
-        self.showMaterialButton.clicked.connect(self.show_hide_materials)
-        self.addMaterialButton.clicked.connect(self.add_material)
+        self.textEdit.AutoFormattingFlag(QTextEdit.AutoBulletList)
+
 
         self.pushButton.clicked.connect(self.save_costs)
     
@@ -321,9 +326,18 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.save_client_version()
 
         self.pdfPushButton.setDisabled(True)
-        data = {}
+        data = {
+            "customer_name": self.customer_data[0],
+            "phone": self.customer_data[1],
+            "address": self.customer_data[2],
+            "city":self.customer_data[3],
+            'construction_area': self.customer_data
+        }
 
         g = Generator(data)
+        g.signals.file_saved_as.connect(self.pdf_generated)
+        g.signals.error.connect(print) #Print errors to the console
+        self.threadpool.start(g)
     
     def pdf_generated(self, outfile):
 

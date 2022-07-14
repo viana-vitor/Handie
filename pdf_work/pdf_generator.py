@@ -1,10 +1,13 @@
 
 
 
+from cgitb import text
 from PySide6.QtWidgets import QPushButton, QLineEdit, QApplication, QFormLayout, QWidget, QTextEdit, QMessageBox, QSpinBox
 from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot
 
 from reportlab.pdfgen.canvas import Canvas
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, ListFlowable, ListItem, Frame
 
 import os
 
@@ -44,7 +47,7 @@ class Generator(QRunnable):
         try:
             outfile = "pdf_work/result.pdf"
 
-            template = PdfReader("pdf_work/template.pdf", decompress=False).pages[0]
+            template = PdfReader("pdf_work/stanford_green.pdf", decompress=False).pages[0]
             template_obj = pagexobj(template)
 
             canvas = Canvas(outfile)
@@ -52,54 +55,119 @@ class Generator(QRunnable):
             xobj_name = makerl(canvas, template_obj)
             canvas.doForm(xobj_name)
 
-            ystart = 443
+            stylesheet = getSampleStyleSheet()
+            style =stylesheet['BodyText']
+            style.fontsSize = 13
+            style.fontName = 'Times-Roman'
+            
+
+            ystart = 698
 
             # Prepared by
-            canvas.drawString(170, ystart, self.data['name'])
+            canvas.drawString(98, ystart, self.data['name'])
 
             # Date: Todays date
             today = datetime.today()
-            canvas.drawString(410, ystart, today.strftime('%F'))
+            canvas.drawString(335, ystart, today.strftime('%F'))
 
             # Device/Program Type
-            canvas.drawString(230, ystart-28, self.data['program_type'])
+            canvas.drawString(98, ystart-22.7, self.data['program_type'])
 
             # Product code
-            canvas.drawString(175, ystart-(2*28), self.data['product_code'])
+            canvas.drawString(98, ystart-(2*22.7), self.data['product_code'])
 
-            # Customer
-            canvas.drawString(315, ystart-(2*28), self.data['customer'])
+            ####################################################################
+            ####################################################################
 
-            # Vendor
-            canvas.drawString(145, ystart-(3*28), self.data['vendor'])
 
-            ystart = 250
+            lines = ['first hhhhhhhhhhhhhhwhwhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
+             'second', 'third', 'fourth']
+            task_list = []
+            for line in lines:
+                task_list.append(Paragraph(line, style))
+            
+            list_f = ListFlowable(task_list, bulletType='bullet')
+            
+            # list_flow = ListFlowable(task_list)
+            story = []
+            story.append(list_f)
+
+            f = Frame(50, 320, 500, 250, showBoundary=1)
+            f.addFromList(story, canvas)
+            canvas.save()
+
+            
+
+            # P = Paragraph('<bullet>&bull;</bullet>Thank you for everything you have done for me', style)
+            # aW = 460 # available width and height
+            # aH = 500
+            # w,h = P.wrap(aW, aH) # find required space
+
+            # if w <= aW and h <= aH:
+            #     P.drawOn(canvas, 50, aH)
+            #     aH = aH - h  # reduce the available height
+            #     canvas.save()
+            # else:
+            #     raise ValueError
+
+            
+            
+            # lines = textwrap.wrap(self.data['comments'], width=80)
+            # for n, l in enumerate(lines, 1):
+            #     canvas.drawString(50, ystart - (n*18), l)
+
 
             # Program Language
-            canvas.drawString(210, ystart, "Python")
+            # canvas.drawString(210, ystart, "Python")
 
-            canvas.drawString(430, ystart, self.data['n_errors'])
+            # canvas.drawString(430, ystart, self.data['n_errors'])
 
-            comments = self.data['comments'].replace('\n', ' ')
-            if comments:
-                lines = textwrap.wrap(comments, width=65) # 45
-                first_line = lines[0]
-                remainder = ' '.join(lines[1:])
+            # comments = self.data['comments'].replace('\n', ' ')
+            # if comments:
+            #     lines = textwrap.wrap(comments, width=65) # 45
+            #     first_line = lines[0]
+            #     remainder = ' '.join(lines[1:])
 
-                lines = textwrap.wrap(remainder, 75) # 55
-                lines = lines[:4]  # max lines, not including the first.
+            #     lines = textwrap.wrap(remainder, 75) # 55
+            #     lines = lines[:4]  # max lines, not including the first.
 
-                canvas.drawString(155, 223, first_line)
-                for n, l in enumerate(lines, 1):
-                    canvas.drawString(80, 223 - (n*28), l)
+            #     canvas.drawString(155, 223, first_line)
+            #     for n, l in enumerate(lines, 1):
+            #         canvas.drawString(80, 223 - (n*28), l)
 
-            canvas.save()
+            #canvas.save()
 
         except Exception as e:
             self.signals.error.emit(str(e))
             return
 
         self.signals.file_saved_as.emit(outfile)
+    
+    def on_first_page(self, canvas, document):
+
+        ystart = 698
+
+        canvas.saveState()
+        canvas.setFont('Times-Roman', 13)
+        
+        #Customer name
+        canvas.drawString(98, ystart, self.data['name'])
+
+        # Date: Todays date
+        today = datetime.today()
+        canvas.drawString(335, ystart, today.strftime('%F'))
+
+        # Address
+        canvas.drawString(98, ystart-22.7, self.data['program_type'])
+
+        #Phone Nbr
+        canvas.drawString(98, ystart-(2*22.7), self.data['product_code'])
+
+        canvas.restoreState()
+
+        
+
+
 
 
 class Window(QWidget):
@@ -117,6 +185,7 @@ class Window(QWidget):
         self.n_errors = QSpinBox()
         self.n_errors.setRange(0, 1000)
         self.comments = QTextEdit()
+        self.comments.setAutoFormatting(QTextEdit.AutoBulletList)
 
         self.generate_btn = QPushButton("Generate PDF")
         self.generate_btn.pressed.connect(self.generate)
