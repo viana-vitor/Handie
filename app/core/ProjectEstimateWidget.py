@@ -12,6 +12,7 @@ import app.data.database.insert_data_sql as insert_data_sql
 
 from app.ui.Ui_customer_estimate import Ui_Form
 from app.ui.Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
+from app.ui.Ui_tasks_writeup import Ui_Form as Ui_tasks_writeup
 from app.core.EstimatePDFGenerator import Generator as Generator
 
 db = QSqlDatabase("QSQLITE")
@@ -52,6 +53,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.zipDataLabel.setText(str(self.customer_data[4]))
   
         self.construction_area_widgets()
+        self.tasks_writeup()
 
         self.addFeepushButton.clicked.connect(self.add_fee)
         self.addLaborPushButton.clicked.connect(self.add_labor)
@@ -85,17 +87,16 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.estimateFeeSpinBox.valueChanged.connect(self.estimate_version_changed)
         self.estimateTaxSpinBox.valueChanged.connect(self.estimate_version_changed)
 
-        self.textEdit.AutoFormattingFlag(QTextEdit.AutoBulletList)
+        self.pdfPushButton.clicked.connect(self.generate_pdf)
 
-
-        self.pushButton.clicked.connect(self.save_costs)
     
     def construction_area_widgets(self):
+        ''' This function populates the construction area part of the estimate with all the tasks for the project'''
         
         with open("app/data/database/user_tasks.json", "r") as f:
             user_tasks = json.load(f)
         
-        index = 5
+        index = 7
         for dict in user_tasks[::-1]:
             if dict["task_id"] == self.task_id:
                 for area in dict["tasks"].keys():
@@ -278,6 +279,42 @@ class ProjectEstimate(QWidget, Ui_Form):
                 self.total_fee_amount + self.total_tax)
         
         self.totalCostSpinBox.setValue(self.total_cost)
+
+    
+    def tasks_writeup(self):
+
+         
+        with open("app/data/database/user_tasks.json", "r") as f:
+            user_tasks = json.load(f)
+        
+        index = 22
+        for dict in user_tasks[::-1]:
+            if dict["task_id"] == self.task_id:
+                for area in dict["tasks"].keys():
+                    self.task_text_widget = TasksWriteUp('{}_writeup'.format(area))
+                    self.verticalLayout_12.insertWidget(index, self.task_text_widget)
+                    index += 1
+                    self.task_text_widget.label.setText(area + ":")
+
+    
+    def get_tasks_writeup(self):
+
+        with open("app/data/database/user_tasks.json", "r") as f:
+            user_tasks = json.load(f)
+
+        tasks = []
+        for dict in user_tasks[::-1]:
+            if dict['task_id'] == self.task_id:
+                for area in dict['tasks'].keys():
+                    widget = self.findChild(TasksWriteUp, '{}_writeup'.format(area))
+
+                    d= {
+                        "area": area,
+                        "text": widget.textEdit.toPlainText()
+                    }
+                    tasks.append(d)
+        
+        return tasks
     
 
     def save_costs(self):
@@ -322,8 +359,8 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     def generate_pdf(self):
 
-        self.save_costs()
-        self.save_client_version()
+        # self.save_costs()
+        # self.save_client_version()
 
         self.pdfPushButton.setDisabled(True)
         data = {
@@ -331,7 +368,9 @@ class ProjectEstimate(QWidget, Ui_Form):
             "phone": self.customer_data[1],
             "address": self.customer_data[2],
             "city":self.customer_data[3],
-            'construction_area': self.customer_data
+            'construction_tasks': self.get_tasks_writeup(),
+            'general_conditions': self.generalCondTextEdit.toPlainText(),
+            'estimate_total': self.estimateTotalCostSpinBox.text()
         }
 
         g = Generator(data)
@@ -355,3 +394,9 @@ class TasksSummaryWidget(QWidget, Ui_construction_tasks):
 
         self.setObjectName(name)
 
+class TasksWriteUp(QWidget, Ui_tasks_writeup):
+    def __init__(self, name, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
+        self.setObjectName(name)
