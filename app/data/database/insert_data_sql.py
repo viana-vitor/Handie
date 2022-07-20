@@ -140,7 +140,7 @@ def find_current_project(conn):
 
 def delete_table(conn):
     cur = conn.cursor()
-    cur.execute('DROP TABLE IF EXISTS customer')
+    cur.execute('DROP TABLE IF EXISTS estimates')
     conn.commit()
 
 def mark_as_complete(conn, id):
@@ -227,7 +227,7 @@ def get_materials_total(conn, project_id):
 #     conn = create_connection(database)
 
 #     with conn:
-#         get_total(conn, 1)
+#         delete_table(conn)
 
 #     #     customer_id = find_customer_id(conn, "Grace Smith")
 #     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")

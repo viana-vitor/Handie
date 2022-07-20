@@ -21,9 +21,6 @@ db.setDatabaseName("app/data/database/customer_data.db")
 db.open()
 
 
-# class MainWindowSignal(QObject):
-#     EstimatePageSignal = Signal()
-
 
 #Home Page widget
 class HomeWidget(QWidget, Ui_new_home):
@@ -33,7 +30,6 @@ class HomeWidget(QWidget, Ui_new_home):
     def __init__(self, parent = None):
         super(HomeWidget, self).__init__(parent)
         self.setupUi(self)
-        #self.main_window_connection = MainWindowSignal()
         
         ##################################
         ########### Initial Page #########
@@ -246,8 +242,6 @@ class HomeWidget(QWidget, Ui_new_home):
                 self.verticalLayout_6.removeWidget(widget)
                 widget.deleteLater()
         
-
-                
 
                 
     def add_new_task_keyword(self):

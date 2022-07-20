@@ -4,7 +4,7 @@ import json
 import sqlite3
 import os
 
-from PySide6.QtCore import Qt, QThreadPool
+from PySide6.QtCore import Qt, QThreadPool, Signal
 from PySide6.QtWidgets import (QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView,
  QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit)
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
@@ -19,7 +19,10 @@ db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("app/data/database/customer_data.db")
 db.open()
 
-class ProjectEstimate(QWidget, Ui_Form): 
+class ProjectEstimate(QWidget, Ui_Form):
+
+    HomeWidgetSignal = Signal()
+
     def __init__(self, customer_id, project_id, task_id):
         super().__init__()
         self.setupUi(self)
@@ -88,6 +91,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.estimateTaxSpinBox.valueChanged.connect(self.estimate_version_changed)
 
         self.pdfPushButton.clicked.connect(self.generate_pdf)
+        self.closePushButton.clicked.connect(self.close_estimate)
 
     
     def construction_area_widgets(self):
@@ -357,10 +361,35 @@ class ProjectEstimate(QWidget, Ui_Form):
         with self.conn:
             insert_data_sql.add_client_estimate(self.conn, estimate)
     
+    
+    def close_estimate(self):
+        # Create message box with the option to save changes
+        
+        msgBox = QMessageBox()
+        msgBox.setText("Do you wish to save changes?")
+        msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        msgBox.setDefaultButton(QMessageBox.Save)
+        msgBox.setIcon(QMessageBox.Information)
+        button = msgBox.exec()
+
+        if button == QMessageBox.Save:
+            self.save_costs()
+            self.save_client_version()
+            self.HomeWidgetSignal.emit()
+
+        elif button == QMessageBox.Discard:
+            self.HomeWidgetSignal.emit()
+
+        else:
+            #stay on page
+            pass
+
+    
+    
     def generate_pdf(self):
 
-        # self.save_costs()
-        # self.save_client_version()
+        self.save_costs()
+        self.save_client_version()
 
         self.pdfPushButton.setDisabled(True)
         data = {
@@ -385,6 +414,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         except Exception:
             # If startfile not available, show dialog.
             QMessageBox.information(self, "Finished", "PDF has been generated")
+            self.HomeWidgetSignal.emit()
 
 
 class TasksSummaryWidget(QWidget, Ui_construction_tasks):
