@@ -21,19 +21,15 @@ db.setDatabaseName("app/data/database/customer_data.db")
 db.open()
 
 
-# class MainWindowSignal(QObject):
-#     EstimatePageSignal = Signal()
-
 
 #Home Page widget
 class HomeWidget(QWidget, Ui_new_home):
     
-    EstimatePageSignal = Signal(int, int, int)
+    EstimatePageSignal = Signal(int, int, int) #Signal to go to the project estimate page, passing database keys
 
     def __init__(self, parent = None):
         super(HomeWidget, self).__init__(parent)
         self.setupUi(self)
-        #self.main_window_connection = MainWindowSignal()
         
         ##################################
         ########### Initial Page #########
@@ -248,8 +244,6 @@ class HomeWidget(QWidget, Ui_new_home):
         
 
                 
-
-                
     def add_new_task_keyword(self):
         '''Read data from json tasks, and add new keywords from user imput'''
         with open("app/data/database/tasks_kw.json", "r") as f:
@@ -446,7 +440,7 @@ class HomeWidget(QWidget, Ui_new_home):
         # self.model_materials.select()
     
     def cell_changed(self, row, column):
-        ''' Adusts total cost when user changes input'''
+        ''' Adjusts total cost when user changes input within the table'''
 
         if column == 2 and self.materialsTableWidget.item(row, 3) != None: 
             material_qty = self.materialsTableWidget.item(row, column).data(Qt.DisplayRole)
@@ -484,17 +478,11 @@ class HomeWidget(QWidget, Ui_new_home):
                 insert_data_sql.add_materials(self.conn, new_material)
 
     def finish_save_project(self):
+        '''Saves project data and go to estimates page'''
 
         customer_id, project_id, task_id = self.project_data()
         self.save_user_json(task_id)
         self.retrieve_table_data(project_id)
-        #1st method
-        #self.project_estimate = ProjectEstimate()
-        #self.project_estimate.show()
-        #2nd method
-        #self.parent().setMyCentral(ProjectEstimate)
-        #3rd method
-        #self.main_window_connection.EstimatePageSignal.emit()
         self.EstimatePageSignal.emit(customer_id, project_id, task_id)
         
 

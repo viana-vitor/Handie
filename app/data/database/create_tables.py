@@ -70,6 +70,34 @@ def main():
                                     project_id integer NOT NULL,
                                     FOREIGN KEY (project_id) REFERENCES projects (id)
                                 );"""
+    
+    sql_create_labor_table = """ CREATE TABLE IF NOT EXISTS labor(
+                                    project_id integer,
+                                    nbr_workers integer,
+                                    rate real, 
+                                    duration real,
+                                    labor_cost real,
+                                    FOREIGN KEY (project_id) REFERENCES projects (id)
+                                    );"""
+
+    sql_create_fees_table = """ CREATE TABLE IF NOT EXISTS fees(
+                                    project_id integer,
+                                    fee_name text, 
+                                    fee_amount real,
+                                    FOREIGN KEY (project_id) REFERENCES projects (id)
+                                    );"""
+    
+    sql_create_client_costs_table = """ CREATE TABLE IF NOT EXISTS estimates (
+                                            project_id integer,
+                                            material_cost real,
+                                            labor_cost real,
+                                            fee_cost real,
+                                            tax_cost real,
+                                            total_cost real,
+                                            FOREIGN KEY (project_id) REFERENCES projects (id)
+                                            );"""
+
+    
 
     # create database connection
     conn = create_connection(database)
@@ -80,6 +108,9 @@ def main():
         create_table(conn, sql_create_projects_table)
         create_table(conn, sql_create_materials_table)
         create_table(conn, sql_create_task_table)
+        create_table(conn, sql_create_labor_table)
+        create_table(conn, sql_create_fees_table)
+        create_table(conn, sql_create_client_costs_table)
 
     else:
         print("Error! cannot create the database connection")

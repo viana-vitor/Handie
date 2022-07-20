@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'customerEstimate.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.1
+## Created by: Qt User Interface Compiler version 6.3.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,18 +15,18 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDoubleSpinBox,
-    QFrame, QGridLayout, QHBoxLayout, QHeaderView,
-    QLabel, QLayout, QLineEdit, QPushButton,
-    QRadioButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSpinBox, QStackedWidget, QTableWidget, QTableWidgetItem,
+from PySide6.QtWidgets import (QAbstractScrollArea, QAbstractSpinBox, QApplication, QComboBox,
+    QDoubleSpinBox, QFrame, QGridLayout, QHBoxLayout,
+    QHeaderView, QLabel, QLayout, QLineEdit,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSpinBox, QStackedWidget, QTableView, QTextEdit,
     QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1163, 900)
+        Form.resize(872, 719)
         self.verticalLayout = QVBoxLayout(Form)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.stackedWidget = QStackedWidget(Form)
@@ -43,18 +43,39 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -142, 1100, 952))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -886, 809, 1547))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
         font = QFont()
-        font.setPointSize(16)
+        font.setPointSize(22)
         font.setUnderline(True)
         self.label.setFont(font)
-        self.label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_12.addWidget(self.label)
+
+        self.label_27 = QLabel(self.scrollAreaWidgetContents)
+        self.label_27.setObjectName(u"label_27")
+        font1 = QFont()
+        font1.setPointSize(18)
+        font1.setBold(True)
+        self.label_27.setFont(font1)
+
+        self.verticalLayout_12.addWidget(self.label_27)
+
+        self.label_19 = QLabel(self.scrollAreaWidgetContents)
+        self.label_19.setObjectName(u"label_19")
+        font2 = QFont()
+        font2.setPointSize(11)
+        self.label_19.setFont(font2)
+
+        self.verticalLayout_12.addWidget(self.label_19)
+
+        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.verticalLayout_12.addItem(self.horizontalSpacer_12)
 
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
@@ -139,9 +160,9 @@ class Ui_Form(object):
 
         self.label_12 = QLabel(self.scrollAreaWidgetContents)
         self.label_12.setObjectName(u"label_12")
-        font1 = QFont()
-        font1.setPointSize(14)
-        self.label_12.setFont(font1)
+        font3 = QFont()
+        font3.setPointSize(14)
+        self.label_12.setFont(font3)
 
         self.verticalLayout_12.addWidget(self.label_12)
 
@@ -158,7 +179,7 @@ class Ui_Form(object):
 
         self.label_13 = QLabel(self.scrollAreaWidgetContents)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font1)
+        self.label_13.setFont(font3)
 
         self.verticalLayout_12.addWidget(self.label_13)
 
@@ -184,16 +205,18 @@ class Ui_Form(object):
 
         self.horizontalLayout_2.addWidget(self.line_7)
 
-        self.label_5 = QLabel(self.scrollAreaWidgetContents)
-        self.label_5.setObjectName(u"label_5")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy2)
-        self.label_5.setMinimumSize(QSize(0, 0))
+        self.materialsSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.materialsSpinBox.setObjectName(u"materialsSpinBox")
+        self.materialsSpinBox.setAutoFillBackground(False)
+        self.materialsSpinBox.setWrapping(False)
+        self.materialsSpinBox.setFrame(False)
+        self.materialsSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.materialsSpinBox.setReadOnly(True)
+        self.materialsSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.materialsSpinBox.setProperty("showGroupSeparator", True)
+        self.materialsSpinBox.setMaximum(100000000.000000000000000)
 
-        self.horizontalLayout_2.addWidget(self.label_5)
+        self.horizontalLayout_2.addWidget(self.materialsSpinBox)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
@@ -267,13 +290,11 @@ class Ui_Form(object):
 
         self.descMaterialLineEdit = QLineEdit(self.materialsWidget)
         self.descMaterialLineEdit.setObjectName(u"descMaterialLineEdit")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.descMaterialLineEdit.sizePolicy().hasHeightForWidth())
-        self.descMaterialLineEdit.setSizePolicy(sizePolicy3)
-        font2 = QFont()
-        font2.setPointSize(11)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.descMaterialLineEdit.sizePolicy().hasHeightForWidth())
+        self.descMaterialLineEdit.setSizePolicy(sizePolicy2)
         self.descMaterialLineEdit.setFont(font2)
         self.descMaterialLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
@@ -319,13 +340,11 @@ class Ui_Form(object):
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
 
-        self.materialsTableWidget = QTableWidget(self.scrollAreaWidgetContents)
-        self.materialsTableWidget.setObjectName(u"materialsTableWidget")
-        sizePolicy3.setHeightForWidth(self.materialsTableWidget.sizePolicy().hasHeightForWidth())
-        self.materialsTableWidget.setSizePolicy(sizePolicy3)
-        self.materialsTableWidget.setMinimumSize(QSize(0, 215))
+        self.materialsTableView = QTableView(self.scrollAreaWidgetContents)
+        self.materialsTableView.setObjectName(u"materialsTableView")
+        self.materialsTableView.setMinimumSize(QSize(0, 250))
 
-        self.horizontalLayout_6.addWidget(self.materialsTableWidget)
+        self.horizontalLayout_6.addWidget(self.materialsTableView)
 
         self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
@@ -339,6 +358,7 @@ class Ui_Form(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setSizeConstraint(QLayout.SetMinimumSize)
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_15 = QLabel(self.scrollAreaWidgetContents)
@@ -356,10 +376,20 @@ class Ui_Form(object):
 
         self.horizontalLayout_7.addWidget(self.line_6)
 
-        self.label_11 = QLabel(self.scrollAreaWidgetContents)
-        self.label_11.setObjectName(u"label_11")
+        self.laborSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.laborSpinBox.setObjectName(u"laborSpinBox")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.laborSpinBox.sizePolicy().hasHeightForWidth())
+        self.laborSpinBox.setSizePolicy(sizePolicy3)
+        self.laborSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.laborSpinBox.setReadOnly(True)
+        self.laborSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.laborSpinBox.setProperty("showGroupSeparator", True)
+        self.laborSpinBox.setMaximum(100000000.000000000000000)
 
-        self.horizontalLayout_7.addWidget(self.label_11)
+        self.horizontalLayout_7.addWidget(self.laborSpinBox)
 
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_7)
@@ -374,8 +404,10 @@ class Ui_Form(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(0, 0, -1, -1)
         self.nbrWorkersSpinBox = QSpinBox(self.scrollAreaWidgetContents)
         self.nbrWorkersSpinBox.setObjectName(u"nbrWorkersSpinBox")
+        self.nbrWorkersSpinBox.setMaximum(1000)
 
         self.horizontalLayout_4.addWidget(self.nbrWorkersSpinBox)
 
@@ -386,6 +418,7 @@ class Ui_Form(object):
 
         self.workerRateDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
         self.workerRateDoubleSpinBox.setObjectName(u"workerRateDoubleSpinBox")
+        self.workerRateDoubleSpinBox.setMaximum(1000.000000000000000)
 
         self.horizontalLayout_4.addWidget(self.workerRateDoubleSpinBox)
 
@@ -396,6 +429,7 @@ class Ui_Form(object):
 
         self.durationSpinBox = QSpinBox(self.scrollAreaWidgetContents)
         self.durationSpinBox.setObjectName(u"durationSpinBox")
+        self.durationSpinBox.setMaximum(1000)
 
         self.horizontalLayout_4.addWidget(self.durationSpinBox)
 
@@ -413,6 +447,13 @@ class Ui_Form(object):
 
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_4)
+
+        self.label_5 = QLabel(self.scrollAreaWidgetContents)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setFont(font2)
+        self.label_5.setMargin(0)
+
+        self.verticalLayout_4.addWidget(self.label_5)
 
 
         self.horizontalLayout_5.addLayout(self.verticalLayout_4)
@@ -447,10 +488,15 @@ class Ui_Form(object):
 
         self.horizontalLayout_12.addWidget(self.line_5)
 
-        self.label_16 = QLabel(self.scrollAreaWidgetContents)
-        self.label_16.setObjectName(u"label_16")
+        self.feeSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.feeSpinBox.setObjectName(u"feeSpinBox")
+        self.feeSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.feeSpinBox.setReadOnly(True)
+        self.feeSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.feeSpinBox.setProperty("showGroupSeparator", True)
+        self.feeSpinBox.setMaximum(100000000.000000000000000)
 
-        self.horizontalLayout_12.addWidget(self.label_16)
+        self.horizontalLayout_12.addWidget(self.feeSpinBox)
 
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_12)
@@ -463,47 +509,6 @@ class Ui_Form(object):
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.label_26 = QLabel(self.scrollAreaWidgetContents)
-        self.label_26.setObjectName(u"label_26")
-
-        self.horizontalLayout_9.addWidget(self.label_26)
-
-        self.pctgFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.pctgFeeRadioButton.setObjectName(u"pctgFeeRadioButton")
-
-        self.horizontalLayout_9.addWidget(self.pctgFeeRadioButton)
-
-        self.amntFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.amntFeeRadioButton.setObjectName(u"amntFeeRadioButton")
-
-        self.horizontalLayout_9.addWidget(self.amntFeeRadioButton)
-
-        self.feeLineEdit = QLineEdit(self.scrollAreaWidgetContents)
-        self.feeLineEdit.setObjectName(u"feeLineEdit")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.feeLineEdit.sizePolicy().hasHeightForWidth())
-        self.feeLineEdit.setSizePolicy(sizePolicy4)
-        self.feeLineEdit.setInputMethodHints(Qt.ImhNone)
-        self.feeLineEdit.setMaxLength(32767)
-
-        self.horizontalLayout_9.addWidget(self.feeLineEdit)
-
-        self.feeDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
-        self.feeDoubleSpinBox.setObjectName(u"feeDoubleSpinBox")
-
-        self.horizontalLayout_9.addWidget(self.feeDoubleSpinBox)
-
-        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_9.addItem(self.horizontalSpacer_13)
-
-
-        self.verticalLayout_6.addLayout(self.horizontalLayout_9)
-
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
@@ -516,25 +521,19 @@ class Ui_Form(object):
 
         self.horizontalLayout_10.addWidget(self.newFeeNameLineEdit)
 
-        self.pctgNewFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.pctgNewFeeRadioButton.setObjectName(u"pctgNewFeeRadioButton")
+        self.label_26 = QLabel(self.scrollAreaWidgetContents)
+        self.label_26.setObjectName(u"label_26")
 
-        self.horizontalLayout_10.addWidget(self.pctgNewFeeRadioButton)
+        self.horizontalLayout_10.addWidget(self.label_26)
 
-        self.amntNewFeeRadioButton = QRadioButton(self.scrollAreaWidgetContents)
-        self.amntNewFeeRadioButton.setObjectName(u"amntNewFeeRadioButton")
+        self.addFeeSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.addFeeSpinBox.setObjectName(u"addFeeSpinBox")
+        self.addFeeSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.addFeeSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.addFeeSpinBox.setProperty("showGroupSeparator", True)
+        self.addFeeSpinBox.setMaximum(100000000.000000000000000)
 
-        self.horizontalLayout_10.addWidget(self.amntNewFeeRadioButton)
-
-        self.newFeeLineEdit = QLineEdit(self.scrollAreaWidgetContents)
-        self.newFeeLineEdit.setObjectName(u"newFeeLineEdit")
-
-        self.horizontalLayout_10.addWidget(self.newFeeLineEdit)
-
-        self.newFeeDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
-        self.newFeeDoubleSpinBox.setObjectName(u"newFeeDoubleSpinBox")
-
-        self.horizontalLayout_10.addWidget(self.newFeeDoubleSpinBox)
+        self.horizontalLayout_10.addWidget(self.addFeeSpinBox)
 
         self.addFeepushButton = QPushButton(self.scrollAreaWidgetContents)
         self.addFeepushButton.setObjectName(u"addFeepushButton")
@@ -573,9 +572,9 @@ class Ui_Form(object):
         self.line_4.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.line_4.sizePolicy().hasHeightForWidth())
         self.line_4.setSizePolicy(sizePolicy1)
-        font3 = QFont()
-        font3.setBold(False)
-        self.line_4.setFont(font3)
+        font4 = QFont()
+        font4.setBold(False)
+        self.line_4.setFont(font4)
         self.line_4.setStyleSheet(u"")
         self.line_4.setFrameShadow(QFrame.Plain)
         self.line_4.setMidLineWidth(4)
@@ -583,10 +582,15 @@ class Ui_Form(object):
 
         self.horizontalLayout_13.addWidget(self.line_4)
 
-        self.label_19 = QLabel(self.scrollAreaWidgetContents)
-        self.label_19.setObjectName(u"label_19")
+        self.taxSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.taxSpinBox.setObjectName(u"taxSpinBox")
+        self.taxSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.taxSpinBox.setReadOnly(True)
+        self.taxSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.taxSpinBox.setProperty("showGroupSeparator", True)
+        self.taxSpinBox.setMaximum(100000000.000000000000000)
 
-        self.horizontalLayout_13.addWidget(self.label_19)
+        self.horizontalLayout_13.addWidget(self.taxSpinBox)
 
 
         self.verticalLayout_8.addLayout(self.horizontalLayout_13)
@@ -599,27 +603,6 @@ class Ui_Form(object):
 
         self.verticalLayout_9 = QVBoxLayout()
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.horizontalLayout_15 = QHBoxLayout()
-        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.label_29 = QLabel(self.scrollAreaWidgetContents)
-        self.label_29.setObjectName(u"label_29")
-
-        self.horizontalLayout_15.addWidget(self.label_29)
-
-        self.taxDoubleSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
-        self.taxDoubleSpinBox.setObjectName(u"taxDoubleSpinBox")
-        sizePolicy4.setHeightForWidth(self.taxDoubleSpinBox.sizePolicy().hasHeightForWidth())
-        self.taxDoubleSpinBox.setSizePolicy(sizePolicy4)
-
-        self.horizontalLayout_15.addWidget(self.taxDoubleSpinBox)
-
-        self.horizontalSpacer_12 = QSpacerItem(80, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_15.addItem(self.horizontalSpacer_12)
-
-
-        self.verticalLayout_9.addLayout(self.horizontalLayout_15)
-
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.label_8 = QLabel(self.scrollAreaWidgetContents)
@@ -672,7 +655,7 @@ class Ui_Form(object):
         self.line_3 = QFrame(self.scrollAreaWidgetContents)
         self.line_3.setObjectName(u"line_3")
         self.line_3.setFrameShadow(QFrame.Plain)
-        self.line_3.setLineWidth(2)
+        self.line_3.setLineWidth(1)
         self.line_3.setFrameShape(QFrame.HLine)
 
         self.verticalLayout_12.addWidget(self.line_3)
@@ -687,17 +670,21 @@ class Ui_Form(object):
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.label_31 = QLabel(self.scrollAreaWidgetContents)
         self.label_31.setObjectName(u"label_31")
+        font5 = QFont()
+        font5.setPointSize(16)
+        self.label_31.setFont(font5)
 
         self.horizontalLayout_17.addWidget(self.label_31)
 
-        self.horizontalSpacer_22 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.totalCostSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.totalCostSpinBox.setObjectName(u"totalCostSpinBox")
+        self.totalCostSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.totalCostSpinBox.setReadOnly(True)
+        self.totalCostSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.totalCostSpinBox.setProperty("showGroupSeparator", True)
+        self.totalCostSpinBox.setMaximum(100000000.000000000000000)
 
-        self.horizontalLayout_17.addItem(self.horizontalSpacer_22)
-
-        self.label_20 = QLabel(self.scrollAreaWidgetContents)
-        self.label_20.setObjectName(u"label_20")
-
-        self.horizontalLayout_17.addWidget(self.label_20)
+        self.horizontalLayout_17.addWidget(self.totalCostSpinBox)
 
 
         self.horizontalLayout_18.addLayout(self.horizontalLayout_17)
@@ -705,30 +692,268 @@ class Ui_Form(object):
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_18)
 
+        self.line_8 = QFrame(self.scrollAreaWidgetContents)
+        self.line_8.setObjectName(u"line_8")
+        sizePolicy3.setHeightForWidth(self.line_8.sizePolicy().hasHeightForWidth())
+        self.line_8.setSizePolicy(sizePolicy3)
+        self.line_8.setMinimumSize(QSize(0, 7))
+        self.line_8.setFrameShadow(QFrame.Plain)
+        self.line_8.setLineWidth(6)
+        self.line_8.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_12.addWidget(self.line_8)
+
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.verticalLayout_12.addItem(self.horizontalSpacer_11)
+
+        self.label_16 = QLabel(self.scrollAreaWidgetContents)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setFont(font1)
+
+        self.verticalLayout_12.addWidget(self.label_16)
+
+        self.label_29 = QLabel(self.scrollAreaWidgetContents)
+        self.label_29.setObjectName(u"label_29")
+        self.label_29.setFont(font2)
+
+        self.verticalLayout_12.addWidget(self.label_29)
+
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.verticalLayout_12.addItem(self.horizontalSpacer_13)
+
+        self.label_11 = QLabel(self.scrollAreaWidgetContents)
+        self.label_11.setObjectName(u"label_11")
+        font6 = QFont()
+        font6.setPointSize(17)
+        self.label_11.setFont(font6)
+
+        self.verticalLayout_12.addWidget(self.label_11)
+
+        self.generalCondTextEdit = QTextEdit(self.scrollAreaWidgetContents)
+        self.generalCondTextEdit.setObjectName(u"generalCondTextEdit")
+        self.generalCondTextEdit.setMinimumSize(QSize(0, 150))
+
+        self.verticalLayout_12.addWidget(self.generalCondTextEdit)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_30 = QLabel(self.scrollAreaWidgetContents)
+        self.label_30.setObjectName(u"label_30")
+        font7 = QFont()
+        font7.setPointSize(13)
+        self.label_30.setFont(font7)
+
+        self.horizontalLayout_9.addWidget(self.label_30)
+
+        self.line_9 = QFrame(self.scrollAreaWidgetContents)
+        self.line_9.setObjectName(u"line_9")
+        sizePolicy1.setHeightForWidth(self.line_9.sizePolicy().hasHeightForWidth())
+        self.line_9.setSizePolicy(sizePolicy1)
+        self.line_9.setMaximumSize(QSize(16777215, 16777215))
+        self.line_9.setFrameShadow(QFrame.Plain)
+        self.line_9.setLineWidth(1)
+        self.line_9.setMidLineWidth(1)
+        self.line_9.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_9.addWidget(self.line_9)
+
+        self.label_33 = QLabel(self.scrollAreaWidgetContents)
+        self.label_33.setObjectName(u"label_33")
+        self.label_33.setFont(font7)
+
+        self.horizontalLayout_9.addWidget(self.label_33)
+
+        self.estimateMaterialSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.estimateMaterialSpinBox.setObjectName(u"estimateMaterialSpinBox")
+        self.estimateMaterialSpinBox.setFont(font7)
+        self.estimateMaterialSpinBox.setWrapping(False)
+        self.estimateMaterialSpinBox.setFrame(True)
+        self.estimateMaterialSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.estimateMaterialSpinBox.setReadOnly(False)
+        self.estimateMaterialSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.estimateMaterialSpinBox.setAccelerated(False)
+        self.estimateMaterialSpinBox.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.estimateMaterialSpinBox.setProperty("showGroupSeparator", True)
+        self.estimateMaterialSpinBox.setMinimum(0.000000000000000)
+        self.estimateMaterialSpinBox.setMaximum(100000000.000000000000000)
+
+        self.horizontalLayout_9.addWidget(self.estimateMaterialSpinBox)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_9)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_34 = QLabel(self.scrollAreaWidgetContents)
+        self.label_34.setObjectName(u"label_34")
+        self.label_34.setFont(font7)
+
+        self.horizontalLayout_15.addWidget(self.label_34)
+
+        self.line_10 = QFrame(self.scrollAreaWidgetContents)
+        self.line_10.setObjectName(u"line_10")
+        sizePolicy1.setHeightForWidth(self.line_10.sizePolicy().hasHeightForWidth())
+        self.line_10.setSizePolicy(sizePolicy1)
+        self.line_10.setFrameShadow(QFrame.Plain)
+        self.line_10.setMidLineWidth(1)
+        self.line_10.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_15.addWidget(self.line_10)
+
+        self.label_35 = QLabel(self.scrollAreaWidgetContents)
+        self.label_35.setObjectName(u"label_35")
+        self.label_35.setFont(font7)
+
+        self.horizontalLayout_15.addWidget(self.label_35)
+
+        self.estimateLaborSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.estimateLaborSpinBox.setObjectName(u"estimateLaborSpinBox")
+        self.estimateLaborSpinBox.setFont(font7)
+        self.estimateLaborSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.estimateLaborSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.estimateLaborSpinBox.setProperty("showGroupSeparator", True)
+        self.estimateLaborSpinBox.setMaximum(100000000.000000000000000)
+
+        self.horizontalLayout_15.addWidget(self.estimateLaborSpinBox)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_15)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.label_36 = QLabel(self.scrollAreaWidgetContents)
+        self.label_36.setObjectName(u"label_36")
+        self.label_36.setFont(font7)
+
+        self.horizontalLayout_22.addWidget(self.label_36)
+
+        self.line_11 = QFrame(self.scrollAreaWidgetContents)
+        self.line_11.setObjectName(u"line_11")
+        sizePolicy1.setHeightForWidth(self.line_11.sizePolicy().hasHeightForWidth())
+        self.line_11.setSizePolicy(sizePolicy1)
+        self.line_11.setFrameShadow(QFrame.Plain)
+        self.line_11.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_22.addWidget(self.line_11)
+
+        self.label_37 = QLabel(self.scrollAreaWidgetContents)
+        self.label_37.setObjectName(u"label_37")
+        self.label_37.setFont(font7)
+
+        self.horizontalLayout_22.addWidget(self.label_37)
+
+        self.estimateFeeSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.estimateFeeSpinBox.setObjectName(u"estimateFeeSpinBox")
+        sizePolicy3.setHeightForWidth(self.estimateFeeSpinBox.sizePolicy().hasHeightForWidth())
+        self.estimateFeeSpinBox.setSizePolicy(sizePolicy3)
+        self.estimateFeeSpinBox.setFont(font7)
+        self.estimateFeeSpinBox.setAutoFillBackground(False)
+        self.estimateFeeSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.estimateFeeSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.estimateFeeSpinBox.setProperty("showGroupSeparator", True)
+        self.estimateFeeSpinBox.setMaximum(100000000.000000000000000)
+
+        self.horizontalLayout_22.addWidget(self.estimateFeeSpinBox)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_22)
+
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.label_38 = QLabel(self.scrollAreaWidgetContents)
+        self.label_38.setObjectName(u"label_38")
+        self.label_38.setFont(font7)
+
+        self.horizontalLayout_23.addWidget(self.label_38)
+
+        self.line_12 = QFrame(self.scrollAreaWidgetContents)
+        self.line_12.setObjectName(u"line_12")
+        sizePolicy1.setHeightForWidth(self.line_12.sizePolicy().hasHeightForWidth())
+        self.line_12.setSizePolicy(sizePolicy1)
+        self.line_12.setFrameShadow(QFrame.Plain)
+        self.line_12.setMidLineWidth(1)
+        self.line_12.setFrameShape(QFrame.HLine)
+
+        self.horizontalLayout_23.addWidget(self.line_12)
+
+        self.label_39 = QLabel(self.scrollAreaWidgetContents)
+        self.label_39.setObjectName(u"label_39")
+        self.label_39.setFont(font7)
+
+        self.horizontalLayout_23.addWidget(self.label_39)
+
+        self.estimateTaxSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.estimateTaxSpinBox.setObjectName(u"estimateTaxSpinBox")
+        self.estimateTaxSpinBox.setFont(font7)
+        self.estimateTaxSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.estimateTaxSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.estimateTaxSpinBox.setProperty("showGroupSeparator", True)
+        self.estimateTaxSpinBox.setMaximum(100000000.000000000000000)
+
+        self.horizontalLayout_23.addWidget(self.estimateTaxSpinBox)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_23)
+
+        self.line_13 = QFrame(self.scrollAreaWidgetContents)
+        self.line_13.setObjectName(u"line_13")
+        self.line_13.setFrameShadow(QFrame.Plain)
+        self.line_13.setLineWidth(2)
+        self.line_13.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_12.addWidget(self.line_13)
+
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_24.addItem(self.horizontalSpacer_8)
+
+        self.label_41 = QLabel(self.scrollAreaWidgetContents)
+        self.label_41.setObjectName(u"label_41")
+        self.label_41.setFont(font5)
+
+        self.horizontalLayout_24.addWidget(self.label_41)
+
+        self.estimateTotalCostSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.estimateTotalCostSpinBox.setObjectName(u"estimateTotalCostSpinBox")
+        self.estimateTotalCostSpinBox.setFont(font5)
+        self.estimateTotalCostSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.estimateTotalCostSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.estimateTotalCostSpinBox.setProperty("showGroupSeparator", True)
+        self.estimateTotalCostSpinBox.setMaximum(100000000.000000000000000)
+
+        self.horizontalLayout_24.addWidget(self.estimateTotalCostSpinBox)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_24)
+
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.verticalLayout_2.addWidget(self.scrollArea)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton_2 = QPushButton(self.page)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.closePushButton = QPushButton(self.page)
+        self.closePushButton.setObjectName(u"closePushButton")
 
-        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.horizontalLayout.addWidget(self.closePushButton)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.pushButton_3 = QPushButton(self.page)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.homePushButton = QPushButton(self.page)
+        self.homePushButton.setObjectName(u"homePushButton")
 
-        self.horizontalLayout.addWidget(self.pushButton_3)
+        self.horizontalLayout.addWidget(self.homePushButton)
 
-        self.pushButton = QPushButton(self.page)
-        self.pushButton.setObjectName(u"pushButton")
+        self.pdfPushButton = QPushButton(self.page)
+        self.pdfPushButton.setObjectName(u"pdfPushButton")
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.pdfPushButton)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
@@ -744,6 +969,7 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         self.addFeepushButton.setDefault(False)
+        self.pdfPushButton.setDefault(True)
 
 
         QMetaObject.connectSlotsByName(Form)
@@ -751,7 +977,9 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Project Estimate:", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Estimate", None))
+        self.label_27.setText(QCoreApplication.translate("Form", u"Contractor:", None))
+        self.label_19.setText(QCoreApplication.translate("Form", u"This section is for contractor view only.", None))
         self.customerDataLabel.setText("")
         self.label_6.setText(QCoreApplication.translate("Form", u"Email:", None))
         self.label_3.setText(QCoreApplication.translate("Form", u"City:", None))
@@ -767,7 +995,7 @@ class Ui_Form(object):
         self.label_12.setText(QCoreApplication.translate("Form", u"Construction Area:", None))
         self.label_13.setText(QCoreApplication.translate("Form", u"Estimate:", None))
         self.label_14.setText(QCoreApplication.translate("Form", u"Materials", None))
-        self.label_5.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.materialsSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.label_21.setText(QCoreApplication.translate("Form", u"Material Name:", None))
         self.label_23.setText(QCoreApplication.translate("Form", u"Quantity:", None))
         self.label_24.setText(QCoreApplication.translate("Form", u"Price:", None))
@@ -776,39 +1004,49 @@ class Ui_Form(object):
         self.addMaterialButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.showMaterialButton.setText(QCoreApplication.translate("Form", u"Show/Hide Materials", None))
         self.label_15.setText(QCoreApplication.translate("Form", u"Labor", None))
-        self.label_11.setText(QCoreApplication.translate("Form", u"TextLabel", None))
+        self.laborSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.label_17.setText(QCoreApplication.translate("Form", u"workers at ", None))
-        self.label_18.setText(QCoreApplication.translate("Form", u"/hr", None))
+        self.label_18.setText(QCoreApplication.translate("Form", u"/hr for", None))
         self.durationComboBox.setItemText(0, QCoreApplication.translate("Form", u"Months", None))
         self.durationComboBox.setItemText(1, QCoreApplication.translate("Form", u"Days", None))
 
         self.addLaborPushButton.setText(QCoreApplication.translate("Form", u"Add", None))
+        self.label_5.setText(QCoreApplication.translate("Form", u"*Assumes a 5 day work week with 22 work days.", None))
         self.label_25.setText(QCoreApplication.translate("Form", u"Fees", None))
-        self.label_16.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.label_26.setText(QCoreApplication.translate("Form", u"Contractor fee:", None))
-        self.pctgFeeRadioButton.setText(QCoreApplication.translate("Form", u"Percentage", None))
-        self.amntFeeRadioButton.setText(QCoreApplication.translate("Form", u"Amount", None))
-        self.feeLineEdit.setInputMask("")
-        self.feeLineEdit.setText("")
-        self.feeDoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
+        self.feeSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.label_4.setText(QCoreApplication.translate("Form", u"Fee (Name):", None))
-        self.pctgNewFeeRadioButton.setText(QCoreApplication.translate("Form", u"Percentage", None))
-        self.amntNewFeeRadioButton.setText(QCoreApplication.translate("Form", u"Amount", None))
-        self.newFeeDoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
+        self.label_26.setText(QCoreApplication.translate("Form", u"Amount ($):", None))
+        self.addFeeSpinBox.setPrefix("")
         self.addFeepushButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.label_28.setText(QCoreApplication.translate("Form", u"Taxes", None))
-        self.label_19.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.label_29.setText(QCoreApplication.translate("Form", u"State Tax:", None))
-        self.taxDoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
+        self.taxSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.label_8.setText(QCoreApplication.translate("Form", u"Tax (Name):", None))
         self.label_9.setText(QCoreApplication.translate("Form", u"Rate:", None))
         self.newTaxdoubleSpinBox.setPrefix("")
         self.newTaxdoubleSpinBox.setSuffix(QCoreApplication.translate("Form", u"%", None))
         self.addTaxPushButton.setText(QCoreApplication.translate("Form", u"Add", None))
-        self.label_31.setText(QCoreApplication.translate("Form", u"Total", None))
-        self.label_20.setText(QCoreApplication.translate("Form", u"TextLabel", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Form", u"Close", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Form", u"PDF", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Home", None))
+        self.label_31.setText(QCoreApplication.translate("Form", u"Total:", None))
+        self.totalCostSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
+        self.label_16.setText(QCoreApplication.translate("Form", u"Customer:", None))
+        self.label_29.setText(QCoreApplication.translate("Form", u"This section will be used to create the customer estimate pdf document.", None))
+        self.label_11.setText(QCoreApplication.translate("Form", u"General Conditions:", None))
+        self.generalCondTextEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Add general conditions.", None))
+        self.label_30.setText(QCoreApplication.translate("Form", u"Materials:", None))
+        self.label_33.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.estimateMaterialSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
+        self.label_34.setText(QCoreApplication.translate("Form", u"Labor:", None))
+        self.label_35.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.estimateLaborSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
+        self.label_36.setText(QCoreApplication.translate("Form", u"Fees:", None))
+        self.label_37.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.estimateFeeSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
+        self.label_38.setText(QCoreApplication.translate("Form", u"Tax:", None))
+        self.label_39.setText(QCoreApplication.translate("Form", u"Total Cost:", None))
+        self.estimateTaxSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
+        self.label_41.setText(QCoreApplication.translate("Form", u"Customer Total:", None))
+        self.estimateTotalCostSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
+        self.closePushButton.setText(QCoreApplication.translate("Form", u"Close", None))
+        self.homePushButton.setText(QCoreApplication.translate("Form", u"Home", None))
+        self.pdfPushButton.setText(QCoreApplication.translate("Form", u"Generate PDF", None))
     # retranslateUi
 

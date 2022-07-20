@@ -1,5 +1,6 @@
 
 from re import I
+from select import select
 import sqlite3
 from sqlite3 import Error
 
@@ -63,6 +64,34 @@ def add_new_task(conn, project_id):
     conn.commit()
     return cur.lastrowid
 
+def add_labor(conn, labor):
+    """ Add project labor"""
+
+    sql = ''' INSERT INTO labor (project_id, nbr_workers, rate, duration, labor_cost)
+                VALUES(?,?,?,?,?)'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, labor)
+    conn.commit()
+
+def add_fee(conn, fee):
+    """Add project fees"""
+
+    sql = ''' INSERT INTO fees (project_id, fee_name, fee_amount)
+                VALUES(?,?,?)'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, fee)
+    conn.commit()
+
+def add_client_estimate(conn, estimate):
+
+    sql = ''' INSERT INTO estimates (project_id, material_cost, labor_cost, fee_cost, tax_cost, total_cost)
+                VALUES (?,?,?,?,?,?)'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, estimate)
+    conn.commit()
 
 def find_customer_id(conn, name):
 
@@ -111,7 +140,7 @@ def find_current_project(conn):
 
 def delete_table(conn):
     cur = conn.cursor()
-    cur.execute('DROP TABLE IF EXISTS customer')
+    cur.execute('DROP TABLE IF EXISTS estimates')
     conn.commit()
 
 def mark_as_complete(conn, id):
@@ -175,6 +204,20 @@ def get_customer_data(conn, customer_id):
     cur.execute(sql, [customer_id])
     row = cur.fetchone()
     return row
+
+def get_materials_total(conn, project_id):
+
+    sql = 'SELECT total FROM materials WHERE project_id = ?'
+
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    rows = cur.fetchall()
+
+    overall = 0
+    for value in rows:
+        overall += value[0]
+    
+    return overall
 
 
 # def main():

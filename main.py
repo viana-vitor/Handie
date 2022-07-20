@@ -26,9 +26,9 @@ class MainWindow(QMainWindow):
 
         self.resize(900, 700)
 
-        create_tables.main()
+        create_tables.main() #create database tables
 
-        self.home_button_checked = True
+        self.home_button_checked = True #start at home page
         
         toolbar = QToolBar()
         toolbar.setIconSize(QSize(30, 30))
@@ -68,15 +68,13 @@ class MainWindow(QMainWindow):
         
         self.setCentralWidget(self.home_widget)
 
-        #self.home_widget.main_window_connection.EstimatePageSignal.connect(self.custom_slot)
-
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
         #self.setCentralWidget(self.home_widget)
     
     
-    
     def home_toggle(self):
         self.home_widget = HomeWidget()
+        self.button_home.setChecked(True)
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
         self.setCentralWidget(self.home_widget)
     
@@ -87,13 +85,11 @@ class MainWindow(QMainWindow):
     def projects_toggle(self):
         self.project_widget = ProjectWidget()
         self.setCentralWidget(self.project_widget)
-    
-    def setMyCentral(self, widgetClass):
-        myWidget = widgetClass()
-        self.setCentralWidget(myWidget)
 
     def open_estimate(self, customer_id, project_id, task_id):
         self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)
+        self.button_estimates.setChecked(True)
+        self.project_estimate.HomeWidgetSignal.connect(self.home_toggle)
         self.setCentralWidget(self.project_estimate)
 
 
