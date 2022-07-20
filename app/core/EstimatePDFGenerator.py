@@ -97,7 +97,7 @@ class MyTemplate(PageTemplate):
 
 
 def create_pdf(filename, pdf_template_filename, data):
-    """Create the pdf, with all the contents"""
+    """Create the pdf with its contents"""
     pdf_report = open(filename, "wb")
     #document = MyDocTemplate(pdf_report)
     document = SimpleDocTemplate(filename)

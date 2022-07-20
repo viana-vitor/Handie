@@ -26,9 +26,9 @@ class MainWindow(QMainWindow):
 
         self.resize(900, 700)
 
-        create_tables.main()
+        create_tables.main() #create database tables
 
-        self.home_button_checked = True
+        self.home_button_checked = True #start at home page
         
         toolbar = QToolBar()
         toolbar.setIconSize(QSize(30, 30))

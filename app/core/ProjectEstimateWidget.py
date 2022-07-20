@@ -21,7 +21,7 @@ db.open()
 
 class ProjectEstimate(QWidget, Ui_Form):
 
-    HomeWidgetSignal = Signal()
+    HomeWidgetSignal = Signal() #Signal to go back to home page
 
     def __init__(self, customer_id, project_id, task_id):
         super().__init__()
@@ -278,7 +278,7 @@ class ProjectEstimate(QWidget, Ui_Form):
             self.materialsSpinBox.setValue(self.overall_materials_cost)
 
     def get_total_cost(self):
-
+        '''Add total cost value to spinbox'''
         self.total_cost = (self.overall_materials_cost + self.total_labor_cost + 
                 self.total_fee_amount + self.total_tax)
         
@@ -286,7 +286,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
     
     def tasks_writeup(self):
-
+        '''Add textEdit to the page for writing project tasks'''
          
         with open("app/data/database/user_tasks.json", "r") as f:
             user_tasks = json.load(f)
@@ -302,6 +302,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
     
     def get_tasks_writeup(self):
+        '''Get text from tasks textEdits '''
 
         with open("app/data/database/user_tasks.json", "r") as f:
             user_tasks = json.load(f)
@@ -347,6 +348,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.estimateTotalCostSpinBox.setValue(self.total_cost)
     
     def estimate_version_changed(self):
+        '''Update estimate total'''
 
         client_total = (self.estimateMaterialSpinBox.value() + self.estimateLaborSpinBox.value() + 
             self.estimateFeeSpinBox.value() + self.estimateTaxSpinBox.value())
@@ -354,6 +356,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.estimateTotalCostSpinBox.setValue(client_total)
 
     def save_client_version(self):
+        '''Save values used to produce customer estimate report'''
 
         estimate = [self.project_id, self.estimateTotalCostSpinBox.value(), self.estimateLaborSpinBox.value(),
             self.estimateFeeSpinBox.value(), self.estimateTaxSpinBox.value(), self.estimateTotalCostSpinBox.value()]
@@ -363,7 +366,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     
     def close_estimate(self):
-        # Create message box with the option to save changes
+        '''Leave the estimate page'''
         
         msgBox = QMessageBox()
         msgBox.setText("Do you wish to save changes?")
@@ -387,11 +390,13 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     
     def generate_pdf(self):
+        ''' Saves project info and start thread for pdf generation'''
 
         self.save_costs()
         self.save_client_version()
 
         self.pdfPushButton.setDisabled(True)
+        #Data for pdf generation
         data = {
             "customer_name": self.customer_data[0],
             "phone": self.customer_data[1],
@@ -402,7 +407,7 @@ class ProjectEstimate(QWidget, Ui_Form):
             'estimate_total': self.estimateTotalCostSpinBox.text()
         }
 
-        g = Generator(data)
+        g = Generator(data) #call worker thread passing the data
         g.signals.file_saved_as.connect(self.pdf_generated)
         g.signals.error.connect(print) #Print errors to the console
         self.threadpool.start(g)
