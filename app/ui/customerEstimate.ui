@@ -36,7 +36,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-886</y>
+            <y>0</y>
             <width>809</width>
             <height>1547</height>
            </rect>
@@ -1628,13 +1628,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="homePushButton">
-           <property name="text">
-            <string>Home</string>
-           </property>
-          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pdfPushButton">

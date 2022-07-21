@@ -5,14 +5,13 @@ import sqlite3
 import json
 import os
 
-from PySide6.QtCore import Qt, QSize, Signal, QObject
+from PySide6.QtCore import Qt, QSize, Signal
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel, QSqlQueryModel, QSqlQuery
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWindow, QDialog, QVBoxLayout, QLabel, QCheckBox,
  QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem)
 
 from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
 from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
-from app.core.ProjectEstimateWidget import ProjectEstimate
 import app.data.database.insert_data_sql as insert_data_sql
 import app.data.database.tasks_keywords_json as tasks_keywords_json
 

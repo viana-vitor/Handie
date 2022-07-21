@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -886, 809, 1547))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 809, 1547))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -945,11 +945,6 @@ class Ui_Form(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.homePushButton = QPushButton(self.page)
-        self.homePushButton.setObjectName(u"homePushButton")
-
-        self.horizontalLayout.addWidget(self.homePushButton)
-
         self.pdfPushButton = QPushButton(self.page)
         self.pdfPushButton.setObjectName(u"pdfPushButton")
 
@@ -1046,7 +1041,6 @@ class Ui_Form(object):
         self.label_41.setText(QCoreApplication.translate("Form", u"Customer Total:", None))
         self.estimateTotalCostSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.closePushButton.setText(QCoreApplication.translate("Form", u"Close", None))
-        self.homePushButton.setText(QCoreApplication.translate("Form", u"Home", None))
         self.pdfPushButton.setText(QCoreApplication.translate("Form", u"Generate PDF", None))
     # retranslateUi
 
