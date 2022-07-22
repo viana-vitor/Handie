@@ -12,6 +12,7 @@ from app.ui.Ui_customer_widget import Ui_Customers
 from app.core.HomeWidget import HomeWidget
 from app.core.ProjectWidget import ProjectWidget
 from app.core.ProjectEstimateWidget import ProjectEstimate
+from app.core.EstimateWidget import EstimateWidget
 import app.data.database.create_tables as create_tables
 
 db = QSqlDatabase("QSQLITE")
@@ -53,6 +54,7 @@ class MainWindow(QMainWindow):
 
         self.button_estimates = QAction(QIcon("app/data/img/budget.png"), "Estimates", self)
         self.button_estimates.setCheckable(True)
+        self.button_estimates.triggered.connect(self.estimates_toggle)
         toolbar.addAction(self.button_estimates)
 
         action_group = QActionGroup(self)
@@ -62,13 +64,8 @@ class MainWindow(QMainWindow):
         action_group.addAction(self.button_estimates)
         
         self.home_widget = HomeWidget()
-        self.customer_widget = CustomerWidget()
-        self.project_widget = ProjectWidget()
-        
         self.setCentralWidget(self.home_widget)
-
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
-        #self.setCentralWidget(self.home_widget)
     
     
     def home_toggle(self):
@@ -84,6 +81,10 @@ class MainWindow(QMainWindow):
     def projects_toggle(self):
         self.project_widget = ProjectWidget()
         self.setCentralWidget(self.project_widget)
+    
+    def estimates_toggle(self):
+        self.estimate_widget = EstimateWidget()
+        self.setCentralWidget(self.estimate_widget)
 
     def open_estimate(self, customer_id, project_id, task_id):
         self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)

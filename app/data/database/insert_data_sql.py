@@ -219,6 +219,15 @@ def get_materials_total(conn, project_id):
     
     return overall
 
+def get_task_id(conn, project_id):
+
+    sql = 'SELECT task_id FROM tasks WHERE project_id = ?'
+
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    task_id = cur.fetchone()[0]
+    return task_id
+
 
 # def main():
 
