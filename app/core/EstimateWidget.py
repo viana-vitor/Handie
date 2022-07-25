@@ -1,4 +1,4 @@
-
+import json
 
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout)
@@ -11,7 +11,6 @@ import app.data.database.insert_data_sql as insert_data_sql
 
 class EstimateWidget(QWidget, Ui_estimates):
     
-
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -26,11 +25,13 @@ class EstimateWidget(QWidget, Ui_estimates):
             myItemWidget = CustomListItem()
             myItemWidget.project_id(project_id)
             myItemWidget.customer_id(customer_id)
-            myItemWidget.task_id(insert_data_sql.get_task_id(self.conn, project_id))
+            task_id = insert_data_sql.get_task_id(self.conn, project_id)
+            myItemWidget.task_id(task_id)
             myItemWidget.setProject(project_name)
             myItemWidget.setCustomer(customer_name)
-            myItemWidget.setInfo('<p>726 Serra St <br/> Stanford <br/> (650)762-4416</p>')
-            myItemWidget.setJob('Kitchen <br/> Bathroom')
+            myItemWidget.setInfo('<br/>'.join("{}".format(i) for i in self.get_info(self.conn, customer_id)))
+            myItemWidget.setJob('<br/>'.join("{}".format(i) for i in self.get_construction_area(task_id)))
+            myItemWidget.setStatus(status)
 
 
             listWidgetItem = QListWidgetItem(self.listWidget)
@@ -40,6 +41,8 @@ class EstimateWidget(QWidget, Ui_estimates):
             self.listWidget.setItemWidget(listWidgetItem, myItemWidget)
         
         self.listWidget.itemClicked.connect(self.open_estimate)
+
+        self.lineEdit.textChanged.connect(self.on_text_changed)
 
 
     def open_estimate(self, item):
@@ -51,9 +54,42 @@ class EstimateWidget(QWidget, Ui_estimates):
         task_id = itemWidget.task_id
 
         self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)
-        self.verticalLayout.addWidget(self.project_estimate)
+        self.project_estimate.show()
+
+    def get_construction_area(self, task_id):
+
+        with open("app/data/database/user_tasks.json", "r") as f:
+            user_tasks = json.load(f)
+
+        
+        for dict in user_tasks[::-1]:
+            if dict['task_id'] == task_id:
+                area = dict['tasks'].keys()
+        
+        return area
+
+    def get_info(self, conn, customer_id):
+
+        sql = '''SELECT address, city, phone FROM customer
+                WHERE id = ?'''
+        
+        cur = conn.cursor()
+        cur.execute(sql, [customer_id])
+        info = cur.fetchall()[0]
+        return info
 
 
+    def on_text_changed(self, text):
+        '''Filter list using customer or project name'''
+        for row in range(self.listWidget.count()):
+            item = self.listWidget.item(row)
+            widg = self.listWidget.itemWidget(item)
+            if text.lower() in widg.customerText.text().lower():
+                item.setHidden(False)
+            elif text.lower() in widg.projectText.text().lower():
+                item.setHidden(False)
+            else:
+                item.setHidden(True)
 
 
 class CustomListItem(QWidget):
@@ -73,10 +109,14 @@ class CustomListItem(QWidget):
         self.jobText = QLabel()
         self.jobText.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.jobText.setTextFormat(Qt.RichText)
+        self.statusText = QLabel()
+        self.statusText.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter) 
+        
         self.textLayout.addWidget(self.projectText)
         self.textLayout.addWidget(self.customerText)
         self.textLayout.addWidget(self.infoText)
         self.textLayout.addWidget(self.jobText)
+        self.textLayout.addWidget(self.statusText)
         self.setLayout(self.textLayout)
     
     def project_id(self, project_id):
@@ -99,6 +139,9 @@ class CustomListItem(QWidget):
     
     def setJob(self, text):
         self.jobText.setText(text)
+    
+    def setStatus(self, text):
+        self.statusText.setText(text)
 
 
 

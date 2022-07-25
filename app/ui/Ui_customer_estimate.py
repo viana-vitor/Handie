@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 809, 1547))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 809, 1543))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -971,7 +971,7 @@ class Ui_Form(object):
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Estimate", None))
         self.label.setText(QCoreApplication.translate("Form", u"Estimate", None))
         self.label_27.setText(QCoreApplication.translate("Form", u"Contractor:", None))
         self.label_19.setText(QCoreApplication.translate("Form", u"This section is for contractor view only.", None))

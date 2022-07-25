@@ -82,6 +82,13 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.label_5)
 
+        self.label_6 = QLabel(Form)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setFont(font1)
+        self.label_6.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout.addWidget(self.label_6)
+
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
@@ -133,5 +140,6 @@ class Ui_Form(object):
         self.label_2.setText(QCoreApplication.translate("Form", u"Customer", None))
         self.label_4.setText(QCoreApplication.translate("Form", u"Info", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"Job", None))
+        self.label_6.setText(QCoreApplication.translate("Form", u"Status", None))
     # retranslateUi
 
