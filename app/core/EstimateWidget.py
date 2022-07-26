@@ -53,7 +53,7 @@ class EstimateWidget(QWidget, Ui_estimates):
         project_id = itemWidget.project_id
         task_id = itemWidget.task_id
 
-        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, 'EstimateWidget')
         self.project_estimate.show()
 
     def get_construction_area(self, task_id):

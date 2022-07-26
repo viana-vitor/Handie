@@ -86,8 +86,8 @@ class MainWindow(QMainWindow):
         self.estimate_widget = EstimateWidget()
         self.setCentralWidget(self.estimate_widget)
 
-    def open_estimate(self, customer_id, project_id, task_id):
-        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)
+    def open_estimate(self, customer_id, project_id, task_id, source):
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, source)
         self.button_estimates.setChecked(True)
         self.project_estimate.HomeWidgetSignal.connect(self.home_toggle)
         self.setCentralWidget(self.project_estimate)

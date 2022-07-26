@@ -24,7 +24,7 @@ db.open()
 #Home Page widget
 class HomeWidget(QWidget, Ui_new_home):
     
-    EstimatePageSignal = Signal(int, int, int) #Signal to go to the project estimate page, passing database keys
+    EstimatePageSignal = Signal(int, int, int, str) #Signal to go to the project estimate page, passing database keys
 
     def __init__(self, parent = None):
         super(HomeWidget, self).__init__(parent)
@@ -482,7 +482,7 @@ class HomeWidget(QWidget, Ui_new_home):
         customer_id, project_id, task_id = self.project_data()
         self.save_user_json(task_id)
         self.retrieve_table_data(project_id)
-        self.EstimatePageSignal.emit(customer_id, project_id, task_id)
+        self.EstimatePageSignal.emit(customer_id, project_id, task_id, 'HomeWidget')
         
 
 

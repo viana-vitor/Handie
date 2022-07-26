@@ -23,7 +23,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
     HomeWidgetSignal = Signal() #Signal to go back to home page
 
-    def __init__(self, customer_id, project_id, task_id):
+    def __init__(self, customer_id, project_id, task_id, source):
         super().__init__()
         self.setupUi(self)
         self.show()
@@ -32,10 +32,13 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.customer_id = customer_id
         self.project_id = project_id
         self.task_id = task_id
+        self.source = source
 
         self.threadpool = QThreadPool()
         
         #Total cost variables
+        
+        #if self.source == 'HomeWidget':
         self.total_labor_cost = 0
         self.total_fee_amount = 0
         self.total_tax = 0
@@ -49,7 +52,6 @@ class ProjectEstimate(QWidget, Ui_Form):
             self.customer_data = insert_data_sql.get_customer_data(self.conn, self.customer_id) #Customer data
         
         self.customerDataLabel.setText(self.customer_data[0])
-        #self.emailDataLabel
         self.phoneDataLabel.setText(str(self.customer_data[1]))
         self.addressDataLabel.setText(str(self.customer_data[2]))
         self.cityDataLabel.setText(self.customer_data[3])
