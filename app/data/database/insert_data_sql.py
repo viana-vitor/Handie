@@ -229,14 +229,25 @@ def get_task_id(conn, project_id):
     return task_id
 
 
-# def main():
+def get_total_fee(conn, project_id):
 
-#     database = r"app/data/database/customer_data.db"
+    sql = ''' SELECT fee_name, fee_amount FROM fees
+                    WHERE project_id = ?'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    fees = cur.fetchall()
+    print(fees)
 
-#     conn = create_connection(database)
+def main():
 
-#     with conn:
-#         delete_table(conn)
+    database = r"app/data/database/customer_data.db"
+
+    conn = create_connection(database)
+
+    with conn:
+        add_fee(conn, [38, 'Contractor', 5000])
+        get_total_fee(conn, 38)
 
 #     #     customer_id = find_customer_id(conn, "Grace Smith")
 #     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
@@ -246,7 +257,7 @@ def get_task_id(conn, project_id):
 
 
 
-# if __name__== '__main__':
-#     main()
+if __name__== '__main__':
+    main()
 
 

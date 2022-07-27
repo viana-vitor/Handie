@@ -129,11 +129,11 @@ def create_pdf(filename, pdf_template_filename, data):
     elements.append(ptext)
     elements.append(Spacer(1,10))
 
-    for dict in data['construction_tasks']:
-        elements.append(Paragraph('<para leftindent=-14><font size=14><u>{}</u></font></para>'.format(dict['area']), styles['customer-info']))
+    for item in data['construction_tasks'].items():
+        elements.append(Paragraph('<para leftindent=-14><font size=14><u>{}</u></font></para>'.format(item[0]), styles['customer-info']))
         elements.append(Spacer(1, 10))
 
-        ptext = dict['text'].splitlines()
+        ptext = item[1].splitlines()
         task_list =[]
         for line in ptext:
             task_list.append(Paragraph('{}'.format(line), styles['Normal']))

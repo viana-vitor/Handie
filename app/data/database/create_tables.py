@@ -85,7 +85,7 @@ def main():
                                     fee_name text, 
                                     fee_amount real,
                                     FOREIGN KEY (project_id) REFERENCES projects (id)
-                                    );"""
+                                    );"""    
     
     sql_create_client_costs_table = """ CREATE TABLE IF NOT EXISTS estimates (
                                             project_id integer,
