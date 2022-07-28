@@ -228,36 +228,35 @@ def get_task_id(conn, project_id):
     task_id = cur.fetchone()[0]
     return task_id
 
+def get_estimates(conn, project_id):
 
-def get_total_fee(conn, project_id):
-
-    sql = ''' SELECT fee_name, fee_amount FROM fees
+    sql = '''SELECT material_cost, labor_cost, fee_cost, tax_cost, total_cost FROM estimates
                     WHERE project_id = ?'''
     
     cur = conn.cursor()
     cur.execute(sql, [project_id])
-    fees = cur.fetchall()
-    print(fees)
+    estimates = cur.fetchall()[0]
+    print(estimates[0])
+    print(estimates)
 
-def main():
+# def main():
 
-    database = r"app/data/database/customer_data.db"
+#     database = r"app/data/database/customer_data.db"
 
-    conn = create_connection(database)
+#     conn = create_connection(database)
 
-    with conn:
-        add_fee(conn, [38, 'Contractor', 5000])
-        get_total_fee(conn, 38)
+#     with conn:
+#         get_estimates(conn, 40)
 
-#     #     customer_id = find_customer_id(conn, "Grace Smith")
-#     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
-#     #     project_id = create_new_project(conn, project)
-#         #find_current_project(conn)
+# #     #     customer_id = find_customer_id(conn, "Grace Smith")
+# #     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
+# #     #     project_id = create_new_project(conn, project)
+# #         #find_current_project(conn)
     
 
 
 
-if __name__== '__main__':
-    main()
+# if __name__== '__main__':
+#     main()
 
 

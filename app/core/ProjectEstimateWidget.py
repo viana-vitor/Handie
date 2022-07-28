@@ -439,11 +439,26 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     def populate_client_version(self):
         
-        self.estimateMaterialSpinBox.setValue(self.overall_materials_cost)
-        self.estimateLaborSpinBox.setValue(self.total_labor_cost)
-        self.estimateFeeSpinBox.setValue(self.total_fee_amount)
-        self.estimateTaxSpinBox.setValue(self.total_tax)
-        self.estimateTotalCostSpinBox.setValue(self.total_cost)
+        if self.source == 'HomeWidget':
+            self.estimateMaterialSpinBox.setValue(self.overall_materials_cost)
+            self.estimateLaborSpinBox.setValue(self.total_labor_cost)
+            self.estimateFeeSpinBox.setValue(self.total_fee_amount)
+            self.estimateTaxSpinBox.setValue(self.total_tax)
+            self.estimateTotalCostSpinBox.setValue(self.total_cost)
+        else:
+            sql = '''SELECT material_cost, labor_cost, fee_cost, tax_cost, total_cost FROM estimates
+                    WHERE project_id = ?'''
+            
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            estimates = cur.fetchall()[0]
+
+            self.estimateMaterialSpinBox.setValue(estimates[0])
+            self.estimateLaborSpinBox.setValue(estimates[1])
+            self.estimateFeeSpinBox.setValue(estimates[2])
+            self.estimateTaxSpinBox.setValue(estimates[3])
+            self.estimateTotalCostSpinBox.setValue(estimates[4])
+
     
     def estimate_version_changed(self):
         '''Update estimate total'''
@@ -456,11 +471,28 @@ class ProjectEstimate(QWidget, Ui_Form):
     def save_client_version(self):
         '''Save values used to produce customer estimate report'''
 
-        estimate = [self.project_id, self.estimateTotalCostSpinBox.value(), self.estimateLaborSpinBox.value(),
-            self.estimateFeeSpinBox.value(), self.estimateTaxSpinBox.value(), self.estimateTotalCostSpinBox.value()]
+        if self.source == 'HomeWidget':
+            estimate = [self.project_id, self.estimateMaterialSpinBox.value(), self.estimateLaborSpinBox.value(),
+                self.estimateFeeSpinBox.value(), self.estimateTaxSpinBox.value(), self.estimateTotalCostSpinBox.value()]
 
-        with self.conn:
-            insert_data_sql.add_client_estimate(self.conn, estimate)
+            with self.conn:
+                insert_data_sql.add_client_estimate(self.conn, estimate)
+        
+        else:
+
+            sql = ''' UPDATE estimates
+                        SET material_cost = {material_cost}, 
+                            labor_cost = {labor_cost},
+                            fee_cost = {fee_cost},
+                            total_cost = {total_cost}
+                        WHERE project_id = ?'''.format(material_cost = self.estimateMaterialSpinBox.value(),
+                                                        labor_cost = self.estimateLaborSpinBox.value(),
+                                                        fee_cost = self.estimateFeeSpinBox.value(),
+                                                        total_cost = self.estimateTotalCostSpinBox.value())
+
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            self.conn.commit()
     
     
     def close_estimate(self):
