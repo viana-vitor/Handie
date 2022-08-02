@@ -227,8 +227,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>449</width>
-            <height>723</height>
+            <width>923</width>
+            <height>745</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -407,10 +407,48 @@
            <item>
             <layout class="QGridLayout" name="gridLayout_10">
              <item row="2" column="1">
-              <widget class="QDateEdit" name="begginingDateDateEdit"/>
+              <widget class="QDateEdit" name="begginingDateDateEdit">
+               <property name="dateTime">
+                <datetime>
+                 <hour>0</hour>
+                 <minute>0</minute>
+                 <second>0</second>
+                 <year>2000</year>
+                 <month>9</month>
+                 <day>14</day>
+                </datetime>
+               </property>
+               <property name="minimumDate">
+                <date>
+                 <year>2000</year>
+                 <month>1</month>
+                 <day>1</day>
+                </date>
+               </property>
+               <property name="displayFormat">
+                <string>M/d/yyyy</string>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QDateEdit" name="endDateDateEdit"/>
+              <widget class="QDateEdit" name="endDateDateEdit">
+               <property name="minimumDate">
+                <date>
+                 <year>2000</year>
+                 <month>1</month>
+                 <day>1</day>
+                </date>
+               </property>
+               <property name="displayFormat">
+                <string>M/d/yyyy</string>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="0" column="0">
               <widget class="QLabel" name="nameLabel_4">

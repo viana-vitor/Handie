@@ -5,7 +5,7 @@ import sqlite3
 import json
 import os
 
-from PySide6.QtCore import Qt, QSize, Signal
+from PySide6.QtCore import Qt, QSize, Signal, QDate
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel, QSqlQueryModel, QSqlQuery
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWindow, QDialog, QVBoxLayout, QLabel, QCheckBox,
  QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem)
@@ -66,6 +66,11 @@ class HomeWidget(QWidget, Ui_new_home):
         
         self.newCustomerButton.clicked.connect(self.new_customer_project) #Open new project form for new customer
         self.existingCustomerButton.clicked.connect(self.existing_customer_project) #Open new project form for existing customer
+
+        self.begginingDateDateEdit.setMinimumDate(QDate.currentDate().addYears(-5))
+        self.begginingDateDateEdit.setDate(QDate.currentDate())
+        self.endDateDateEdit.setMinimumDate(QDate.currentDate().addYears(-5))
+        self.endDateDateEdit.setDate(QDate.currentDate())
         
         
         with self.conn:

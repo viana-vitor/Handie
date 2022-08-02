@@ -15,32 +15,22 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
-    QHeaderView, QLabel, QLayout, QLineEdit,
-    QListWidget, QListWidgetItem, QPushButton, QScrollArea,
-    QSizePolicy, QSpacerItem, QSplitter, QTableView,
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QDateEdit, QFrame,
+    QHBoxLayout, QHeaderView, QLabel, QLayout,
+    QLineEdit, QListWidget, QListWidgetItem, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QTableView,
     QVBoxLayout, QWidget)
 
 class Ui_Projects(object):
     def setupUi(self, Projects):
         if not Projects.objectName():
             Projects.setObjectName(u"Projects")
-        Projects.resize(990, 692)
-        self.verticalLayout_2 = QVBoxLayout(Projects)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.scrollArea = QScrollArea(Projects)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setFrameShape(QFrame.NoFrame)
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 951, 668))
-        self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        Projects.resize(1002, 765)
+        self.verticalLayout_6 = QVBoxLayout(Projects)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton = QPushButton(Projects)
         self.pushButton.setObjectName(u"pushButton")
 
         self.horizontalLayout.addWidget(self.pushButton)
@@ -50,50 +40,52 @@ class Ui_Projects(object):
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout)
+        self.verticalLayout_6.addLayout(self.horizontalLayout)
 
-        self.splitter = QSplitter(self.scrollAreaWidgetContents)
-        self.splitter.setObjectName(u"splitter")
-        self.splitter.setOrientation(Qt.Horizontal)
-        self.widget = QWidget(self.splitter)
-        self.widget.setObjectName(u"widget")
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.searchLineEdit = QLineEdit(self.widget)
+        self.searchLineEdit = QLineEdit(Projects)
         self.searchLineEdit.setObjectName(u"searchLineEdit")
+        font = QFont()
+        font.setPointSize(14)
+        self.searchLineEdit.setFont(font)
+        self.searchLineEdit.setClearButtonEnabled(True)
 
         self.verticalLayout.addWidget(self.searchLineEdit)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.label_7 = QLabel(self.widget)
+        self.label_7 = QLabel(Projects)
         self.label_7.setObjectName(u"label_7")
+        self.label_7.setFont(font)
 
         self.horizontalLayout_4.addWidget(self.label_7)
 
-        self.label_8 = QLabel(self.widget)
+        self.label_8 = QLabel(Projects)
         self.label_8.setObjectName(u"label_8")
+        self.label_8.setFont(font)
 
         self.horizontalLayout_4.addWidget(self.label_8)
 
-        self.label_9 = QLabel(self.widget)
+        self.label_9 = QLabel(Projects)
         self.label_9.setObjectName(u"label_9")
+        self.label_9.setFont(font)
 
         self.horizontalLayout_4.addWidget(self.label_9)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
-        self.listWidget = QListWidget(self.widget)
+        self.listWidget = QListWidget(Projects)
         self.listWidget.setObjectName(u"listWidget")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.listWidget.sizePolicy().hasHeightForWidth())
         self.listWidget.setSizePolicy(sizePolicy)
-        self.listWidget.setMinimumSize(QSize(300, 0))
+        self.listWidget.setMinimumSize(QSize(0, 200))
+        self.listWidget.setMaximumSize(QSize(16777215, 16777215))
         self.listWidget.setStyleSheet(u"QListWidget {\n"
 "    show-decoration-selected: 1; /* make the selection span the entire width of the view */\n"
 "}\n"
@@ -123,145 +115,258 @@ class Ui_Projects(object):
 
         self.verticalLayout.addWidget(self.listWidget)
 
-        self.splitter.addWidget(self.widget)
-        self.widget1 = QWidget(self.splitter)
-        self.widget1.setObjectName(u"widget1")
-        self.verticalLayout_3 = QVBoxLayout(self.widget1)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout = QGridLayout()
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, -1, -1, -1)
-        self.label_2 = QLabel(self.widget1)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+
+        self.verticalLayout_6.addLayout(self.verticalLayout)
+
+        self.scrollArea = QScrollArea(Projects)
+        self.scrollArea.setObjectName(u"scrollArea")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy1)
-        font = QFont()
-        font.setBold(True)
-        self.label_2.setFont(font)
+        sizePolicy1.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy1)
+        self.scrollArea.setMinimumSize(QSize(0, 350))
+        self.scrollArea.setFrameShape(QFrame.Box)
+        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 959, 471))
+        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.label_14 = QLabel(self.scrollAreaWidgetContents)
+        self.label_14.setObjectName(u"label_14")
+        font1 = QFont()
+        font1.setPointSize(18)
+        font1.setBold(True)
+        self.label_14.setFont(font1)
 
-        self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
+        self.verticalLayout_2.addWidget(self.label_14)
 
-        self.label_3 = QLabel(self.widget1)
-        self.label_3.setObjectName(u"label_3")
-        sizePolicy1.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy1)
-        self.label_3.setFont(font)
-
-        self.gridLayout.addWidget(self.label_3, 0, 2, 1, 1)
-
-        self.pushButton_4 = QPushButton(self.widget1)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-
-        self.gridLayout.addWidget(self.pushButton_4, 1, 3, 1, 1)
-
-        self.label_4 = QLabel(self.widget1)
-        self.label_4.setObjectName(u"label_4")
-        sizePolicy1.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy1)
-        self.label_4.setFont(font)
-
-        self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
-
-        self.label_5 = QLabel(self.widget1)
-        self.label_5.setObjectName(u"label_5")
-        sizePolicy1.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy1)
-        self.label_5.setFont(font)
-
-        self.gridLayout.addWidget(self.label_5, 2, 0, 1, 1)
-
-        self.projectLabel = QLabel(self.widget1)
-        self.projectLabel.setObjectName(u"projectLabel")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.label_2 = QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.projectLabel.sizePolicy().hasHeightForWidth())
-        self.projectLabel.setSizePolicy(sizePolicy2)
-        font1 = QFont()
-        font1.setFamilies([u".AppleSystemUIFont"])
-        font1.setPointSize(13)
-        font1.setBold(False)
-        self.projectLabel.setFont(font1)
-        self.projectLabel.setFrameShape(QFrame.NoFrame)
-        self.projectLabel.setScaledContents(False)
-        self.projectLabel.setAlignment(Qt.AlignCenter)
-        self.projectLabel.setWordWrap(False)
-
-        self.gridLayout.addWidget(self.projectLabel, 0, 1, 1, 1)
-
-        self.customerLabel = QLabel(self.widget1)
-        self.customerLabel.setObjectName(u"customerLabel")
+        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy2)
         font2 = QFont()
-        font2.setFamilies([u".AppleSystemUIFont"])
-        font2.setPointSize(13)
-        self.customerLabel.setFont(font2)
-        self.customerLabel.setFrameShape(QFrame.NoFrame)
-        self.customerLabel.setAlignment(Qt.AlignCenter)
+        font2.setPointSize(14)
+        font2.setBold(False)
+        self.label_2.setFont(font2)
 
-        self.gridLayout.addWidget(self.customerLabel, 0, 3, 1, 1)
+        self.horizontalLayout_6.addWidget(self.label_2)
 
-        self.begDateLabel = QLabel(self.widget1)
-        self.begDateLabel.setObjectName(u"begDateLabel")
-        self.begDateLabel.setFont(font2)
-        self.begDateLabel.setFrameShape(QFrame.NoFrame)
-        self.begDateLabel.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.begDateLabel, 1, 1, 1, 1)
-
-        self.endDateLabel = QLabel(self.widget1)
-        self.endDateLabel.setObjectName(u"endDateLabel")
-        self.endDateLabel.setFont(font2)
-        self.endDateLabel.setFrameShape(QFrame.NoFrame)
-        self.endDateLabel.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.endDateLabel, 2, 1, 1, 1)
-
-
-        self.verticalLayout_3.addLayout(self.gridLayout)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_3.addItem(self.verticalSpacer_2)
-
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.label = QLabel(self.widget1)
-        self.label.setObjectName(u"label")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        self.projectLineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.projectLineEdit.setObjectName(u"projectLineEdit")
+        sizePolicy3 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy3)
+        sizePolicy3.setHeightForWidth(self.projectLineEdit.sizePolicy().hasHeightForWidth())
+        self.projectLineEdit.setSizePolicy(sizePolicy3)
+        self.projectLineEdit.setMinimumSize(QSize(250, 0))
+        self.projectLineEdit.setFont(font)
 
-        self.horizontalLayout_2.addWidget(self.label)
+        self.horizontalLayout_6.addWidget(self.projectLineEdit)
 
-        self.pushButton_2 = QPushButton(self.widget1)
-        self.pushButton_2.setObjectName(u"pushButton_2")
 
-        self.horizontalLayout_2.addWidget(self.pushButton_2)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_6)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.label_4 = QLabel(self.scrollAreaWidgetContents)
+        self.label_4.setObjectName(u"label_4")
+        sizePolicy2.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
+        self.label_4.setSizePolicy(sizePolicy2)
+        self.label_4.setFont(font2)
+
+        self.horizontalLayout_7.addWidget(self.label_4)
+
+        self.begDateEdit = QDateEdit(self.scrollAreaWidgetContents)
+        self.begDateEdit.setObjectName(u"begDateEdit")
+        self.begDateEdit.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.begDateEdit.setMinimumDateTime(QDateTime(QDate(2000, 1, 1), QTime(0, 0, 0)))
+        self.begDateEdit.setMinimumDate(QDate(2000, 1, 1))
+        self.begDateEdit.setCalendarPopup(True)
+
+        self.horizontalLayout_7.addWidget(self.begDateEdit)
+
+        self.label_5 = QLabel(self.scrollAreaWidgetContents)
+        self.label_5.setObjectName(u"label_5")
+        sizePolicy2.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
+        self.label_5.setSizePolicy(sizePolicy2)
+        self.label_5.setFont(font2)
+
+        self.horizontalLayout_7.addWidget(self.label_5)
+
+        self.endDateEdit = QDateEdit(self.scrollAreaWidgetContents)
+        self.endDateEdit.setObjectName(u"endDateEdit")
+        self.endDateEdit.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.endDateEdit.setProperty("showGroupSeparator", False)
+        self.endDateEdit.setMinimumDate(QDate(2000, 1, 1))
+        self.endDateEdit.setCalendarPopup(True)
+        self.endDateEdit.setCurrentSectionIndex(0)
+
+        self.horizontalLayout_7.addWidget(self.endDateEdit)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_7)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+
+        self.verticalLayout_4.addItem(self.horizontalSpacer_2)
+
+
+        self.horizontalLayout_8.addLayout(self.verticalLayout_4)
+
+        self.line_3 = QFrame(self.scrollAreaWidgetContents)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setFrameShape(QFrame.VLine)
+        self.line_3.setFrameShadow(QFrame.Sunken)
+
+        self.horizontalLayout_8.addWidget(self.line_3)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.label_3 = QLabel(self.scrollAreaWidgetContents)
+        self.label_3.setObjectName(u"label_3")
+        sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy2)
+        self.label_3.setFont(font2)
+
+        self.horizontalLayout_2.addWidget(self.label_3)
+
+        self.customerLineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.customerLineEdit.setObjectName(u"customerLineEdit")
+        sizePolicy3.setHeightForWidth(self.customerLineEdit.sizePolicy().hasHeightForWidth())
+        self.customerLineEdit.setSizePolicy(sizePolicy3)
+        self.customerLineEdit.setMinimumSize(QSize(200, 0))
+        self.customerLineEdit.setMaximumSize(QSize(16777215, 16777215))
+        self.customerLineEdit.setFont(font)
+        self.customerLineEdit.setReadOnly(True)
+
+        self.horizontalLayout_2.addWidget(self.customerLineEdit)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.label_11 = QLabel(self.scrollAreaWidgetContents)
+        self.label_11.setObjectName(u"label_11")
+        sizePolicy2.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
+        self.label_11.setSizePolicy(sizePolicy2)
+        self.label_11.setFont(font2)
 
-        self.verticalLayout_3.addItem(self.verticalSpacer_3)
+        self.horizontalLayout_3.addWidget(self.label_11)
 
-        self.splitter.addWidget(self.widget1)
+        self.phoneLineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.phoneLineEdit.setObjectName(u"phoneLineEdit")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.phoneLineEdit.sizePolicy().hasHeightForWidth())
+        self.phoneLineEdit.setSizePolicy(sizePolicy4)
 
-        self.verticalLayout_4.addWidget(self.splitter)
+        self.horizontalLayout_3.addWidget(self.phoneLineEdit)
+
+        self.label_15 = QLabel(self.scrollAreaWidgetContents)
+        self.label_15.setObjectName(u"label_15")
+        sizePolicy2.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
+        self.label_15.setSizePolicy(sizePolicy2)
+        self.label_15.setFont(font2)
+
+        self.horizontalLayout_3.addWidget(self.label_15)
+
+        self.emailLineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.emailLineEdit.setObjectName(u"emailLineEdit")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.emailLineEdit.sizePolicy().hasHeightForWidth())
+        self.emailLineEdit.setSizePolicy(sizePolicy5)
+
+        self.horizontalLayout_3.addWidget(self.emailLineEdit)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.label_12 = QLabel(self.scrollAreaWidgetContents)
+        self.label_12.setObjectName(u"label_12")
+        sizePolicy2.setHeightForWidth(self.label_12.sizePolicy().hasHeightForWidth())
+        self.label_12.setSizePolicy(sizePolicy2)
+        self.label_12.setFont(font2)
+
+        self.horizontalLayout_5.addWidget(self.label_12)
+
+        self.addressLineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.addressLineEdit.setObjectName(u"addressLineEdit")
+        sizePolicy5.setHeightForWidth(self.addressLineEdit.sizePolicy().hasHeightForWidth())
+        self.addressLineEdit.setSizePolicy(sizePolicy5)
+
+        self.horizontalLayout_5.addWidget(self.addressLineEdit)
+
+        self.label_13 = QLabel(self.scrollAreaWidgetContents)
+        self.label_13.setObjectName(u"label_13")
+        sizePolicy2.setHeightForWidth(self.label_13.sizePolicy().hasHeightForWidth())
+        self.label_13.setSizePolicy(sizePolicy2)
+        self.label_13.setFont(font2)
+
+        self.horizontalLayout_5.addWidget(self.label_13)
+
+        self.cityLineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.cityLineEdit.setObjectName(u"cityLineEdit")
+        sizePolicy5.setHeightForWidth(self.cityLineEdit.sizePolicy().hasHeightForWidth())
+        self.cityLineEdit.setSizePolicy(sizePolicy5)
+
+        self.horizontalLayout_5.addWidget(self.cityLineEdit)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_5)
+
+
+        self.horizontalLayout_8.addLayout(self.verticalLayout_3)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_8)
+
+        self.label = QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName(u"label")
+        sizePolicy6 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy6)
+        self.label.setFont(font)
+
+        self.verticalLayout_5.addWidget(self.label)
+
+        self.markCompletedButton = QPushButton(self.scrollAreaWidgetContents)
+        self.markCompletedButton.setObjectName(u"markCompletedButton")
+
+        self.verticalLayout_5.addWidget(self.markCompletedButton)
+
+
+        self.verticalLayout_2.addLayout(self.verticalLayout_5)
 
         self.line = QFrame(self.scrollAreaWidgetContents)
         self.line.setObjectName(u"line")
         self.line.setFrameShape(QFrame.HLine)
         self.line.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line)
+        self.verticalLayout_2.addWidget(self.line)
 
         self.label_6 = QLabel(self.scrollAreaWidgetContents)
         self.label_6.setObjectName(u"label_6")
@@ -269,33 +374,34 @@ class Ui_Projects(object):
         font3.setPointSize(15)
         self.label_6.setFont(font3)
 
-        self.verticalLayout_4.addWidget(self.label_6)
-
-        self.verticalSpacer = QSpacerItem(20, 59, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_4.addItem(self.verticalSpacer)
+        self.verticalLayout_2.addWidget(self.label_6)
 
         self.line_2 = QFrame(self.scrollAreaWidgetContents)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.HLine)
         self.line_2.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line_2)
+        self.verticalLayout_2.addWidget(self.line_2)
 
         self.label_10 = QLabel(self.scrollAreaWidgetContents)
         self.label_10.setObjectName(u"label_10")
         self.label_10.setFont(font3)
 
-        self.verticalLayout_4.addWidget(self.label_10)
+        self.verticalLayout_2.addWidget(self.label_10)
 
         self.tableView = QTableView(self.scrollAreaWidgetContents)
         self.tableView.setObjectName(u"tableView")
 
-        self.verticalLayout_4.addWidget(self.tableView)
+        self.verticalLayout_2.addWidget(self.tableView)
+
+        self.tableView_2 = QTableView(self.scrollAreaWidgetContents)
+        self.tableView_2.setObjectName(u"tableView_2")
+
+        self.verticalLayout_2.addWidget(self.tableView_2)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout_2.addWidget(self.scrollArea)
+        self.verticalLayout_6.addWidget(self.scrollArea)
 
 
         self.retranslateUi(Projects)
@@ -310,17 +416,19 @@ class Ui_Projects(object):
         self.label_7.setText(QCoreApplication.translate("Projects", u"Project", None))
         self.label_8.setText(QCoreApplication.translate("Projects", u"Customer", None))
         self.label_9.setText(QCoreApplication.translate("Projects", u"Status", None))
+        self.label_14.setText(QCoreApplication.translate("Projects", u"Information:", None))
         self.label_2.setText(QCoreApplication.translate("Projects", u"Project Name:", None))
-        self.label_3.setText(QCoreApplication.translate("Projects", u"Customer:", None))
-        self.pushButton_4.setText(QCoreApplication.translate("Projects", u"See customer info", None))
         self.label_4.setText(QCoreApplication.translate("Projects", u"Beggining Date:", None))
+        self.begDateEdit.setDisplayFormat(QCoreApplication.translate("Projects", u"M/d/yyyy", None))
         self.label_5.setText(QCoreApplication.translate("Projects", u"End Date:", None))
-        self.projectLabel.setText("")
-        self.customerLabel.setText("")
-        self.begDateLabel.setText("")
-        self.endDateLabel.setText("")
+        self.endDateEdit.setDisplayFormat(QCoreApplication.translate("Projects", u"M/d/yyyy", None))
+        self.label_3.setText(QCoreApplication.translate("Projects", u"Customer:", None))
+        self.label_11.setText(QCoreApplication.translate("Projects", u"Phone#:", None))
+        self.label_15.setText(QCoreApplication.translate("Projects", u"Email:", None))
+        self.label_12.setText(QCoreApplication.translate("Projects", u"Address:", None))
+        self.label_13.setText(QCoreApplication.translate("Projects", u"City:", None))
         self.label.setText(QCoreApplication.translate("Projects", u"Mark project as completed:", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Projects", u"Completed", None))
+        self.markCompletedButton.setText(QCoreApplication.translate("Projects", u"Completed", None))
         self.label_6.setText(QCoreApplication.translate("Projects", u"Construction Area:", None))
         self.label_10.setText(QCoreApplication.translate("Projects", u"Materials:", None))
     # retranslateUi

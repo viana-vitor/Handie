@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'addProjectVersion3.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.1
+## Created by: Qt User Interface Compiler version 6.3.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -164,7 +164,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 449, 723))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 923, 745))
         self.verticalLayout_6 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.stackedWidget_3 = QStackedWidget(self.scrollAreaWidgetContents)
@@ -316,11 +316,16 @@ class Ui_Form(object):
         self.gridLayout_10.setObjectName(u"gridLayout_10")
         self.begginingDateDateEdit = QDateEdit(self.scrollAreaWidgetContents)
         self.begginingDateDateEdit.setObjectName(u"begginingDateDateEdit")
+        self.begginingDateDateEdit.setDateTime(QDateTime(QDate(2000, 9, 14), QTime(0, 0, 0)))
+        self.begginingDateDateEdit.setMinimumDate(QDate(2000, 1, 1))
+        self.begginingDateDateEdit.setCalendarPopup(True)
 
         self.gridLayout_10.addWidget(self.begginingDateDateEdit, 2, 1, 1, 1)
 
         self.endDateDateEdit = QDateEdit(self.scrollAreaWidgetContents)
         self.endDateDateEdit.setObjectName(u"endDateDateEdit")
+        self.endDateDateEdit.setMinimumDate(QDate(2000, 1, 1))
+        self.endDateDateEdit.setCalendarPopup(True)
 
         self.gridLayout_10.addWidget(self.endDateDateEdit, 3, 1, 1, 1)
 
@@ -678,6 +683,8 @@ class Ui_Form(object):
         self.label_27.setText(QCoreApplication.translate("Form", u"Email", None))
         self.label_28.setText(QCoreApplication.translate("Form", u"Company", None))
         self.label_33.setText(QCoreApplication.translate("Form", u"Project:", None))
+        self.begginingDateDateEdit.setDisplayFormat(QCoreApplication.translate("Form", u"M/d/yyyy", None))
+        self.endDateDateEdit.setDisplayFormat(QCoreApplication.translate("Form", u"M/d/yyyy", None))
         self.nameLabel_4.setText(QCoreApplication.translate("Form", u"Project Name*", None))
         self.begginingDateLabel.setText(QCoreApplication.translate("Form", u"Beggining Date", None))
         self.endDateLabel.setText(QCoreApplication.translate("Form", u"End Date", None))

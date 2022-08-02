@@ -37,9 +37,10 @@ def main():
                                         first_name nvarchar(30) NOT NULL,
                                         last_name nvarchar(30) NOT NULL,
                                         phone nvarchar(24),
-                                        address nvarchar(70),
-                                        city nvarchar(40),
-                                        zip nvarchar(10)
+                                        address nvarchar(35),
+                                        city nvarchar(35),
+                                        zip nvarchar(10),
+                                        email nvarchar(40)
                                     ); """
     
     sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS projects (
@@ -48,9 +49,6 @@ def main():
                                         project_name text NOT NULL,
                                         begin_date text,
                                         end_date text,
-                                        construction_area text,
-                                        total_cost real,
-                                        total_revenue real,
                                         status text,
                                         FOREIGN KEY (customer_id) REFERENCES customer (id)
                                     );"""
