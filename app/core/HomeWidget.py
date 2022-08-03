@@ -469,8 +469,6 @@ class HomeWidget(QWidget, Ui_new_home):
                 self.totalCostLabel.setText('${}'.format(overall_total))
 
 
-
-
     def retrieve_table_data(self, project_id):
         '''Retrieve data from QTableWidget for storage on database'''
         for row in range(self.materialsTableWidget.rowCount()):

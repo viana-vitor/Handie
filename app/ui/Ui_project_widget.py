@@ -131,7 +131,7 @@ class Ui_Projects(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 959, 471))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 959, 661))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_14 = QLabel(self.scrollAreaWidgetContents)
@@ -192,6 +192,9 @@ class Ui_Projects(object):
 
         self.begDateEdit = QDateEdit(self.scrollAreaWidgetContents)
         self.begDateEdit.setObjectName(u"begDateEdit")
+        self.begDateEdit.setFrame(False)
+        self.begDateEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.begDateEdit.setReadOnly(False)
         self.begDateEdit.setButtonSymbols(QAbstractSpinBox.NoButtons)
         self.begDateEdit.setMinimumDateTime(QDateTime(QDate(2000, 1, 1), QTime(0, 0, 0)))
         self.begDateEdit.setMinimumDate(QDate(2000, 1, 1))
@@ -355,6 +358,7 @@ class Ui_Projects(object):
 
         self.markCompletedButton = QPushButton(self.scrollAreaWidgetContents)
         self.markCompletedButton.setObjectName(u"markCompletedButton")
+        self.markCompletedButton.setAutoDefault(False)
 
         self.verticalLayout_5.addWidget(self.markCompletedButton)
 
@@ -391,13 +395,28 @@ class Ui_Projects(object):
 
         self.tableView = QTableView(self.scrollAreaWidgetContents)
         self.tableView.setObjectName(u"tableView")
+        self.tableView.setMinimumSize(QSize(0, 300))
 
         self.verticalLayout_2.addWidget(self.tableView)
 
-        self.tableView_2 = QTableView(self.scrollAreaWidgetContents)
-        self.tableView_2.setObjectName(u"tableView_2")
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.pushButton_2 = QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        sizePolicy3.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
+        self.pushButton_2.setSizePolicy(sizePolicy3)
 
-        self.verticalLayout_2.addWidget(self.tableView_2)
+        self.horizontalLayout_9.addWidget(self.pushButton_2)
+
+        self.pushButton_3 = QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        sizePolicy3.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
+        self.pushButton_3.setSizePolicy(sizePolicy3)
+
+        self.horizontalLayout_9.addWidget(self.pushButton_3)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_9)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -405,6 +424,9 @@ class Ui_Projects(object):
 
 
         self.retranslateUi(Projects)
+
+        self.markCompletedButton.setDefault(True)
+
 
         QMetaObject.connectSlotsByName(Projects)
     # setupUi
@@ -431,5 +453,7 @@ class Ui_Projects(object):
         self.markCompletedButton.setText(QCoreApplication.translate("Projects", u"Completed", None))
         self.label_6.setText(QCoreApplication.translate("Projects", u"Construction Area:", None))
         self.label_10.setText(QCoreApplication.translate("Projects", u"Materials:", None))
+        self.pushButton_2.setText(QCoreApplication.translate("Projects", u"Edit", None))
+        self.pushButton_3.setText(QCoreApplication.translate("Projects", u"Add", None))
     # retranslateUi
 
