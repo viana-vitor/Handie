@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Estimate</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -36,9 +36,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-886</y>
+            <y>-171</y>
             <width>809</width>
-            <height>1547</height>
+            <height>1549</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -419,22 +419,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="descMaterialLineEdit">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>11</pointsize>
-                     </font>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                    </property>
-                   </widget>
+                   <widget class="QPlainTextEdit" name="descTextEdit"/>
                   </item>
                  </layout>
                 </item>
@@ -489,6 +474,40 @@
                  </property>
                  <property name="checkable">
                   <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="editMaterialBtn">
+                 <property name="text">
+                  <string>Edit Materials</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_16">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_20">
+                 <property name="text">
+                  <string>Search Home Depot</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="searchHDBtn">
+                 <property name="text">
+                  <string>Search</string>
                  </property>
                 </widget>
                </item>
@@ -1628,13 +1647,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="homePushButton">
-           <property name="text">
-            <string>Home</string>
-           </property>
-          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pdfPushButton">

@@ -219,6 +219,25 @@ def get_materials_total(conn, project_id):
     
     return overall
 
+def get_task_id(conn, project_id):
+
+    sql = 'SELECT task_id FROM tasks WHERE project_id = ?'
+
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    task_id = cur.fetchone()[0]
+    return task_id
+
+def get_estimates(conn, project_id):
+
+    sql = '''SELECT material_cost, labor_cost, fee_cost, tax_cost, total_cost FROM estimates
+                    WHERE project_id = ?'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    estimates = cur.fetchall()[0]
+    print(estimates[0])
+    print(estimates)
 
 # def main():
 
@@ -227,12 +246,12 @@ def get_materials_total(conn, project_id):
 #     conn = create_connection(database)
 
 #     with conn:
-#         delete_table(conn)
+#         get_estimates(conn, 40)
 
-#     #     customer_id = find_customer_id(conn, "Grace Smith")
-#     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
-#     #     project_id = create_new_project(conn, project)
-#         #find_current_project(conn)
+# #     #     customer_id = find_customer_id(conn, "Grace Smith")
+# #     #     project = (customer_id, "1004 Mc Cue", "2022-03-07", "2022-04-10", "Bedroom, Bathroom", "$5,000", "$10,000")
+# #     #     project_id = create_new_project(conn, project)
+# #         #find_current_project(conn)
     
 
 

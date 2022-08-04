@@ -9,11 +9,11 @@ from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QLabel, QMainWind
 QPushButton, QStackedWidget, QToolBar, QToolButton, QVBoxLayout, QWidget, QDialog, QListWidgetItem, QHBoxLayout, QHeaderView)
 
 from app.ui.Ui_customer_widget import Ui_Customers
-from app.ui.Ui_project_widget import Ui_Projects
 from app.core.HomeWidget import HomeWidget
+from app.core.ProjectWidget import ProjectWidget
 from app.core.ProjectEstimateWidget import ProjectEstimate
+from app.core.EstimateWidget import EstimateWidget
 import app.data.database.create_tables as create_tables
-import app.data.database.insert_data_sql as insert_data_sql
 
 db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("app/data/database/customer_data.db")
@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent= None):
         super().__init__(parent)
 
-        self.resize(900, 700)
+        self.resize(1000, 700)
 
         create_tables.main() #create database tables
 
@@ -54,6 +54,7 @@ class MainWindow(QMainWindow):
 
         self.button_estimates = QAction(QIcon("app/data/img/budget.png"), "Estimates", self)
         self.button_estimates.setCheckable(True)
+        self.button_estimates.triggered.connect(self.estimates_toggle)
         toolbar.addAction(self.button_estimates)
 
         action_group = QActionGroup(self)
@@ -63,13 +64,8 @@ class MainWindow(QMainWindow):
         action_group.addAction(self.button_estimates)
         
         self.home_widget = HomeWidget()
-        self.customer_widget = CustomerWidget()
-        self.project_widget = ProjectWidget()
-        
         self.setCentralWidget(self.home_widget)
-
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
-        #self.setCentralWidget(self.home_widget)
     
     
     def home_toggle(self):
@@ -85,9 +81,13 @@ class MainWindow(QMainWindow):
     def projects_toggle(self):
         self.project_widget = ProjectWidget()
         self.setCentralWidget(self.project_widget)
+    
+    def estimates_toggle(self):
+        self.estimate_widget = EstimateWidget()
+        self.setCentralWidget(self.estimate_widget)
 
-    def open_estimate(self, customer_id, project_id, task_id):
-        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id)
+    def open_estimate(self, customer_id, project_id, task_id, source):
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, source)
         self.button_estimates.setChecked(True)
         self.project_estimate.HomeWidgetSignal.connect(self.home_toggle)
         self.setCentralWidget(self.project_estimate)
@@ -125,92 +125,6 @@ class CustomerWidget(QWidget, Ui_Customers):
         s = re.sub("[\W_]+", "", s)
         filter_str = 'first_name LIKE "%{}%" OR last_name LIKE "%{}%" OR id LIKE "%{}%" OR phone LIKE "%{}%"'.format(s,s,s,s)
         self.model.setFilter(filter_str)
-
-
-class ProjectWidget(QWidget, Ui_Projects):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-
-        database = r"app/data/database/customer_data.db" #Database path
-        self.conn = insert_data_sql.create_connection(database)
-        
-        self.searchLineEdit.setPlaceholderText("Search...")
-        self.searchLineEdit.textChanged.connect(self.on_text_changed)
-
-        with self.conn:
-            self.projects = insert_data_sql.get_project_customer_name(self.conn)
-        for id, customer_id, project, customer, status in self.projects:
-            myListWidget = customListItem()
-            myListWidget.id(id)
-            myListWidget.customer_id(customer_id)
-            myListWidget.setProject(project)
-            myListWidget.setCustomer(customer)
-            myListWidget.setStatus(status)
-            listWidgetItem = QListWidgetItem(self.listWidget)
-            listWidgetItem.setSizeHint(QSize(15, 40))
-            self.listWidget.addItem(listWidgetItem)
-            self.listWidget.setItemWidget(listWidgetItem, myListWidget)
-
-            self.listWidget.itemClicked.connect(self.populate_fields)
-        
-    def on_text_changed(self, text):
-        for row in range(self.listWidget.count()):
-            item = self.listWidget.item(row)
-            widg = self.listWidget.itemWidget(item)
-            if text:
-                item.setHidden(not self.filter(text.lower(), widg.customerText.text().lower()))
-            else:
-                item.setHidden(False)
-    
-    def filter(self, text, customer):
-        return text in customer
-
-    def populate_fields(self, item):
-        
-        widget = self.listWidget.itemWidget(item)
-        project = widget.projectText.text()
-        customer = widget.customerText.text()
-        self.projectLabel.setText(project)
-        self.customerLabel.setText(customer)
-        project_id = widget.id
-        customer_id = widget.customer_id
-        
-        with self.conn:
-            dates = insert_data_sql.get_dates(self.conn, project_id)
-        
-        self.begDateLabel.setText(dates[0])
-        self.endDateLabel.setText(dates[1])
-
-
-
-
-class customListItem(QWidget):
-    def __init__(self, parent=None):
-        super(customListItem, self).__init__(parent)
-        self.textLayout = QHBoxLayout()
-        self.projectText = QLabel()
-        self.customerText = QLabel()
-        self.statusText = QLabel()
-        self.textLayout.addWidget(self.projectText)
-        self.textLayout.addWidget(self.customerText)
-        self.textLayout.addWidget(self.statusText)
-        self.setLayout(self.textLayout)
-    
-    def id(self, id):
-        self.id = id
-    
-    def customer_id(self, customer_id):
-        self.customer_id = customer_id
-
-    def setProject(self, text):
-        self.projectText.setText(text)
-    
-    def setCustomer(self, text):
-        self.customerText.setText(text)
-    
-    def setStatus(self, text):
-        self.statusText.setText(text)
 
 
 

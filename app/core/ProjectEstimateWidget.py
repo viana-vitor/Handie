@@ -6,13 +6,14 @@ import os
 
 from PySide6.QtCore import Qt, QThreadPool, Signal
 from PySide6.QtWidgets import (QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView,
- QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit)
+ QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit, QDataWidgetMapper)
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
 import app.data.database.insert_data_sql as insert_data_sql
 
 from app.ui.Ui_customer_estimate import Ui_Form
 from app.ui.Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
 from app.ui.Ui_tasks_writeup import Ui_Form as Ui_tasks_writeup
+from app.ui.Ui_edit_material_form import Ui_Form as UiEditMaterial
 from app.core.EstimatePDFGenerator import Generator as Generator
 
 db = QSqlDatabase("QSQLITE")
@@ -23,7 +24,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
     HomeWidgetSignal = Signal() #Signal to go back to home page
 
-    def __init__(self, customer_id, project_id, task_id):
+    def __init__(self, customer_id, project_id, task_id, source):
         super().__init__()
         self.setupUi(self)
         self.show()
@@ -32,6 +33,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.customer_id = customer_id
         self.project_id = project_id
         self.task_id = task_id
+        self.source = source
 
         self.threadpool = QThreadPool()
         
@@ -49,7 +51,6 @@ class ProjectEstimate(QWidget, Ui_Form):
             self.customer_data = insert_data_sql.get_customer_data(self.conn, self.customer_id) #Customer data
         
         self.customerDataLabel.setText(self.customer_data[0])
-        #self.emailDataLabel
         self.phoneDataLabel.setText(str(self.customer_data[1]))
         self.addressDataLabel.setText(str(self.customer_data[2]))
         self.cityDataLabel.setText(self.customer_data[3])
@@ -64,24 +65,15 @@ class ProjectEstimate(QWidget, Ui_Form):
 
         
         ## Set up table with construction materials
+        self.set_materials_table()
         self.materialsTableView.hide()
-
-        headers = ["Project ID", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
-        self.model_materials = QSqlTableModel(db=db)
-        self.model_materials.setTable('materials')
-        filter_str = 'project_id = {}'.format(self.project_id)
-        self.model_materials.setFilter(filter_str)
-        self.model_materials.setEditStrategy(QSqlTableModel.OnFieldChange)
-        self.model_materials.select()
-        self.materialsTableView.setModel(self.model_materials)
-        for i in range(len(headers)):
-            self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
-        self.materialsTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
         self.addMaterialButton.clicked.connect(self.add_material)
+        self.editMaterialBtn.clicked.connect(self.open_edit_form)
 
         self.get_materials_total()
+        self.get_fee_from_database(self.conn, self.project_id)
+        self.get_labor_from_database(self.conn, self.project_id)
         self.get_total_cost()
         self.populate_client_version()
 
@@ -93,7 +85,80 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.pdfPushButton.clicked.connect(self.generate_pdf)
         self.closePushButton.clicked.connect(self.close_estimate)
 
+    def set_materials_table(self):
+
+        self.model_materials = QSqlQueryModel()
+        self.materialsTableView.setModel(self.model_materials)
+
+        query = QSqlQuery(db=db)
+        query.prepare(
+            '''SELECT material_name, description, quantity, price, (quantity * price) AS total
+                FROM materials
+                WHERE project_id = ?'''
+        )
+
+        query.bindValue(0, self.project_id)
+        query.exec()
+        self.model_materials.setQuery(query)
+
+        headers = ["Material", "Description", "Quantity", "Price ($)", "Total ($)"]
+        for i in range(len(headers)):
+            self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
+
+    def add_material(self):
+
+        material_name = self.newMaterialLineEdit.text()
+        material_description = self.descTextEdit.toPlainText()
+        qty_material = self.qtyMaterialSpinBox.value()
+        price_material = self.priceMaterialSpinBox.value()
+        total = qty_material * price_material
+
+        new_material = [self.project_id, material_name, material_description, qty_material, price_material, total]
+
+        with self.conn:
+            insert_data_sql.add_materials(self.conn, new_material)
+
+        self.set_materials_table()
+        self.materialsTableView.show()
+        self.get_materials_total()
+        self.get_total_cost()
+        self.populate_client_version()
+
+        self.newMaterialLineEdit.clear()
+        self.descTextEdit.clear()
+        self.qtyMaterialSpinBox.setValue(0)
+        self.priceMaterialSpinBox.setValue(0)
+
+    def show_hide_materials(self):
+        
+        if self.showMaterialButton.isChecked():
+            self.materialsTableView.show()
+        else:
+            self.materialsTableView.hide()
     
+    def open_edit_form(self):
+
+        self.editForm = EditForm(self.project_id)
+        self.editForm.show()
+        self.editForm.FormClosed.connect(self.set_materials_table)
+    
+    
+    def get_materials_total(self):
+
+        sql = 'SELECT (quantity * price) AS total FROM materials WHERE project_id = ?'
+
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            rows = cur.fetchall()
+
+            self.overall_materials_cost = 0
+            for value in rows:
+                self.overall_materials_cost += value[0]
+            self.materialsSpinBox.setValue(self.overall_materials_cost)
+        
+    
+
     def construction_area_widgets(self):
         ''' This function populates the construction area part of the estimate with all the tasks for the project'''
         
@@ -167,6 +232,33 @@ class ProjectEstimate(QWidget, Ui_Form):
         total_labor = wkrs * rate * hours
         self.total_labor_cost += total_labor
         self.laborSpinBox.setValue(self.total_labor_cost)
+    
+    def get_labor_from_database(self, conn, project_id):
+
+        sql = '''SELECT nbr_workers, rate, duration, labor_cost FROM labor
+                    WHERE project_id = ?'''
+        
+        cur = conn.cursor()
+        cur.execute(sql, [project_id])
+        labor_data = cur.fetchall()
+
+        index= 0
+        total_labor = 0
+        for labor in labor_data:
+            total_labor += labor[3]
+            self.laborHorizontalLayout = QHBoxLayout()
+            self.nworkers_label = QLabel('{}'.format(labor[0]))
+            self.extra_label = QLabel('workers at')
+            self.rate_label = QLabel('${}/hr'.format(labor[1]))
+            self.duration_label = QLabel('for {} days'.format(labor[2]))
+            self.laborHorizontalLayout.addWidget(self.nworkers_label)
+            self.laborHorizontalLayout.addWidget(self.extra_label)
+            self.laborHorizontalLayout.addWidget(self.rate_label)
+            self.laborHorizontalLayout.addWidget(self.duration_label)
+            self.verticalLayout_4.insertLayout(index, self.laborHorizontalLayout)
+        
+        self.total_labor_cost += total_labor
+        self.laborSpinBox.setValue(self.total_labor_cost)
 
     
     def add_fee(self):
@@ -183,24 +275,47 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.feeHorizontalLayout.addWidget(self.amount)
         self.newFeeNameLineEdit.clear()
         self.addFeeSpinBox.setValue(0)
-
-        self.fee_list.append((name, amount))
     
         self.delButton = QPushButton("-")
         self.delButton.setFlat(True)
         self.feeHorizontalLayout.addWidget(self.delButton)
         self.verticalLayout_6.insertLayout(index, self.feeHorizontalLayout)
-        self.get_total_fee(amount)
+
+        self.fee_list.append((name, amount))
+        self.total_fee_amount += amount
+        self.feeSpinBox.setValue(self.total_fee_amount)
+
         self.get_total_cost()
         self.populate_client_version()
 
 
 
-    def get_total_fee(self, amount):
+    def get_fee_from_database(self, conn, project_id):
 
-        self.total_fee_amount += amount
+        sql = ''' SELECT fee_name, fee_amount FROM fees
+                    WHERE project_id = ?'''
+        
+        cur = conn.cursor()
+        cur.execute(sql, [project_id])
+        fees = cur.fetchall()
+
+        index = 0
+        total = 0
+        for fee in fees:
+            total += fee[1]
+            self.feeHorizontalLayout = QHBoxLayout()
+            self.feeName = QLabel('{}:'.format(fee[0]))
+            self.feeHorizontalLayout.addWidget(self.feeName)
+            self.amount = QLabel("${}".format(fee[1]))
+            self.feeHorizontalLayout.addWidget(self.amount)
+            self.delButton = QPushButton("-")
+            self.delButton.setFlat(True)
+            self.feeHorizontalLayout.addWidget(self.delButton)
+            self.verticalLayout_6.insertLayout(index, self.feeHorizontalLayout)
+
+        self.total_fee_amount += total #Add total fee from database
         self.feeSpinBox.setValue(self.total_fee_amount)
-
+        
 
     def add_tax(self):
 
@@ -232,51 +347,6 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.taxSpinBox.setValue(self.total_tax)
 
 
-    def show_hide_materials(self):
-        
-        if self.showMaterialButton.isChecked():
-            self.materialsTableView.show()
-        else:
-            self.materialsTableView.hide()
-        
-    
-    def add_material(self):
-
-        material_name = self.newMaterialLineEdit.text()
-        material_description = self.descMaterialLineEdit.text()
-        qty_material = self.qtyMaterialSpinBox.value()
-        price_material = self.priceMaterialSpinBox.value()
-        total = qty_material * price_material
-
-        new_material = [self.project_id, material_name, material_description, qty_material, price_material, total]
-
-        with self.conn:
-            insert_data_sql.add_materials(self.conn, new_material)
-
-        self.model_materials.select()
-        self.get_materials_total()
-        self.get_total_cost()
-        self.populate_client_version()
-
-        self.newMaterialLineEdit.clear()
-        self.descMaterialLineEdit.clear()
-        self.qtyMaterialSpinBox.setValue(0)
-        self.priceMaterialSpinBox.setValue(0)
-
-    def get_materials_total(self):
-
-        sql = 'SELECT total FROM materials WHERE project_id = ?'
-
-        with self.conn:
-            cur = self.conn.cursor()
-            cur.execute(sql, [self.project_id])
-            rows = cur.fetchall()
-
-            self.overall_materials_cost = 0
-            for value in rows:
-                self.overall_materials_cost += value[0]
-            self.materialsSpinBox.setValue(self.overall_materials_cost)
-
     def get_total_cost(self):
         '''Add total cost value to spinbox'''
         self.total_cost = (self.overall_materials_cost + self.total_labor_cost + 
@@ -295,10 +365,24 @@ class ProjectEstimate(QWidget, Ui_Form):
         for dict in user_tasks[::-1]:
             if dict["task_id"] == self.task_id:
                 for area in dict["tasks"].keys():
-                    self.task_text_widget = TasksWriteUp('{}_writeup'.format(area))
+                    self.task_text_widget = TasksWriteUp('{}_writeup'.format(area)) #Generate custom text edit according to project's construction area 
                     self.verticalLayout_12.insertWidget(index, self.task_text_widget)
                     index += 1
                     self.task_text_widget.label.setText(area + ":")
+
+        if self.source == 'EstimateWidget': #Load previous entered text if coming from list of estimates on EstimateWidget
+            with open("app/data/database/tasks_writeup.json", "r") as g:
+                tasks_writeup = json.load(g)
+            
+            for dict in tasks_writeup[::-1]:
+                if dict["task_id"] == self.task_id:
+                    for task in dict['job_tasks'].items():
+                        widget = self.findChild(TasksWriteUp, '{}_writeup'.format(task[0]))
+                        widget.textEdit.setText(task[1])
+                    self.generalCondTextEdit.setText(dict['general_conditions'])
+        else:
+            pass
+
 
     
     def get_tasks_writeup(self):
@@ -307,21 +391,53 @@ class ProjectEstimate(QWidget, Ui_Form):
         with open("app/data/database/user_tasks.json", "r") as f:
             user_tasks = json.load(f)
 
-        tasks = []
+        tasks = {}
         for dict in user_tasks[::-1]:
             if dict['task_id'] == self.task_id:
                 for area in dict['tasks'].keys():
                     widget = self.findChild(TasksWriteUp, '{}_writeup'.format(area))
 
-                    d= {
-                        "area": area,
-                        "text": widget.textEdit.toPlainText()
-                    }
-                    tasks.append(d)
+                    tasks[area] = widget.textEdit.toPlainText()
         
+        
+        if self.source == 'HomeWidget':
+            ##Save new data if coming from homewidget
+            tasks_input = {
+                "task_id": self.task_id,
+                "job_tasks": tasks,
+                "general_conditions": self.generalCondTextEdit.toPlainText()
+            }
+            
+            if not os.path.exists("app/data/database/tasks_writeup.json"):
+                with open("app/data/database/tasks_writeup.json", "w") as f:
+                    tasks_writeup = json.dump([tasks_input], f)
+            else:
+                with open("app/data/database/tasks_writeup.json", "r") as f:
+                    tasks_writeup = json.load(f)
+                
+                tasks_writeup.append(tasks_input)
+
+                with open("app/data/database/tasks_writeup.json", "w") as new:
+                    json.dump(tasks_writeup, new)
+        else:
+            ##Rewrite data if there is any changes
+            with open("app/data/database/tasks_writeup.json", "r") as f: 
+                tasks_writeup = json.load(f)
+            
+            for dict in tasks_writeup[::-1]:
+                if dict["task_id"] == self.task_id:
+                    for item in dict["job_tasks"].items():
+                        if tasks[item[0]] != item[1]:
+                            dict['job_tasks'][item[0]] = tasks[item[0]]
+                    dict['general_conditions'] = self.generalCondTextEdit.toPlainText()
+            
+            with open("app/data/database/tasks_writeup.json", "w") as new:
+                json.dump(tasks_writeup, new)
+        
+
         return tasks
     
-
+    
     def save_costs(self):
 
         for i in self.labor_list:
@@ -341,11 +457,26 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     def populate_client_version(self):
         
-        self.estimateMaterialSpinBox.setValue(self.overall_materials_cost)
-        self.estimateLaborSpinBox.setValue(self.total_labor_cost)
-        self.estimateFeeSpinBox.setValue(self.total_fee_amount)
-        self.estimateTaxSpinBox.setValue(self.total_tax)
-        self.estimateTotalCostSpinBox.setValue(self.total_cost)
+        if self.source == 'HomeWidget':
+            self.estimateMaterialSpinBox.setValue(self.overall_materials_cost)
+            self.estimateLaborSpinBox.setValue(self.total_labor_cost)
+            self.estimateFeeSpinBox.setValue(self.total_fee_amount)
+            self.estimateTaxSpinBox.setValue(self.total_tax)
+            self.estimateTotalCostSpinBox.setValue(self.total_cost)
+        else:
+            sql = '''SELECT material_cost, labor_cost, fee_cost, tax_cost, total_cost FROM estimates
+                    WHERE project_id = ?'''
+            
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            estimates = cur.fetchall()[0]
+
+            self.estimateMaterialSpinBox.setValue(estimates[0])
+            self.estimateLaborSpinBox.setValue(estimates[1])
+            self.estimateFeeSpinBox.setValue(estimates[2])
+            self.estimateTaxSpinBox.setValue(estimates[3])
+            self.estimateTotalCostSpinBox.setValue(estimates[4])
+
     
     def estimate_version_changed(self):
         '''Update estimate total'''
@@ -358,11 +489,28 @@ class ProjectEstimate(QWidget, Ui_Form):
     def save_client_version(self):
         '''Save values used to produce customer estimate report'''
 
-        estimate = [self.project_id, self.estimateTotalCostSpinBox.value(), self.estimateLaborSpinBox.value(),
-            self.estimateFeeSpinBox.value(), self.estimateTaxSpinBox.value(), self.estimateTotalCostSpinBox.value()]
+        if self.source == 'HomeWidget':
+            estimate = [self.project_id, self.estimateMaterialSpinBox.value(), self.estimateLaborSpinBox.value(),
+                self.estimateFeeSpinBox.value(), self.estimateTaxSpinBox.value(), self.estimateTotalCostSpinBox.value()]
 
-        with self.conn:
-            insert_data_sql.add_client_estimate(self.conn, estimate)
+            with self.conn:
+                insert_data_sql.add_client_estimate(self.conn, estimate)
+        
+        else:
+
+            sql = ''' UPDATE estimates
+                        SET material_cost = {material_cost}, 
+                            labor_cost = {labor_cost},
+                            fee_cost = {fee_cost},
+                            total_cost = {total_cost}
+                        WHERE project_id = ?'''.format(material_cost = self.estimateMaterialSpinBox.value(),
+                                                        labor_cost = self.estimateLaborSpinBox.value(),
+                                                        fee_cost = self.estimateFeeSpinBox.value(),
+                                                        total_cost = self.estimateTotalCostSpinBox.value())
+
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            self.conn.commit()
     
     
     def close_estimate(self):
@@ -375,17 +523,28 @@ class ProjectEstimate(QWidget, Ui_Form):
         msgBox.setIcon(QMessageBox.Information)
         button = msgBox.exec()
 
-        if button == QMessageBox.Save:
-            self.save_costs()
-            self.save_client_version()
-            self.HomeWidgetSignal.emit()
-
-        elif button == QMessageBox.Discard:
-            self.HomeWidgetSignal.emit()
-
-        else:
-            #stay on page
-            pass
+        if self.source == 'HomeWidget': #if estimate page was open right after adding new project
+            if button == QMessageBox.Save:
+                self.save_costs()
+                self.save_client_version()
+                self.get_tasks_writeup()
+                self.HomeWidgetSignal.emit()
+            elif button == QMessageBox.Discard:
+                self.HomeWidgetSignal.emit()
+            else:
+                #stay on page
+                pass
+        else: #if estimate page was opend directly from list of projects on estimate widget
+            if button == QMessageBox.Save:
+                self.save_costs()
+                self.save_client_version()
+                self.get_tasks_writeup()
+                self.close()
+            elif button == QMessageBox.Discard:
+                self.close()
+            else:
+                #stay on page
+                pass
 
     
     
@@ -394,6 +553,7 @@ class ProjectEstimate(QWidget, Ui_Form):
 
         self.save_costs()
         self.save_client_version()
+        tasks_writeup = self.get_tasks_writeup()
 
         self.pdfPushButton.setDisabled(True)
         #Data for pdf generation
@@ -402,7 +562,7 @@ class ProjectEstimate(QWidget, Ui_Form):
             "phone": self.customer_data[1],
             "address": self.customer_data[2],
             "city":self.customer_data[3],
-            'construction_tasks': self.get_tasks_writeup(),
+            'construction_tasks': tasks_writeup,
             'general_conditions': self.generalCondTextEdit.toPlainText(),
             'estimate_total': self.estimateTotalCostSpinBox.text()
         }
@@ -419,7 +579,10 @@ class ProjectEstimate(QWidget, Ui_Form):
         except Exception:
             # If startfile not available, show dialog.
             QMessageBox.information(self, "Finished", "PDF has been generated")
-            self.HomeWidgetSignal.emit()
+            if self.source == 'HomeWidget': #if from homewidget go back home
+                self.HomeWidgetSignal.emit()
+            else:
+                self.close() #if from estimates close estimate
 
 
 class TasksSummaryWidget(QWidget, Ui_construction_tasks):
@@ -435,3 +598,39 @@ class TasksWriteUp(QWidget, Ui_tasks_writeup):
         self.setupUi(self)
 
         self.setObjectName(name)
+
+class EditForm(QWidget, UiEditMaterial):
+    ''' Creates form to edit existing materials on table'''
+
+    FormClosed = Signal()
+
+    def __init__(self, project_id):
+        super().__init__()
+        self.setupUi(self)
+
+        self.model = QSqlTableModel(db=db)
+
+        self.mapper = QDataWidgetMapper()
+        self.mapper.setModel(self.model)
+
+        self.mapper.addMapping(self.idSpinBox, 0)
+        self.mapper.addMapping(self.materialNameEdit, 1)
+        self.mapper.addMapping(self.descTextEdit, 2)
+        self.mapper.addMapping(self.qtySpinBox, 3)
+        self.mapper.addMapping(self.priceSpinBox, 4)
+
+        self.model.setTable('materials')
+        filter_str = 'project_id = {}'.format(project_id)
+        self.model.setFilter(filter_str)
+        self.model.select()
+
+        self.mapper.toFirst()
+
+        self.previousBtn.clicked.connect(self.mapper.toPrevious)
+        self.nextBtn.clicked.connect(self.mapper.toNext)
+        self.saveBtn.clicked.connect(self.on_submit)
+    
+    def on_submit(self):
+        self.mapper.submit()
+        self.close()
+        self.FormClosed.emit()

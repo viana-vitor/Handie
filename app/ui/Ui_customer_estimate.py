@@ -18,9 +18,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QAbstractSpinBox, QApplication, QComboBox,
     QDoubleSpinBox, QFrame, QGridLayout, QHBoxLayout,
     QHeaderView, QLabel, QLayout, QLineEdit,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSpinBox, QStackedWidget, QTableView, QTextEdit,
-    QVBoxLayout, QWidget)
+    QPlainTextEdit, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QSpinBox, QStackedWidget, QTableView,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -886, 809, 1547))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -171, 809, 1549))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -288,17 +288,10 @@ class Ui_Form(object):
 
         self.verticalLayout_11.addWidget(self.label_22)
 
-        self.descMaterialLineEdit = QLineEdit(self.materialsWidget)
-        self.descMaterialLineEdit.setObjectName(u"descMaterialLineEdit")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.descMaterialLineEdit.sizePolicy().hasHeightForWidth())
-        self.descMaterialLineEdit.setSizePolicy(sizePolicy2)
-        self.descMaterialLineEdit.setFont(font2)
-        self.descMaterialLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+        self.descTextEdit = QPlainTextEdit(self.materialsWidget)
+        self.descTextEdit.setObjectName(u"descTextEdit")
 
-        self.verticalLayout_11.addWidget(self.descMaterialLineEdit)
+        self.verticalLayout_11.addWidget(self.descTextEdit)
 
 
         self.horizontalLayout_21.addLayout(self.verticalLayout_11)
@@ -326,6 +319,25 @@ class Ui_Form(object):
         self.showMaterialButton.setCheckable(True)
 
         self.horizontalLayout_3.addWidget(self.showMaterialButton)
+
+        self.editMaterialBtn = QPushButton(self.scrollAreaWidgetContents)
+        self.editMaterialBtn.setObjectName(u"editMaterialBtn")
+
+        self.horizontalLayout_3.addWidget(self.editMaterialBtn)
+
+        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_16)
+
+        self.label_20 = QLabel(self.scrollAreaWidgetContents)
+        self.label_20.setObjectName(u"label_20")
+
+        self.horizontalLayout_3.addWidget(self.label_20)
+
+        self.searchHDBtn = QPushButton(self.scrollAreaWidgetContents)
+        self.searchHDBtn.setObjectName(u"searchHDBtn")
+
+        self.horizontalLayout_3.addWidget(self.searchHDBtn)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -378,11 +390,11 @@ class Ui_Form(object):
 
         self.laborSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
         self.laborSpinBox.setObjectName(u"laborSpinBox")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.laborSpinBox.sizePolicy().hasHeightForWidth())
-        self.laborSpinBox.setSizePolicy(sizePolicy3)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.laborSpinBox.sizePolicy().hasHeightForWidth())
+        self.laborSpinBox.setSizePolicy(sizePolicy2)
         self.laborSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.laborSpinBox.setReadOnly(True)
         self.laborSpinBox.setButtonSymbols(QAbstractSpinBox.NoButtons)
@@ -694,8 +706,8 @@ class Ui_Form(object):
 
         self.line_8 = QFrame(self.scrollAreaWidgetContents)
         self.line_8.setObjectName(u"line_8")
-        sizePolicy3.setHeightForWidth(self.line_8.sizePolicy().hasHeightForWidth())
-        self.line_8.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.line_8.sizePolicy().hasHeightForWidth())
+        self.line_8.setSizePolicy(sizePolicy2)
         self.line_8.setMinimumSize(QSize(0, 7))
         self.line_8.setFrameShadow(QFrame.Plain)
         self.line_8.setLineWidth(6)
@@ -846,8 +858,8 @@ class Ui_Form(object):
 
         self.estimateFeeSpinBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
         self.estimateFeeSpinBox.setObjectName(u"estimateFeeSpinBox")
-        sizePolicy3.setHeightForWidth(self.estimateFeeSpinBox.sizePolicy().hasHeightForWidth())
-        self.estimateFeeSpinBox.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.estimateFeeSpinBox.sizePolicy().hasHeightForWidth())
+        self.estimateFeeSpinBox.setSizePolicy(sizePolicy2)
         self.estimateFeeSpinBox.setFont(font7)
         self.estimateFeeSpinBox.setAutoFillBackground(False)
         self.estimateFeeSpinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
@@ -945,11 +957,6 @@ class Ui_Form(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.homePushButton = QPushButton(self.page)
-        self.homePushButton.setObjectName(u"homePushButton")
-
-        self.horizontalLayout.addWidget(self.homePushButton)
-
         self.pdfPushButton = QPushButton(self.page)
         self.pdfPushButton.setObjectName(u"pdfPushButton")
 
@@ -976,7 +983,7 @@ class Ui_Form(object):
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Estimate", None))
         self.label.setText(QCoreApplication.translate("Form", u"Estimate", None))
         self.label_27.setText(QCoreApplication.translate("Form", u"Contractor:", None))
         self.label_19.setText(QCoreApplication.translate("Form", u"This section is for contractor view only.", None))
@@ -1003,6 +1010,9 @@ class Ui_Form(object):
         self.label_22.setText(QCoreApplication.translate("Form", u"Description:", None))
         self.addMaterialButton.setText(QCoreApplication.translate("Form", u"Add", None))
         self.showMaterialButton.setText(QCoreApplication.translate("Form", u"Show/Hide Materials", None))
+        self.editMaterialBtn.setText(QCoreApplication.translate("Form", u"Edit Materials", None))
+        self.label_20.setText(QCoreApplication.translate("Form", u"Search Home Depot", None))
+        self.searchHDBtn.setText(QCoreApplication.translate("Form", u"Search", None))
         self.label_15.setText(QCoreApplication.translate("Form", u"Labor", None))
         self.laborSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.label_17.setText(QCoreApplication.translate("Form", u"workers at ", None))
@@ -1046,7 +1056,6 @@ class Ui_Form(object):
         self.label_41.setText(QCoreApplication.translate("Form", u"Customer Total:", None))
         self.estimateTotalCostSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.closePushButton.setText(QCoreApplication.translate("Form", u"Close", None))
-        self.homePushButton.setText(QCoreApplication.translate("Form", u"Home", None))
         self.pdfPushButton.setText(QCoreApplication.translate("Form", u"Generate PDF", None))
     # retranslateUi
 

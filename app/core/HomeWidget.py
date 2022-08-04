@@ -5,14 +5,13 @@ import sqlite3
 import json
 import os
 
-from PySide6.QtCore import Qt, QSize, Signal, QObject
+from PySide6.QtCore import Qt, QSize, Signal, QDate
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel, QSqlQueryModel, QSqlQuery
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWindow, QDialog, QVBoxLayout, QLabel, QCheckBox,
  QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem)
 
 from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
 from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
-from app.core.ProjectEstimateWidget import ProjectEstimate
 import app.data.database.insert_data_sql as insert_data_sql
 import app.data.database.tasks_keywords_json as tasks_keywords_json
 
@@ -25,7 +24,7 @@ db.open()
 #Home Page widget
 class HomeWidget(QWidget, Ui_new_home):
     
-    EstimatePageSignal = Signal(int, int, int) #Signal to go to the project estimate page, passing database keys
+    EstimatePageSignal = Signal(int, int, int, str) #Signal to go to the project estimate page, passing database keys
 
     def __init__(self, parent = None):
         super(HomeWidget, self).__init__(parent)
@@ -67,6 +66,11 @@ class HomeWidget(QWidget, Ui_new_home):
         
         self.newCustomerButton.clicked.connect(self.new_customer_project) #Open new project form for new customer
         self.existingCustomerButton.clicked.connect(self.existing_customer_project) #Open new project form for existing customer
+
+        self.begginingDateDateEdit.setMinimumDate(QDate.currentDate().addYears(-5))
+        self.begginingDateDateEdit.setDate(QDate.currentDate())
+        self.endDateDateEdit.setMinimumDate(QDate.currentDate().addYears(-5))
+        self.endDateDateEdit.setDate(QDate.currentDate())
         
         
         with self.conn:
@@ -465,8 +469,6 @@ class HomeWidget(QWidget, Ui_new_home):
                 self.totalCostLabel.setText('${}'.format(overall_total))
 
 
-
-
     def retrieve_table_data(self, project_id):
         '''Retrieve data from QTableWidget for storage on database'''
         for row in range(self.materialsTableWidget.rowCount()):
@@ -483,7 +485,7 @@ class HomeWidget(QWidget, Ui_new_home):
         customer_id, project_id, task_id = self.project_data()
         self.save_user_json(task_id)
         self.retrieve_table_data(project_id)
-        self.EstimatePageSignal.emit(customer_id, project_id, task_id)
+        self.EstimatePageSignal.emit(customer_id, project_id, task_id, 'HomeWidget')
         
 
 
