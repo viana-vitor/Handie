@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent= None):
         super().__init__(parent)
 
-        self.resize(900, 700)
+        self.resize(1000, 700)
 
         create_tables.main() #create database tables
 

@@ -109,7 +109,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>200</height>
+         <height>150</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -161,7 +161,7 @@ QListWidget::item:hover {
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>350</height>
+       <height>400</height>
       </size>
      </property>
      <property name="frameShape">
@@ -233,7 +233,7 @@ QListWidget::item:hover {
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>250</width>
+                   <width>200</width>
                    <height>0</height>
                   </size>
                  </property>
@@ -645,7 +645,7 @@ QListWidget::item:hover {
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="editMaterialBtn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -658,7 +658,7 @@ QListWidget::item:hover {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="addMaterialbtn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
              <horstretch>0</horstretch>

@@ -6,13 +6,14 @@ import os
 
 from PySide6.QtCore import Qt, QThreadPool, Signal
 from PySide6.QtWidgets import (QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView,
- QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit)
+ QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit, QDataWidgetMapper)
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
 import app.data.database.insert_data_sql as insert_data_sql
 
 from app.ui.Ui_customer_estimate import Ui_Form
 from app.ui.Ui_construction_summary_wdg import Ui_Form as Ui_construction_tasks
 from app.ui.Ui_tasks_writeup import Ui_Form as Ui_tasks_writeup
+from app.ui.Ui_edit_material_form import Ui_Form as UiEditMaterial
 from app.core.EstimatePDFGenerator import Generator as Generator
 
 db = QSqlDatabase("QSQLITE")
@@ -64,22 +65,11 @@ class ProjectEstimate(QWidget, Ui_Form):
 
         
         ## Set up table with construction materials
+        self.set_materials_table()
         self.materialsTableView.hide()
-
-        headers = ["Project ID", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
-        self.model_materials = QSqlTableModel(db=db)
-        self.model_materials.setTable('materials')
-        filter_str = 'project_id = {}'.format(self.project_id)
-        self.model_materials.setFilter(filter_str)
-        self.model_materials.setEditStrategy(QSqlTableModel.OnFieldChange)
-        self.model_materials.select()
-        self.materialsTableView.setModel(self.model_materials)
-        for i in range(len(headers)):
-            self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
-        self.materialsTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
         self.addMaterialButton.clicked.connect(self.add_material)
+        self.editMaterialBtn.clicked.connect(self.open_edit_form)
 
         self.get_materials_total()
         self.get_fee_from_database(self.conn, self.project_id)
@@ -95,7 +85,80 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.pdfPushButton.clicked.connect(self.generate_pdf)
         self.closePushButton.clicked.connect(self.close_estimate)
 
+    def set_materials_table(self):
+
+        self.model_materials = QSqlQueryModel()
+        self.materialsTableView.setModel(self.model_materials)
+
+        query = QSqlQuery(db=db)
+        query.prepare(
+            '''SELECT material_name, description, quantity, price, (quantity * price) AS total
+                FROM materials
+                WHERE project_id = ?'''
+        )
+
+        query.bindValue(0, self.project_id)
+        query.exec()
+        self.model_materials.setQuery(query)
+
+        headers = ["Material", "Description", "Quantity", "Price ($)", "Total ($)"]
+        for i in range(len(headers)):
+            self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
+
+    def add_material(self):
+
+        material_name = self.newMaterialLineEdit.text()
+        material_description = self.descTextEdit.toPlainText()
+        qty_material = self.qtyMaterialSpinBox.value()
+        price_material = self.priceMaterialSpinBox.value()
+        total = qty_material * price_material
+
+        new_material = [self.project_id, material_name, material_description, qty_material, price_material, total]
+
+        with self.conn:
+            insert_data_sql.add_materials(self.conn, new_material)
+
+        self.set_materials_table()
+        self.materialsTableView.show()
+        self.get_materials_total()
+        self.get_total_cost()
+        self.populate_client_version()
+
+        self.newMaterialLineEdit.clear()
+        self.descTextEdit.clear()
+        self.qtyMaterialSpinBox.setValue(0)
+        self.priceMaterialSpinBox.setValue(0)
+
+    def show_hide_materials(self):
+        
+        if self.showMaterialButton.isChecked():
+            self.materialsTableView.show()
+        else:
+            self.materialsTableView.hide()
     
+    def open_edit_form(self):
+
+        self.editForm = EditForm(self.project_id)
+        self.editForm.show()
+        self.editForm.FormClosed.connect(self.set_materials_table)
+    
+    
+    def get_materials_total(self):
+
+        sql = 'SELECT (quantity * price) AS total FROM materials WHERE project_id = ?'
+
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute(sql, [self.project_id])
+            rows = cur.fetchall()
+
+            self.overall_materials_cost = 0
+            for value in rows:
+                self.overall_materials_cost += value[0]
+            self.materialsSpinBox.setValue(self.overall_materials_cost)
+        
+    
+
     def construction_area_widgets(self):
         ''' This function populates the construction area part of the estimate with all the tasks for the project'''
         
@@ -283,51 +346,6 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.total_tax = pctg/100 * (self.total_labor_cost + self.overall_materials_cost)
         self.taxSpinBox.setValue(self.total_tax)
 
-
-    def show_hide_materials(self):
-        
-        if self.showMaterialButton.isChecked():
-            self.materialsTableView.show()
-        else:
-            self.materialsTableView.hide()
-        
-    
-    def add_material(self):
-
-        material_name = self.newMaterialLineEdit.text()
-        material_description = self.descMaterialLineEdit.text()
-        qty_material = self.qtyMaterialSpinBox.value()
-        price_material = self.priceMaterialSpinBox.value()
-        total = qty_material * price_material
-
-        new_material = [self.project_id, material_name, material_description, qty_material, price_material, total]
-
-        with self.conn:
-            insert_data_sql.add_materials(self.conn, new_material)
-
-        self.model_materials.select()
-        self.get_materials_total()
-        self.get_total_cost()
-        self.populate_client_version()
-
-        self.newMaterialLineEdit.clear()
-        self.descMaterialLineEdit.clear()
-        self.qtyMaterialSpinBox.setValue(0)
-        self.priceMaterialSpinBox.setValue(0)
-
-    def get_materials_total(self):
-
-        sql = 'SELECT total FROM materials WHERE project_id = ?'
-
-        with self.conn:
-            cur = self.conn.cursor()
-            cur.execute(sql, [self.project_id])
-            rows = cur.fetchall()
-
-            self.overall_materials_cost = 0
-            for value in rows:
-                self.overall_materials_cost += value[0]
-            self.materialsSpinBox.setValue(self.overall_materials_cost)
 
     def get_total_cost(self):
         '''Add total cost value to spinbox'''
@@ -580,3 +598,39 @@ class TasksWriteUp(QWidget, Ui_tasks_writeup):
         self.setupUi(self)
 
         self.setObjectName(name)
+
+class EditForm(QWidget, UiEditMaterial):
+    ''' Creates form to edit existing materials on table'''
+
+    FormClosed = Signal()
+
+    def __init__(self, project_id):
+        super().__init__()
+        self.setupUi(self)
+
+        self.model = QSqlTableModel(db=db)
+
+        self.mapper = QDataWidgetMapper()
+        self.mapper.setModel(self.model)
+
+        self.mapper.addMapping(self.idSpinBox, 0)
+        self.mapper.addMapping(self.materialNameEdit, 1)
+        self.mapper.addMapping(self.descTextEdit, 2)
+        self.mapper.addMapping(self.qtySpinBox, 3)
+        self.mapper.addMapping(self.priceSpinBox, 4)
+
+        self.model.setTable('materials')
+        filter_str = 'project_id = {}'.format(project_id)
+        self.model.setFilter(filter_str)
+        self.model.select()
+
+        self.mapper.toFirst()
+
+        self.previousBtn.clicked.connect(self.mapper.toPrevious)
+        self.nextBtn.clicked.connect(self.mapper.toNext)
+        self.saveBtn.clicked.connect(self.on_submit)
+    
+    def on_submit(self):
+        self.mapper.submit()
+        self.close()
+        self.FormClosed.emit()

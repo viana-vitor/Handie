@@ -2,10 +2,12 @@ import sys
 import sqlite3
 
 from PySide6.QtCore import Qt, QSize, Signal, QDate
-from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
-from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout, QHeaderView)
+from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
+from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout, QHeaderView, QDataWidgetMapper)
 
 from app.ui.Ui_project_widget import Ui_Projects
+from app.ui.Ui_edit_material_form import Ui_Form as UiEditMaterial
+from app.ui.Ui_add_material_form import Ui_Form as UiAddMaterial
 import app.data.database.insert_data_sql as insert_data_sql
 
 
@@ -30,21 +32,6 @@ class ProjectWidget(QWidget, Ui_Projects):
 
         self.create_list()
 
-        # with self.conn:
-        #     self.projects = insert_data_sql.get_project_customer_name(self.conn)
-        # for id, customer_id, project, customer, status in self.projects:
-        #     myListWidget = customListItem()
-        #     myListWidget.id(id)
-        #     myListWidget.customer_id(customer_id)
-        #     myListWidget.setProject(project)
-        #     myListWidget.setCustomer(customer)
-        #     myListWidget.setStatus(status)
-
-        #     listWidgetItem = QListWidgetItem(self.listWidget)
-        #     listWidgetItem.setSizeHint(QSize(30, 45))
-        #     self.listWidget.addItem(listWidgetItem)
-        #     self.listWidget.setItemWidget(listWidgetItem, myListWidget)
-
         self.listWidget.itemClicked.connect(self.populate_fields)
 
         self.markCompletedButton.clicked.connect(self.mark_completed)
@@ -56,6 +43,10 @@ class ProjectWidget(QWidget, Ui_Projects):
         self.emailLineEdit.editingFinished.connect(self.update_customer_info)
         self.begDateEdit.dateChanged.connect(self.beg_date_changed)
         self.endDateEdit.dateChanged.connect(self.end_date_changed)
+
+        self.editMaterialBtn.clicked.connect(self.open_edit_form)
+        self.addMaterialbtn.clicked.connect(self.open_add_form)
+        
     
 
     def create_list(self):
@@ -129,6 +120,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         
         self.markCompletedButton.setEnabled(False)
         self.create_list()
+        self.model.clear()
         self.projectLineEdit.clear()
         self.customerLineEdit.clear()
         self.endDateEdit.clear()
@@ -154,6 +146,11 @@ class ProjectWidget(QWidget, Ui_Projects):
         cur.execute(sql, [self.customer_id])
         self.conn.commit()
 
+        idx = self.listWidget.currentIndex()
+        self.create_list()
+        self.listWidget.setCurrentIndex(idx)
+
+
     def update_project_info(self):
         '''Save new project information'''
         sql = '''UPDATE projects
@@ -164,6 +161,9 @@ class ProjectWidget(QWidget, Ui_Projects):
         cur.execute(sql, [self.project_id])
         self.conn.commit()
 
+        idx = self.listWidget.currentIndex()
+        self.create_list()
+        self.listWidget.setCurrentIndex(idx)
 
     
     def beg_date_changed(self):
@@ -175,6 +175,8 @@ class ProjectWidget(QWidget, Ui_Projects):
             cur = self.conn.cursor()
             cur.execute(sql, [self.project_id])
             self.conn.commit()
+        else:
+            pass
     
     
     def end_date_changed(self):
@@ -186,6 +188,8 @@ class ProjectWidget(QWidget, Ui_Projects):
             cur = self.conn.cursor()
             cur.execute(sql, [self.project_id])
             self.conn.commit()
+        else:
+            pass
 
     
 
@@ -210,7 +214,18 @@ class ProjectWidget(QWidget, Ui_Projects):
         headers = ["Material", "Description", "Quantity", "Price ($)", "Total ($)"]
         for i in range(len(headers)):
             self.model.setHeaderData(i, Qt.Horizontal, headers[i])
+    
 
+    def open_edit_form(self):
+
+        self.editForm = EditForm(self.project_id)
+        self.editForm.show()
+        self.editForm.FormClosed.connect(self.set_materials_table)
+    
+    def open_add_form(self):
+        self.addForm = AddForm(self.conn, self.project_id)
+        self.addForm.show()
+        self.addForm.FormClosed.connect(self.set_materials_table)
 
 
 
@@ -240,3 +255,71 @@ class customListItem(QWidget):
     
     def setStatus(self, text):
         self.statusText.setText(text)
+
+
+class EditForm(QWidget, UiEditMaterial):
+    
+    FormClosed = Signal()
+
+    def __init__(self, project_id):
+        super().__init__()
+        self.setupUi(self)
+
+        self.model = QSqlTableModel(db=db)
+
+        self.mapper = QDataWidgetMapper()
+        self.mapper.setModel(self.model)
+
+        self.mapper.addMapping(self.idSpinBox, 0)
+        self.mapper.addMapping(self.materialNameEdit, 1)
+        self.mapper.addMapping(self.descTextEdit, 2)
+        self.mapper.addMapping(self.qtySpinBox, 3)
+        self.mapper.addMapping(self.priceSpinBox, 4)
+
+        self.model.setTable('materials')
+        filter_str = 'project_id = {}'.format(project_id)
+        self.model.setFilter(filter_str)
+        self.model.select()
+
+        self.mapper.toFirst()
+
+        self.previousBtn.clicked.connect(self.mapper.toPrevious)
+        self.nextBtn.clicked.connect(self.mapper.toNext)
+        self.saveBtn.clicked.connect(self.on_submit)
+    
+    def on_submit(self):
+        self.mapper.submit()
+        self.close()
+        self.FormClosed.emit()
+    
+
+class AddForm(QWidget, UiAddMaterial):
+    
+    FormClosed = Signal()
+
+    def __init__(self, conn, project_id):
+        super().__init__()
+        self.setupUi(self)
+
+        self.conn = conn
+        self.project_id = project_id
+
+        self.cancelBtn.clicked.connect(self.on_cancel)
+        self.addBtn.clicked.connect(self.on_add)
+
+    def on_cancel(self):
+        self.close()
+    
+    def on_add(self):
+        
+        total = self.qtySpinBox.value() * self.priceSpinBox.value()
+        new_material = [self.project_id, self.materialNameLineEdit.text(), self.descTextEdit.toPlainText(), 
+                            self.qtySpinBox.value(), self.priceSpinBox.value(), total]
+        
+        with self.conn:
+            insert_data_sql.add_materials(self.conn, new_material)
+        
+        self.close()
+        self.FormClosed.emit()
+    
+

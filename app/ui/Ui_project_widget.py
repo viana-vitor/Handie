@@ -84,7 +84,7 @@ class Ui_Projects(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.listWidget.sizePolicy().hasHeightForWidth())
         self.listWidget.setSizePolicy(sizePolicy)
-        self.listWidget.setMinimumSize(QSize(0, 200))
+        self.listWidget.setMinimumSize(QSize(0, 150))
         self.listWidget.setMaximumSize(QSize(16777215, 16777215))
         self.listWidget.setStyleSheet(u"QListWidget {\n"
 "    show-decoration-selected: 1; /* make the selection span the entire width of the view */\n"
@@ -125,7 +125,7 @@ class Ui_Projects(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
         self.scrollArea.setSizePolicy(sizePolicy1)
-        self.scrollArea.setMinimumSize(QSize(0, 350))
+        self.scrollArea.setMinimumSize(QSize(0, 400))
         self.scrollArea.setFrameShape(QFrame.Box)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scrollArea.setWidgetResizable(True)
@@ -172,7 +172,7 @@ class Ui_Projects(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.projectLineEdit.sizePolicy().hasHeightForWidth())
         self.projectLineEdit.setSizePolicy(sizePolicy3)
-        self.projectLineEdit.setMinimumSize(QSize(250, 0))
+        self.projectLineEdit.setMinimumSize(QSize(200, 0))
         self.projectLineEdit.setFont(font)
 
         self.horizontalLayout_6.addWidget(self.projectLineEdit)
@@ -401,19 +401,19 @@ class Ui_Projects(object):
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.pushButton_2 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        sizePolicy3.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
-        self.pushButton_2.setSizePolicy(sizePolicy3)
+        self.editMaterialBtn = QPushButton(self.scrollAreaWidgetContents)
+        self.editMaterialBtn.setObjectName(u"editMaterialBtn")
+        sizePolicy3.setHeightForWidth(self.editMaterialBtn.sizePolicy().hasHeightForWidth())
+        self.editMaterialBtn.setSizePolicy(sizePolicy3)
 
-        self.horizontalLayout_9.addWidget(self.pushButton_2)
+        self.horizontalLayout_9.addWidget(self.editMaterialBtn)
 
-        self.pushButton_3 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        sizePolicy3.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
-        self.pushButton_3.setSizePolicy(sizePolicy3)
+        self.addMaterialbtn = QPushButton(self.scrollAreaWidgetContents)
+        self.addMaterialbtn.setObjectName(u"addMaterialbtn")
+        sizePolicy3.setHeightForWidth(self.addMaterialbtn.sizePolicy().hasHeightForWidth())
+        self.addMaterialbtn.setSizePolicy(sizePolicy3)
 
-        self.horizontalLayout_9.addWidget(self.pushButton_3)
+        self.horizontalLayout_9.addWidget(self.addMaterialbtn)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_9)
@@ -453,7 +453,7 @@ class Ui_Projects(object):
         self.markCompletedButton.setText(QCoreApplication.translate("Projects", u"Completed", None))
         self.label_6.setText(QCoreApplication.translate("Projects", u"Construction Area:", None))
         self.label_10.setText(QCoreApplication.translate("Projects", u"Materials:", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Projects", u"Edit", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Projects", u"Add", None))
+        self.editMaterialBtn.setText(QCoreApplication.translate("Projects", u"Edit", None))
+        self.addMaterialbtn.setText(QCoreApplication.translate("Projects", u"Add", None))
     # retranslateUi
 
