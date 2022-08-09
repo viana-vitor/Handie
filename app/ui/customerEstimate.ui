@@ -36,7 +36,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-171</y>
+            <y>0</y>
             <width>809</width>
             <height>1549</height>
            </rect>
@@ -382,7 +382,11 @@
                      </widget>
                     </item>
                     <item>
-                     <widget class="QSpinBox" name="qtyMaterialSpinBox"/>
+                     <widget class="QSpinBox" name="qtyMaterialSpinBox">
+                      <property name="maximum">
+                       <number>10000</number>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </item>

@@ -39,7 +39,7 @@
         <widget class="QLabel" name="label_37">
          <property name="font">
           <font>
-           <pointsize>20</pointsize>
+           <pointsize>21</pointsize>
            <italic>false</italic>
            <bold>false</bold>
            <underline>false</underline>
@@ -63,13 +63,6 @@
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_3">
-           <property name="text">
-            <string>Quick Estimate</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
@@ -83,6 +76,12 @@
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
           <widget class="QLabel" name="label_38">
+           <property name="font">
+            <font>
+             <pointsize>15</pointsize>
+             <underline>true</underline>
+            </font>
+           </property>
            <property name="text">
             <string>Current Projects:</string>
            </property>
@@ -95,6 +94,11 @@
        </item>
        <item>
         <widget class="QLabel" name="label_39">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Materials:</string>
          </property>
@@ -115,7 +119,7 @@
          <item>
           <widget class="QPushButton" name="goProjectButton">
            <property name="text">
-            <string>Go to project</string>
+            <string>See Estimate</string>
            </property>
           </widget>
          </item>
@@ -226,9 +230,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-53</y>
             <width>923</width>
-            <height>745</height>
+            <height>767</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -396,6 +400,11 @@
            </item>
            <item>
             <widget class="QLabel" name="label_33">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
              <property name="acceptDrops">
               <bool>false</bool>
              </property>
@@ -485,6 +494,11 @@
            </item>
            <item>
             <widget class="QLabel" name="label_34">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Construction Area:</string>
              </property>
@@ -492,24 +506,45 @@
            </item>
            <item>
             <layout class="QGridLayout" name="gridLayout_11">
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="kitchenCheck">
+             <item row="1" column="2">
+              <widget class="QCheckBox" name="bedroomCheck">
                <property name="text">
-                <string>Kitchen</string>
+                <string>Bedroom</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QCheckBox" name="otherCheck">
+             <item row="4" column="2">
+              <widget class="QCheckBox" name="landscapeCheck">
                <property name="text">
-                <string>Other</string>
+                <string>Landscape</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QCheckBox" name="additionCheck">
+               <property name="text">
+                <string>Addition</string>
                </property>
               </widget>
              </item>
              <item row="1" column="3">
-              <widget class="QCheckBox" name="multipleRoomCheck">
+              <widget class="QCheckBox" name="livingroomCheck">
                <property name="text">
-                <string>Multiple Room</string>
+                <string>Living Room</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="exteriorCheck">
+               <property name="text">
+                <string>Exterior</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="kitchenCheck">
+               <property name="text">
+                <string>Kitchen</string>
                </property>
               </widget>
              </item>
@@ -520,19 +555,53 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="6">
-              <widget class="QCheckBox" name="additionCheck">
+             <item row="1" column="4">
+              <widget class="QCheckBox" name="multipleRoomCheck">
                <property name="text">
-                <string>Addition</string>
+                <string>Multiple Room</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="2">
-              <widget class="QCheckBox" name="bedroomCheck">
-               <property name="text">
-                <string>Bedroom</string>
-               </property>
+             <item row="4" column="3">
+              <widget class="QComboBox" name="comboBox_2">
+               <item>
+                <property name="text">
+                 <string>(select other)</string>
+                </property>
+               </item>
               </widget>
+             </item>
+             <item row="4" column="4">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLineEdit" name="lineEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Add New</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </item>
@@ -788,7 +857,7 @@
             <item>
              <widget class="QLabel" name="label_10">
               <property name="text">
-               <string>Search The Home Depot?</string>
+               <string>Search The Home Depot</string>
               </property>
              </widget>
             </item>

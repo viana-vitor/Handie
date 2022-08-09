@@ -44,7 +44,7 @@ class Ui_Form(object):
         self.label_37 = QLabel(self.page)
         self.label_37.setObjectName(u"label_37")
         font1 = QFont()
-        font1.setPointSize(20)
+        font1.setPointSize(21)
         font1.setBold(False)
         font1.setItalic(False)
         font1.setUnderline(False)
@@ -61,11 +61,6 @@ class Ui_Form(object):
 
         self.horizontalLayout_8.addWidget(self.addNewProjectButton)
 
-        self.pushButton_3 = QPushButton(self.page)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-
-        self.horizontalLayout_8.addWidget(self.pushButton_3)
-
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_8)
 
@@ -80,6 +75,10 @@ class Ui_Form(object):
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.label_38 = QLabel(self.page)
         self.label_38.setObjectName(u"label_38")
+        font2 = QFont()
+        font2.setPointSize(15)
+        font2.setUnderline(True)
+        self.label_38.setFont(font2)
 
         self.horizontalLayout_9.addWidget(self.label_38)
 
@@ -93,6 +92,9 @@ class Ui_Form(object):
 
         self.label_39 = QLabel(self.page)
         self.label_39.setObjectName(u"label_39")
+        font3 = QFont()
+        font3.setPointSize(14)
+        self.label_39.setFont(font3)
 
         self.verticalLayout_7.addWidget(self.label_39)
 
@@ -164,7 +166,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 923, 745))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -53, 923, 767))
         self.verticalLayout_6 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.stackedWidget_3 = QStackedWidget(self.scrollAreaWidgetContents)
@@ -308,6 +310,7 @@ class Ui_Form(object):
 
         self.label_33 = QLabel(self.scrollAreaWidgetContents)
         self.label_33.setObjectName(u"label_33")
+        self.label_33.setFont(font3)
         self.label_33.setAcceptDrops(False)
 
         self.verticalLayout_6.addWidget(self.label_33)
@@ -359,40 +362,85 @@ class Ui_Form(object):
 
         self.label_34 = QLabel(self.scrollAreaWidgetContents)
         self.label_34.setObjectName(u"label_34")
+        self.label_34.setFont(font3)
 
         self.verticalLayout_6.addWidget(self.label_34)
 
         self.gridLayout_11 = QGridLayout()
         self.gridLayout_11.setObjectName(u"gridLayout_11")
+        self.bedroomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.bedroomCheck.setObjectName(u"bedroomCheck")
+
+        self.gridLayout_11.addWidget(self.bedroomCheck, 1, 2, 1, 1)
+
+        self.landscapeCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.landscapeCheck.setObjectName(u"landscapeCheck")
+
+        self.gridLayout_11.addWidget(self.landscapeCheck, 4, 2, 1, 1)
+
+        self.additionCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.additionCheck.setObjectName(u"additionCheck")
+
+        self.gridLayout_11.addWidget(self.additionCheck, 4, 1, 1, 1)
+
+        self.livingroomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.livingroomCheck.setObjectName(u"livingroomCheck")
+
+        self.gridLayout_11.addWidget(self.livingroomCheck, 1, 3, 1, 1)
+
+        self.exteriorCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.exteriorCheck.setObjectName(u"exteriorCheck")
+
+        self.gridLayout_11.addWidget(self.exteriorCheck, 4, 0, 1, 1)
+
         self.kitchenCheck = QCheckBox(self.scrollAreaWidgetContents)
         self.kitchenCheck.setObjectName(u"kitchenCheck")
 
         self.gridLayout_11.addWidget(self.kitchenCheck, 1, 0, 1, 1)
-
-        self.otherCheck = QCheckBox(self.scrollAreaWidgetContents)
-        self.otherCheck.setObjectName(u"otherCheck")
-
-        self.gridLayout_11.addWidget(self.otherCheck, 4, 0, 1, 1)
-
-        self.multipleRoomCheck = QCheckBox(self.scrollAreaWidgetContents)
-        self.multipleRoomCheck.setObjectName(u"multipleRoomCheck")
-
-        self.gridLayout_11.addWidget(self.multipleRoomCheck, 1, 3, 1, 1)
 
         self.bathroomCheck = QCheckBox(self.scrollAreaWidgetContents)
         self.bathroomCheck.setObjectName(u"bathroomCheck")
 
         self.gridLayout_11.addWidget(self.bathroomCheck, 1, 1, 1, 1)
 
-        self.additionCheck = QCheckBox(self.scrollAreaWidgetContents)
-        self.additionCheck.setObjectName(u"additionCheck")
+        self.multipleRoomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.multipleRoomCheck.setObjectName(u"multipleRoomCheck")
 
-        self.gridLayout_11.addWidget(self.additionCheck, 1, 6, 1, 1)
+        self.gridLayout_11.addWidget(self.multipleRoomCheck, 1, 4, 1, 1)
 
-        self.bedroomCheck = QCheckBox(self.scrollAreaWidgetContents)
-        self.bedroomCheck.setObjectName(u"bedroomCheck")
+        self.comboBox_2 = QComboBox(self.scrollAreaWidgetContents)
+        self.comboBox_2.addItem("")
+        self.comboBox_2.setObjectName(u"comboBox_2")
 
-        self.gridLayout_11.addWidget(self.bedroomCheck, 1, 2, 1, 1)
+        self.gridLayout_11.addWidget(self.comboBox_2, 4, 3, 1, 1)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.lineEdit = QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit.setObjectName(u"lineEdit")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
+        self.lineEdit.setSizePolicy(sizePolicy1)
+
+        self.horizontalLayout_4.addWidget(self.lineEdit)
+
+        self.pushButton = QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton.setObjectName(u"pushButton")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy2)
+        font4 = QFont()
+        font4.setPointSize(12)
+        self.pushButton.setFont(font4)
+
+        self.horizontalLayout_4.addWidget(self.pushButton)
+
+
+        self.gridLayout_11.addLayout(self.horizontalLayout_4, 4, 4, 1, 1)
 
 
         self.verticalLayout_6.addLayout(self.gridLayout_11)
@@ -406,11 +454,11 @@ class Ui_Form(object):
 
         self.constructionAreaStacked = QStackedWidget(self.scrollAreaWidgetContents)
         self.constructionAreaStacked.setObjectName(u"constructionAreaStacked")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.constructionAreaStacked.sizePolicy().hasHeightForWidth())
-        self.constructionAreaStacked.setSizePolicy(sizePolicy1)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.constructionAreaStacked.sizePolicy().hasHeightForWidth())
+        self.constructionAreaStacked.setSizePolicy(sizePolicy3)
         self.constructionAreaStacked.setMinimumSize(QSize(0, 300))
         self.constructionAreaStacked.setFrameShape(QFrame.NoFrame)
         self.constructionAreaStacked.setFrameShadow(QFrame.Plain)
@@ -470,21 +518,21 @@ class Ui_Form(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.label = QLabel(self.page_3)
         self.label.setObjectName(u"label")
-        font2 = QFont()
-        font2.setPointSize(13)
-        font2.setBold(False)
-        self.label.setFont(font2)
+        font5 = QFont()
+        font5.setPointSize(13)
+        font5.setBold(False)
+        self.label.setFont(font5)
         self.label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_5.addWidget(self.label)
 
         self.widget = QWidget(self.page_3)
         self.widget.setObjectName(u"widget")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
-        self.widget.setSizePolicy(sizePolicy2)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy4)
         self.widget.setMaximumSize(QSize(16777215, 191))
         self.verticalLayout_10 = QVBoxLayout(self.widget)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
@@ -539,11 +587,11 @@ class Ui_Form(object):
 
         self.materialDescLineEdit = QLineEdit(self.widget)
         self.materialDescLineEdit.setObjectName(u"materialDescLineEdit")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.materialDescLineEdit.sizePolicy().hasHeightForWidth())
-        self.materialDescLineEdit.setSizePolicy(sizePolicy3)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.materialDescLineEdit.sizePolicy().hasHeightForWidth())
+        self.materialDescLineEdit.setSizePolicy(sizePolicy5)
         self.materialDescLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_2.addWidget(self.materialDescLineEdit)
@@ -614,8 +662,6 @@ class Ui_Form(object):
 
         self.label_11 = QLabel(self.page_3)
         self.label_11.setObjectName(u"label_11")
-        font3 = QFont()
-        font3.setPointSize(14)
         self.label_11.setFont(font3)
 
         self.horizontalLayout_3.addWidget(self.label_11)
@@ -666,11 +712,10 @@ class Ui_Form(object):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Add New Project", None))
         self.label_37.setText(QCoreApplication.translate("Form", u"Handie \u00ae", None))
         self.addNewProjectButton.setText(QCoreApplication.translate("Form", u"Add New Project", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Form", u"Quick Estimate", None))
         self.label_38.setText(QCoreApplication.translate("Form", u"Current Projects:", None))
         self.label_39.setText(QCoreApplication.translate("Form", u"Materials:", None))
         self.markCompleteButton.setText(QCoreApplication.translate("Form", u"Mark as complete", None))
-        self.goProjectButton.setText(QCoreApplication.translate("Form", u"Go to project", None))
+        self.goProjectButton.setText(QCoreApplication.translate("Form", u"See Estimate", None))
         self.newCustomerButton.setText(QCoreApplication.translate("Form", u"New Customer", None))
         self.existingCustomerButton.setText(QCoreApplication.translate("Form", u"Existing Customer", None))
         self.label_36.setText(QCoreApplication.translate("Form", u"Customer:", None))
@@ -690,12 +735,17 @@ class Ui_Form(object):
         self.endDateLabel.setText(QCoreApplication.translate("Form", u"End Date", None))
         self.addressCheckBox.setText(QCoreApplication.translate("Form", u"Same as customer address", None))
         self.label_34.setText(QCoreApplication.translate("Form", u"Construction Area:", None))
-        self.kitchenCheck.setText(QCoreApplication.translate("Form", u"Kitchen", None))
-        self.otherCheck.setText(QCoreApplication.translate("Form", u"Other", None))
-        self.multipleRoomCheck.setText(QCoreApplication.translate("Form", u"Multiple Room", None))
-        self.bathroomCheck.setText(QCoreApplication.translate("Form", u"Bathroom", None))
-        self.additionCheck.setText(QCoreApplication.translate("Form", u"Addition", None))
         self.bedroomCheck.setText(QCoreApplication.translate("Form", u"Bedroom", None))
+        self.landscapeCheck.setText(QCoreApplication.translate("Form", u"Landscape", None))
+        self.additionCheck.setText(QCoreApplication.translate("Form", u"Addition", None))
+        self.livingroomCheck.setText(QCoreApplication.translate("Form", u"Living Room", None))
+        self.exteriorCheck.setText(QCoreApplication.translate("Form", u"Exterior", None))
+        self.kitchenCheck.setText(QCoreApplication.translate("Form", u"Kitchen", None))
+        self.bathroomCheck.setText(QCoreApplication.translate("Form", u"Bathroom", None))
+        self.multipleRoomCheck.setText(QCoreApplication.translate("Form", u"Multiple Room", None))
+        self.comboBox_2.setItemText(0, QCoreApplication.translate("Form", u"(select other)", None))
+
+        self.pushButton.setText(QCoreApplication.translate("Form", u"Add New", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"No construction area selected", None))
         self.cancelButton.setText(QCoreApplication.translate("Form", u"Cancel", None))
         self.continueButton.setText(QCoreApplication.translate("Form", u"Continue", None))
@@ -707,7 +757,7 @@ class Ui_Form(object):
         self.materialPriceSpinBox.setSuffix("")
         self.label_9.setText(QCoreApplication.translate("Form", u"Description:", None))
         self.addMaterialPushButton.setText(QCoreApplication.translate("Form", u"Add Material", None))
-        self.label_10.setText(QCoreApplication.translate("Form", u"Search The Home Depot?", None))
+        self.label_10.setText(QCoreApplication.translate("Form", u"Search The Home Depot", None))
         self.searchHDPushButton.setText(QCoreApplication.translate("Form", u"Search", None))
         self.label_12.setText(QCoreApplication.translate("Form", u"Added Materials:", None))
         self.label_11.setText(QCoreApplication.translate("Form", u"Total:", None))

@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -171, 809, 1549))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 809, 1549))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -256,6 +256,7 @@ class Ui_Form(object):
 
         self.qtyMaterialSpinBox = QSpinBox(self.materialsWidget)
         self.qtyMaterialSpinBox.setObjectName(u"qtyMaterialSpinBox")
+        self.qtyMaterialSpinBox.setMaximum(10000)
 
         self.horizontalLayout_19.addWidget(self.qtyMaterialSpinBox)
 

@@ -1,12 +1,17 @@
+from __future__ import with_statement
+from asyncio import Task, tasks
+from curses import keyname
 import sys
 import sqlite3
+import json
 
 from PySide6.QtCore import Qt, QSize, Signal, QDate
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
-from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout, QHeaderView, QDataWidgetMapper)
+from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout, QHeaderView, QDataWidgetMapper, QButtonGroup)
 
 from app.ui.Ui_project_widget import Ui_Projects
 from app.ui.Ui_edit_material_form import Ui_Form as UiEditMaterial
+from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
 from app.ui.Ui_add_material_form import Ui_Form as UiAddMaterial
 import app.data.database.insert_data_sql as insert_data_sql
 
@@ -17,6 +22,7 @@ db.open()
 
 
 class ProjectWidget(QWidget, Ui_Projects):
+    
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -43,6 +49,21 @@ class ProjectWidget(QWidget, Ui_Projects):
         self.emailLineEdit.editingFinished.connect(self.update_customer_info)
         self.begDateEdit.dateChanged.connect(self.beg_date_changed)
         self.endDateEdit.dateChanged.connect(self.end_date_changed)
+
+        self.tasks_button_grp = QButtonGroup(exclusive = False)
+        self.tasks_button_grp.addButton(self.kitchenCheck)
+        self.tasks_button_grp.addButton(self.bathroomCheck)
+        self.tasks_button_grp.addButton(self.bedroomCheck)
+        self.tasks_button_grp.addButton(self.multipleroomCheck)
+        self.tasks_button_grp.addButton(self.additionCheck)
+        self.tasks_button_grp.addButton(self.livingroomCheck)
+        self.tasks_button_grp.addButton(self.exteriorCheck)
+        self.tasks_button_grp.addButton(self.landscapeCheck)
+
+        # self.kitchenCheck.stateChanged.connect(self.set_construction_tasks)
+        # self.bathroomCheck.stateChanged.connect(self.set_construction_tasks)
+        #self.bedroomCheck.stateChanged.connect(self.delete_tasks_widget)
+
 
         self.editMaterialBtn.clicked.connect(self.open_edit_form)
         self.addMaterialbtn.clicked.connect(self.open_add_form)
@@ -95,6 +116,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         
         self.project_id = widget.id
         self.customer_id = widget.customer_id
+        self.task_id = insert_data_sql.get_task_id(self.conn, self.project_id)
         
         with self.conn:
             self.dates = insert_data_sql.get_dates(self.conn, self.project_id)
@@ -111,6 +133,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         self.cityLineEdit.setText(info[3])
 
         self.set_materials_table()
+        self.check_tasks()
     
     def mark_completed(self):
         '''Mark project status as complete'''
@@ -190,9 +213,128 @@ class ProjectWidget(QWidget, Ui_Projects):
             self.conn.commit()
         else:
             pass
+        
+    
+    def uncheck_tasks(self):
+        '''Uncheck previously checked tasks when changing between projects'''
+    
+        for button in self.tasks_button_grp.buttons():
+            button.setChecked(False)
+    
+    def check_tasks(self):
+        '''Retrieve checked tasks from json'''
+        self.uncheck_tasks() ### First uncheck all checkboxes 
+
+        with open("app/data/database/user_tasks.json", "r") as f:
+            user_checked_tasks = json.load(f)
+        
+        for button in self.tasks_button_grp.buttons():
+            for dict in user_checked_tasks[::-1]:
+                if dict['task_id'] == self.task_id:
+                    for key in dict['tasks'].keys():
+                        if button.text() == key:
+                            button.setChecked(True)
+        
+        self.set_construction_tasks()
 
     
+    def set_construction_tasks(self):
+        '''This function takes care of creating and destroying tasks widgets, as well as populating it with tasks and checking then if
+            they were previously checked when creating the project'''
 
+        
+        with open("app/data/database/user_tasks.json", "r") as f:
+            user_checked_tasks = json.load(f)
+        
+        with open("app/data/database/tasks_kw.json", "r") as n:
+            tasks_keywords = json.load(n)
+
+        
+        idx = 6
+        for button in self.tasks_button_grp.buttons():
+            widget = self.findChild(TaskList, '{}_widget'.format(button.text()))
+        
+            for dict in user_checked_tasks[::-1]:
+                if dict['task_id'] == self.task_id:
+            
+                    if button.isChecked() and widget == None: ## if the widget has not been created before -> create and populate a new one
+                
+                        self.new_widget = TaskList('{}_widget'.format(button.text()))
+                        self.verticalLayout_2.insertWidget(idx, self.new_widget)
+                        self.new_widget.label.setText("{}".format(button.text()))
+                        idx += 1
+                        for value in tasks_keywords[button.text()]['Demolition']:
+                            item = QListWidgetItem(value)
+                            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                            if value in dict['tasks'][button.text()]['Demolition']:
+                                item.setCheckState(Qt.Checked)
+                            else:
+                                item.setCheckState(Qt.Unchecked)
+                            self.new_widget.listWidget.addItem(item)
+                        for value in tasks_keywords[button.text()]['Rebuild']:
+                            item = QListWidgetItem(value)
+                            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                            if value in dict['tasks'][button.text()]['Rebuild']:
+                                item.setCheckState(Qt.Checked)
+                            else:
+                                item.setCheckState(Qt.Unchecked)
+                            self.new_widget.listWidget_2.addItem(item)
+                        for value in tasks_keywords[button.text()]['Cosmetic']:
+                            item = QListWidgetItem(value)
+                            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                            if value in dict['tasks'][button.text()]['Cosmetic']:
+                                item.setCheckState(Qt.Checked)
+                            else:
+                                item.setCheckState(Qt.Unchecked)
+                            self.new_widget.listWidget_3.addItem(item)
+
+                    elif button.isChecked() and widget != None: ### if the widget has been previously created -> reload it with tasks from new project
+                        
+                        widget.listWidget.clear()
+                        widget.listWidget_2.clear()
+                        widget.listWidget_3.clear()
+                        for value in tasks_keywords[button.text()]['Demolition']:
+                            item = QListWidgetItem(value)
+                            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                            if value in dict['tasks'][button.text()]['Demolition']:
+                                item.setCheckState(Qt.Checked)
+                            else:
+                                item.setCheckState(Qt.Unchecked)
+                            widget.listWidget.addItem(item)
+                        for value in tasks_keywords[button.text()]['Rebuild']:
+                            item = QListWidgetItem(value)
+                            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                            if value in dict['tasks'][button.text()]['Rebuild']:
+                                item.setCheckState(Qt.Checked)
+                            else:
+                                item.setCheckState(Qt.Unchecked)
+                            widget.listWidget_2.addItem(item)
+                        for value in tasks_keywords[button.text()]['Cosmetic']:
+                            item = QListWidgetItem(value)
+                            item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
+                            if value in dict['tasks'][button.text()]['Cosmetic']:
+                                item.setCheckState(Qt.Checked)
+                            else:
+                                item.setCheckState(Qt.Unchecked)
+                            widget.listWidget_3.addItem(item)
+                    
+                    elif button.isChecked() == False and widget != None: ## Delete tasks widgets that do not belong to the selected project
+                        self.verticalLayout_2.removeWidget(widget)
+                        widget.deleteLater()
+
+    
+    #def tasks_state_changed(self):
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def set_materials_table(self):
 
         self.model = QSqlQueryModel()
@@ -322,4 +464,13 @@ class AddForm(QWidget, UiAddMaterial):
         self.close()
         self.FormClosed.emit()
     
+
+
+
+class TaskList(QWidget, Ui_task_widget):
+    def __init__(self, name, parent=None):
+        super().__init__()
+        self.setupUi(self)
+
+        self.setObjectName(name)
 
