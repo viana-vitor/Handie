@@ -103,7 +103,7 @@ class HomeWidget(QWidget, Ui_new_home):
         self.additionCheck.stateChanged.connect(self.new_task)
         self.livingroomCheck.stateChanged.connect(self.new_task)
         self.exteriorCheck.stateChanged.connect(self.new_task)
-        
+
 
         
         
@@ -288,7 +288,6 @@ class HomeWidget(QWidget, Ui_new_home):
                                 item.setCheckState(Qt.Unchecked)
                                 widget.lineEdit_3.clear()
                                 widget.listWidget_3.addItem(item)
-            
         with open("app/data/database/tasks_kw.json", "w") as new:
             json.dump(tasks_data, new)
         
