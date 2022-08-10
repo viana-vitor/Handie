@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QDateEdit, QFrame,
-    QHBoxLayout, QHeaderView, QLabel, QLayout,
-    QLineEdit, QListWidget, QListWidgetItem, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QTableView,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QDateEdit,
+    QFrame, QGridLayout, QHBoxLayout, QHeaderView,
+    QLabel, QLayout, QLineEdit, QListWidget,
+    QListWidgetItem, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QTableView, QVBoxLayout, QWidget)
 
 class Ui_Projects(object):
     def setupUi(self, Projects):
@@ -131,7 +131,7 @@ class Ui_Projects(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 959, 661))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -123, 959, 712))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_14 = QLabel(self.scrollAreaWidgetContents)
@@ -380,6 +380,51 @@ class Ui_Projects(object):
 
         self.verticalLayout_2.addWidget(self.label_6)
 
+        self.gridLayout = QGridLayout()
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.livingroomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.livingroomCheck.setObjectName(u"livingroomCheck")
+
+        self.gridLayout.addWidget(self.livingroomCheck, 0, 3, 1, 1)
+
+        self.additionCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.additionCheck.setObjectName(u"additionCheck")
+
+        self.gridLayout.addWidget(self.additionCheck, 1, 1, 1, 1)
+
+        self.bathroomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.bathroomCheck.setObjectName(u"bathroomCheck")
+
+        self.gridLayout.addWidget(self.bathroomCheck, 0, 1, 1, 1)
+
+        self.kitchenCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.kitchenCheck.setObjectName(u"kitchenCheck")
+
+        self.gridLayout.addWidget(self.kitchenCheck, 0, 0, 1, 1)
+
+        self.bedroomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.bedroomCheck.setObjectName(u"bedroomCheck")
+
+        self.gridLayout.addWidget(self.bedroomCheck, 0, 2, 1, 1)
+
+        self.landscapeCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.landscapeCheck.setObjectName(u"landscapeCheck")
+
+        self.gridLayout.addWidget(self.landscapeCheck, 1, 2, 1, 1)
+
+        self.exteriorCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.exteriorCheck.setObjectName(u"exteriorCheck")
+
+        self.gridLayout.addWidget(self.exteriorCheck, 1, 0, 1, 1)
+
+        self.multipleroomCheck = QCheckBox(self.scrollAreaWidgetContents)
+        self.multipleroomCheck.setObjectName(u"multipleroomCheck")
+
+        self.gridLayout.addWidget(self.multipleroomCheck, 0, 4, 1, 1)
+
+
+        self.verticalLayout_2.addLayout(self.gridLayout)
+
         self.line_2 = QFrame(self.scrollAreaWidgetContents)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.HLine)
@@ -452,6 +497,14 @@ class Ui_Projects(object):
         self.label.setText(QCoreApplication.translate("Projects", u"Mark project as completed:", None))
         self.markCompletedButton.setText(QCoreApplication.translate("Projects", u"Completed", None))
         self.label_6.setText(QCoreApplication.translate("Projects", u"Construction Area:", None))
+        self.livingroomCheck.setText(QCoreApplication.translate("Projects", u"Living Room", None))
+        self.additionCheck.setText(QCoreApplication.translate("Projects", u"Addition", None))
+        self.bathroomCheck.setText(QCoreApplication.translate("Projects", u"Bathroom", None))
+        self.kitchenCheck.setText(QCoreApplication.translate("Projects", u"Kitchen", None))
+        self.bedroomCheck.setText(QCoreApplication.translate("Projects", u"Bedroom", None))
+        self.landscapeCheck.setText(QCoreApplication.translate("Projects", u"Landscape", None))
+        self.exteriorCheck.setText(QCoreApplication.translate("Projects", u"Exterior", None))
+        self.multipleroomCheck.setText(QCoreApplication.translate("Projects", u"Multiple Room", None))
         self.label_10.setText(QCoreApplication.translate("Projects", u"Materials:", None))
         self.editMaterialBtn.setText(QCoreApplication.translate("Projects", u"Edit", None))
         self.addMaterialbtn.setText(QCoreApplication.translate("Projects", u"Add", None))

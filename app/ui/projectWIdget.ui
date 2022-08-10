@@ -177,9 +177,9 @@ QListWidget::item:hover {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-123</y>
         <width>959</width>
-        <height>661</height>
+        <height>712</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -612,6 +612,66 @@ QListWidget::item:hover {
           <string>Construction Area:</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="3">
+          <widget class="QCheckBox" name="livingroomCheck">
+           <property name="text">
+            <string>Living Room</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="additionCheck">
+           <property name="text">
+            <string>Addition</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="bathroomCheck">
+           <property name="text">
+            <string>Bathroom</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="kitchenCheck">
+           <property name="text">
+            <string>Kitchen</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="bedroomCheck">
+           <property name="text">
+            <string>Bedroom</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QCheckBox" name="landscapeCheck">
+           <property name="text">
+            <string>Landscape</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="exteriorCheck">
+           <property name="text">
+            <string>Exterior</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QCheckBox" name="multipleroomCheck">
+           <property name="text">
+            <string>Multiple Room</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="Line" name="line_2">

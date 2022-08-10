@@ -1,3 +1,2 @@
-* Need to change size of quantity field for adding new materials from estimate page
 * Get rid of the variable "total" from all the add_materials function
 * Add email and adapt all code for it

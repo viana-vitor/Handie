@@ -89,7 +89,10 @@ class HomeWidget(QWidget, Ui_new_home):
         self.tasks_button_grp.addButton(self.bedroomCheck)
         self.tasks_button_grp.addButton(self.multipleRoomCheck)
         self.tasks_button_grp.addButton(self.additionCheck)
-        self.tasks_button_grp.addButton(self.otherCheck)
+        self.tasks_button_grp.addButton(self.livingroomCheck)
+        self.tasks_button_grp.addButton(self.exteriorCheck)
+        self.tasks_button_grp.addButton(self.landscapeCheck)
+
 
         self.constructionAreaStacked.setEnabled(False)
         self.constructionAreaStacked.setCurrentIndex(0)
@@ -98,7 +101,10 @@ class HomeWidget(QWidget, Ui_new_home):
         self.bedroomCheck.stateChanged.connect(self.new_task)
         self.multipleRoomCheck.stateChanged.connect(self.new_task)
         self.additionCheck.stateChanged.connect(self.new_task)
-        self.otherCheck.stateChanged.connect(self.new_task)
+        self.livingroomCheck.stateChanged.connect(self.new_task)
+        self.exteriorCheck.stateChanged.connect(self.new_task)
+
+
         
         
         self.continueButton.clicked.connect(self.continue_add_material_page)
@@ -282,7 +288,6 @@ class HomeWidget(QWidget, Ui_new_home):
                                 item.setCheckState(Qt.Unchecked)
                                 widget.lineEdit_3.clear()
                                 widget.listWidget_3.addItem(item)
-            
         with open("app/data/database/tasks_kw.json", "w") as new:
             json.dump(tasks_data, new)
         
@@ -439,9 +444,6 @@ class HomeWidget(QWidget, Ui_new_home):
         self.materialqtySpinBox.setValue(0)
         self.materialPriceSpinBox.setValue(0)
 
-        # filter_str = 'project_id = {}'.format(self.project_id) #setFilter does not accept placeholders
-        # self.model_materials.setFilter(filter_str)   
-        # self.model_materials.select()
     
     def cell_changed(self, row, column):
         ''' Adjusts total cost when user changes input within the table'''
@@ -487,8 +489,6 @@ class HomeWidget(QWidget, Ui_new_home):
         self.retrieve_table_data(project_id)
         self.EstimatePageSignal.emit(customer_id, project_id, task_id, 'HomeWidget')
         
-
-
 
         
 

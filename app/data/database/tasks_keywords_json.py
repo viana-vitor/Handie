@@ -36,11 +36,24 @@ tasks_dict = {
         "Cosmetic":[]
     },
 
-    "Other":{
-        "Demolition":[],
-        "Rebuild":[],
-        "Cosmetic":[]
-    }
+   "Living Room":{
+       "Demolition": [],
+       "Rebuild": [],
+       "Cosmetic": []
+   },
+
+   "Exterior":{
+       "Demolition":[],
+       "Rebuild":[],
+       "Cosmetic":[]
+   },
+
+   "Landscape":{
+       "Demolition":[],
+       "Rebuild":[],
+       "Cosmetic":[]
+
+   }
 }
 
 def main():
