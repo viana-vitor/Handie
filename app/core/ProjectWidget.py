@@ -66,16 +66,6 @@ class ProjectWidget(QWidget, Ui_Projects):
         for button in self.tasks_button_grp.buttons():
             button.clicked.connect(self.tasks_state_changed)
         self.tasks_changed = False
-        
-        
-        # self.kitchenCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.bathroomCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.bedroomCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.multipleroomCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.additionCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.livingroomCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.exteriorCheck.stateChanged.connect(self.tasks_state_changed)
-        # self.landscapeCheck.stateChanged.connect(self.tasks_state_changed)
 
 
         self.editMaterialBtn.clicked.connect(self.open_edit_form)
@@ -120,12 +110,6 @@ class ProjectWidget(QWidget, Ui_Projects):
 
     def populate_fields(self, item):
         '''Populate customer info section with data'''
-        
-        if self.tasks_changed == True:
-            self.save_tasks()
-        else:
-            pass
-        
         
         widget = self.listWidget.itemWidget(item)
         project = widget.projectText.text()
@@ -432,6 +416,8 @@ class ProjectWidget(QWidget, Ui_Projects):
     def item_state(self):
         
         self.tasks_changed = True
+
+        self.save_tasks() #Every little change is automatically saved. Not the best, but we'll leave it at that for now.
     
     
     
