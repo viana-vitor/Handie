@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'taskListWidget.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.1
+## Created by: Qt User Interface Compiler version 6.3.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -31,10 +31,12 @@ class Ui_Form(object):
         Form.setSizePolicy(sizePolicy)
         self.verticalLayout_4 = QVBoxLayout(Form)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(Form)
         self.label.setObjectName(u"label")
         font = QFont()
         font.setPointSize(15)
+        font.setUnderline(True)
         self.label.setFont(font)
 
         self.verticalLayout_4.addWidget(self.label)

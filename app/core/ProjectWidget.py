@@ -1,11 +1,7 @@
-from __future__ import with_statement
-from asyncio import Task, tasks
-from curses import keyname
-from re import T
+
 import sys
 import sqlite3
 import json
-from typing import ItemsView
 
 from PySide6.QtCore import Qt, QSize, Signal, QDate
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
@@ -111,6 +107,8 @@ class ProjectWidget(QWidget, Ui_Projects):
     def populate_fields(self, item):
         '''Populate customer info section with data'''
         
+        self.stackedWidget.setCurrentIndex(0)
+
         widget = self.listWidget.itemWidget(item)
         project = widget.projectText.text()
         customer = widget.customerText.text()
@@ -253,7 +251,7 @@ class ProjectWidget(QWidget, Ui_Projects):
             tasks_keywords = json.load(n)
 
         
-        idx = 6
+        idx = 5
         for button in self.tasks_button_grp.buttons():
             widget = self.findChild(TaskList, '{}_widget'.format(button.text()))
         

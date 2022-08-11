@@ -144,6 +144,7 @@
         <string notr="true">QListWidget {
     show-decoration-selected: 1; /* make the selection span the entire width of the view */
 }
+
 QListWidget::item {
 	border-bottom: 1px dashed black;
 }
@@ -153,17 +154,22 @@ QListWidget::item:alternate {
 }
 
 QListWidget::item:selected {
-    border: 1px solid #e5f1dc;
+    border: 1px solid #6a6ea9;
+}
+
+QListWidget::item:selected:!active {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #ABAFE5, stop: 1 #8588B2);
 }
 
 QListWidget::item:selected:active {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #91a383, stop: 1 #b6c9a7);
+                                stop: 0 #6a6ea9, stop: 1 #888dd9);
 }
 
 QListWidget::item:hover {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #f7faf7, stop: 1 #e5f1dc);
+                                stop: 0 #FAFBFE, stop: 1 #DCDEF1);
 }</string>
        </property>
        <property name="frameShape">
