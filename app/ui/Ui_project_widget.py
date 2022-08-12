@@ -32,10 +32,10 @@ class Ui_Projects(object):
         self.verticalLayout_7.setContentsMargins(12, -1, -1, -1)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(Projects)
-        self.pushButton.setObjectName(u"pushButton")
+        self.addNewProjectBtn = QPushButton(Projects)
+        self.addNewProjectBtn.setObjectName(u"addNewProjectBtn")
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.addNewProjectBtn)
 
         self.horizontalSpacer = QSpacerItem(736, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -512,7 +512,7 @@ class Ui_Projects(object):
 
     def retranslateUi(self, Projects):
         Projects.setWindowTitle(QCoreApplication.translate("Projects", u"Form", None))
-        self.pushButton.setText(QCoreApplication.translate("Projects", u"Add new project", None))
+        self.addNewProjectBtn.setText(QCoreApplication.translate("Projects", u"Add new project", None))
         self.searchLineEdit.setPlaceholderText(QCoreApplication.translate("Projects", u"Search project...", None))
         self.label_7.setText(QCoreApplication.translate("Projects", u"Project", None))
         self.label_8.setText(QCoreApplication.translate("Projects", u"Customer", None))

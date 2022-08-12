@@ -108,10 +108,10 @@ class Ui_Form(object):
 
         self.horizontalLayout.addWidget(self.label_6)
 
-        self.pushButton_4 = QPushButton(Form)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.searchHdBtn = QPushButton(Form)
+        self.searchHdBtn.setObjectName(u"searchHdBtn")
 
-        self.horizontalLayout.addWidget(self.pushButton_4)
+        self.horizontalLayout.addWidget(self.searchHdBtn)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -149,7 +149,7 @@ class Ui_Form(object):
         self.label_5.setText(QCoreApplication.translate("Form", u"Price:", None))
         self.priceSpinBox.setPrefix(QCoreApplication.translate("Form", u"$", None))
         self.label_6.setText(QCoreApplication.translate("Form", u"Search Home Depot", None))
-        self.pushButton_4.setText(QCoreApplication.translate("Form", u"Search", None))
+        self.searchHdBtn.setText(QCoreApplication.translate("Form", u"Search", None))
         self.previousBtn.setText(QCoreApplication.translate("Form", u"Previous", None))
         self.nextBtn.setText(QCoreApplication.translate("Form", u"Next", None))
         self.saveBtn.setText(QCoreApplication.translate("Form", u"Save Changes", None))

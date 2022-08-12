@@ -80,6 +80,7 @@ class MainWindow(QMainWindow):
     
     def projects_toggle(self):
         self.project_widget = ProjectWidget()
+        self.project_widget.CreateNewProject.connect(self.open_new_project_form)
         self.setCentralWidget(self.project_widget)
     
     def estimates_toggle(self):
@@ -91,6 +92,12 @@ class MainWindow(QMainWindow):
         self.button_estimates.setChecked(True)
         self.project_estimate.HomeWidgetSignal.connect(self.home_toggle)
         self.setCentralWidget(self.project_estimate)
+
+    def open_new_project_form(self):
+        self.home_widget = HomeWidget()
+        self.home_widget.stackedWidget.setCurrentIndex(1)
+        self.home_widget.EstimatePageSignal.connect(self.open_estimate)
+        self.setCentralWidget(self.home_widget)
 
 
 class CustomerWidget(QWidget, Ui_Customers):

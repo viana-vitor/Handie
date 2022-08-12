@@ -118,7 +118,7 @@ def find_customer_id(conn, name):
 def find_current_project(conn):
 
     sql = ''' SELECT id, project_name FROM projects
-                WHERE status IS NULL'''
+                WHERE status = "Active"'''
     
     cur = conn.cursor()
     cur.execute(sql)
@@ -178,7 +178,7 @@ def get_project_customer_name(conn):
 
     sql = ''' SELECT projects.id, projects.customer_id, project_name, first_name || " " || last_name, status FROM projects
             INNER JOIN customer ON customer.id = projects.customer_id
-            ORDER BY status ASC'''
+            ORDER BY status ASC, projects.id DESC;'''
 
     cur = conn.cursor()
     cur.execute(sql)
@@ -238,6 +238,16 @@ def get_estimates(conn, project_id):
     estimates = cur.fetchall()[0]
     print(estimates[0])
     print(estimates)
+
+def get_customer_id_from_project(conn, project_id):
+
+    sql = '''SELECT customer_id FROM projects
+                WHERE id = ?'''
+    
+    cur = conn.cursor()
+    cur.execute(sql, [project_id])
+    customer_id = cur.fetchone()[0]
+    return customer_id
 
 # def main():
 

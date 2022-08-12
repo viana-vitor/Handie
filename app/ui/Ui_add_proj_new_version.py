@@ -110,10 +110,10 @@ class Ui_Form(object):
 
         self.horizontalLayout_10.addWidget(self.markCompleteButton)
 
-        self.goProjectButton = QPushButton(self.page)
-        self.goProjectButton.setObjectName(u"goProjectButton")
+        self.goEstimateBtn = QPushButton(self.page)
+        self.goEstimateBtn.setObjectName(u"goEstimateBtn")
 
-        self.horizontalLayout_10.addWidget(self.goProjectButton)
+        self.horizontalLayout_10.addWidget(self.goEstimateBtn)
 
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_10)
@@ -166,7 +166,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -53, 923, 767))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 923, 743))
         self.verticalLayout_6 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.stackedWidget_3 = QStackedWidget(self.scrollAreaWidgetContents)
@@ -184,6 +184,7 @@ class Ui_Form(object):
         self.page_8.setObjectName(u"page_8")
         self.verticalLayout_14 = QVBoxLayout(self.page_8)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_36 = QLabel(self.page_8)
@@ -207,6 +208,7 @@ class Ui_Form(object):
         self.page_9.setObjectName(u"page_9")
         self.gridLayout = QGridLayout(self.page_9)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_7 = QGridLayout()
 #ifndef Q_OS_MAC
         self.gridLayout_7.setSpacing(-1)
@@ -715,7 +717,7 @@ class Ui_Form(object):
         self.label_38.setText(QCoreApplication.translate("Form", u"Current Projects:", None))
         self.label_39.setText(QCoreApplication.translate("Form", u"Materials:", None))
         self.markCompleteButton.setText(QCoreApplication.translate("Form", u"Mark as complete", None))
-        self.goProjectButton.setText(QCoreApplication.translate("Form", u"See Estimate", None))
+        self.goEstimateBtn.setText(QCoreApplication.translate("Form", u"See Estimate", None))
         self.newCustomerButton.setText(QCoreApplication.translate("Form", u"New Customer", None))
         self.existingCustomerButton.setText(QCoreApplication.translate("Form", u"Existing Customer", None))
         self.label_36.setText(QCoreApplication.translate("Form", u"Customer:", None))

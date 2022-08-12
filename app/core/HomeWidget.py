@@ -5,15 +5,17 @@ import sqlite3
 import json
 import os
 
-from PySide6.QtCore import Qt, QSize, Signal, QDate
+from PySide6.QtCore import Qt, QSize, Signal, QDate, QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel, QSqlQueryModel, QSqlQuery
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWindow, QDialog, QVBoxLayout, QLabel, QCheckBox,
- QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem)
+ QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem, QMessageBox)
 
 from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
 from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
 import app.data.database.insert_data_sql as insert_data_sql
 import app.data.database.tasks_keywords_json as tasks_keywords_json
+from app.core.ProjectEstimateWidget import ProjectEstimate
 
 db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("app/data/database/customer_data.db")
@@ -40,26 +42,11 @@ class HomeWidget(QWidget, Ui_new_home):
 
         self.comboBox.addItems(self.dict.values()) #Add current projects to homepage combo box
         self.comboBox.currentIndexChanged.connect(self.populate_table)
-
-        self.model = QSqlQueryModel()
-        self.tableView.setModel(self.model)
-        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        #self.tableView.horizontalHeader().setStretchLastSection(True)
-
-        #Populates inital materials table based on current project selected from combo box
-        query = QSqlQuery("SELECT * FROM materials WHERE project_id = ?", db=db)
-        current_id = self.get_key(self.dict, self.comboBox.currentText())
-        query.bindValue(0, current_id)
-        query.exec()
-        self.model.setQuery(query)
+        self.populate_table() ##Initally populates the table with materials data for the current project selected
 
         self.markCompleteButton.clicked.connect(self.mark_as_complete) #Connects "Mark as completed" button
-
-        headers = ["Project ID", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
-        for i in range(len(headers)):
-            self.model.setHeaderData(i, Qt.Horizontal, headers[i])
-
         self.addNewProjectButton.clicked.connect(self.open_new_project_form) #Open new project form
+        self.goEstimateBtn.clicked.connect(self.go_to_estimate)
         
         #####################################################
         ######## Customer Add Project Page #########
@@ -96,15 +83,8 @@ class HomeWidget(QWidget, Ui_new_home):
 
         self.constructionAreaStacked.setEnabled(False)
         self.constructionAreaStacked.setCurrentIndex(0)
-        self.kitchenCheck.stateChanged.connect(self.new_task)
-        self.bathroomCheck.stateChanged.connect(self.new_task)
-        self.bedroomCheck.stateChanged.connect(self.new_task)
-        self.multipleRoomCheck.stateChanged.connect(self.new_task)
-        self.additionCheck.stateChanged.connect(self.new_task)
-        self.livingroomCheck.stateChanged.connect(self.new_task)
-        self.exteriorCheck.stateChanged.connect(self.new_task)
-
-
+        for button in self.tasks_button_grp.buttons():
+            button.stateChanged.connect(self.new_task)
         
         
         self.continueButton.clicked.connect(self.continue_add_material_page)
@@ -121,22 +101,14 @@ class HomeWidget(QWidget, Ui_new_home):
 
         self.backButton.clicked.connect(self.go_back)
         self.addMaterialPushButton.clicked.connect(self.add_material)
-
-        
-        # self.model_materials = QSqlTableModel(db=db)
-        # self.model_materials.setTable('materials')
-        # self.materialsTableView.setModel(self.model_materials)
-        # for i in range(len(headers)):
-        #     self.model_materials.setHeaderData(i, Qt.Horizontal, headers[i])
-        # self.materialsTableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         
         
         self.materialsTableWidget.setColumnCount(5)
         self.materialsTableWidget.setHorizontalHeaderLabels(["Material", "Description", "Quantity", "Price ($)", "Total ($)"])
         self.materialsTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.materialsTableWidget.cellChanged.connect(self.cell_changed)
-
-
+        
+        self.searchHDPushButton.clicked.connect(self.open_HD)
 
     
     def get_key(self, dict, val):
@@ -151,21 +123,40 @@ class HomeWidget(QWidget, Ui_new_home):
         """
         Set new query when current project on combo box is changed
         """
-        id = self.get_key(self.dict, self.comboBox.currentText())
+        project_id = self.get_key(self.dict, self.comboBox.currentText())
 
+        self.model = QSqlQueryModel()
+        self.tableView.setModel(self.model)
+        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        #self.tableView.horizontalHeader().setStretchLastSection(True)
+        
         query = QSqlQuery("SELECT * FROM materials WHERE project_id = ?", db=db)
-        query.bindValue(0, id)
+        query.bindValue(0, project_id)
         query.exec()
 
         self.model.setQuery(query)
+
+        headers = ["Project ID", "Material", "Description", "Quantity", "Price ($)", "Total ($)"]
+        for i in range(len(headers)):
+            self.model.setHeaderData(i, Qt.Horizontal, headers[i])
       
     def mark_as_complete(self):
         '''Mark a current project as complete'''
         
-        id = self.get_key(self.dict, self.comboBox.currentText())
+        project_id = self.get_key(self.dict, self.comboBox.currentText())
         with self.conn:
-            insert_data_sql.mark_as_complete(self.conn, id)
+            insert_data_sql.mark_as_complete(self.conn, project_id)
         self.comboBox.removeItem(self.comboBox.currentIndex()) #Remove the completed project from the combo box
+    
+    def go_to_estimate(self):
+
+        project_id = self.get_key(self.dict, self.comboBox.currentText())
+        task_id = insert_data_sql.get_task_id(self.conn, project_id)
+        customer_id = insert_data_sql.get_customer_id_from_project(self.conn, project_id)
+
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, 'EstimateWidget') ##Using 'EstimateWidget' as source because it's opening for projects that have
+        ## already been created. So, it behaves in the same manner as if opending it from the estimates widget page
+        self.project_estimate.show()
     
     
     
@@ -189,8 +180,6 @@ class HomeWidget(QWidget, Ui_new_home):
     
     def go_back(self):
         self.stackedWidget.setCurrentIndex(2)
-
-            
             
     
     def new_task(self):
@@ -355,7 +344,7 @@ class HomeWidget(QWidget, Ui_new_home):
             
             new_project = [
                         customer_id, self.projectNameLineEdit.text(),
-                        self.begginingDateDateEdit.text(), self.endDateDateEdit.text()
+                        self.begginingDateDateEdit.text(), self.endDateDateEdit.text(), 'Active'
             ]
               
             with self.conn:
@@ -370,15 +359,9 @@ class HomeWidget(QWidget, Ui_new_home):
                 self.addressLineEdit.text(), self.cityLineEdit.text(), self.zipLineEdit.text()
             ]
 
-            construction_area = []
-            for i in range(self.gridLayout_11.count()):
-                widget = self.gridLayout_11.itemAt(i).widget()
-                if widget.isChecked():
-                    construction_area.append(widget.text())
-
             new_project = [
                 self.projectNameLineEdit.text(), self.begginingDateDateEdit.text(),
-                self.endDateDateEdit.text()
+                self.endDateDateEdit.text(), 'Active'
             ]
             
             with self.conn:
@@ -416,6 +399,12 @@ class HomeWidget(QWidget, Ui_new_home):
             with open("app/data/database/user_tasks.json", "w") as new:
                 json.dump(user_tasks_data, new)
     
+
+    def open_HD(self):
+        url = QUrl("https://www.homedepot.com/")
+        if not QDesktopServices.openUrl(url):
+            QMessageBox.warning(self, 'Open Url', 'Could not open website')
+
 
     def add_material(self):
         '''Add new materials to QTableWidget'''

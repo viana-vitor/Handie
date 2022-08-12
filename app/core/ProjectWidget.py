@@ -3,9 +3,10 @@ import sys
 import sqlite3
 import json
 
-from PySide6.QtCore import Qt, QSize, Signal, QDate
+from PySide6.QtCore import Qt, QSize, Signal, QDate, QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
-from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout, QHeaderView, QDataWidgetMapper, QButtonGroup, QCheckBox)
+from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout, QHeaderView, QDataWidgetMapper, QButtonGroup, QCheckBox, QMessageBox)
 
 from app.ui.Ui_project_widget import Ui_Projects
 from app.ui.Ui_edit_material_form import Ui_Form as UiEditMaterial
@@ -21,6 +22,8 @@ db.open()
 
 class ProjectWidget(QWidget, Ui_Projects):
     
+    CreateNewProject = Signal()
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -66,8 +69,11 @@ class ProjectWidget(QWidget, Ui_Projects):
 
         self.editMaterialBtn.clicked.connect(self.open_edit_form)
         self.addMaterialbtn.clicked.connect(self.open_add_form)
+
+        self.addNewProjectBtn.clicked.connect(self.open_new_project)
         
-    
+    def open_new_project(self):
+        self.CreateNewProject.emit()
 
     def create_list(self):
         '''Create list of projects'''
@@ -153,6 +159,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         self.phoneLineEdit.clear()
         self.cityLineEdit.clear()
         self.emailLineEdit.clear()
+    
 
     
     def update_customer_info(self):
@@ -597,11 +604,17 @@ class EditForm(QWidget, UiEditMaterial):
         self.previousBtn.clicked.connect(self.mapper.toPrevious)
         self.nextBtn.clicked.connect(self.mapper.toNext)
         self.saveBtn.clicked.connect(self.on_submit)
+        self.searchHdBtn.clicked.connect(self.open_HD)
     
     def on_submit(self):
         self.mapper.submit()
         self.close()
         self.FormClosed.emit()
+    
+    def open_HD(self):
+        url = QUrl("https://www.homedepot.com/")
+        if not QDesktopServices.openUrl(url):
+            QMessageBox.warning(self, 'Open Url', 'Could not open website')
     
 
 class AddForm(QWidget, UiAddMaterial):
@@ -617,6 +630,8 @@ class AddForm(QWidget, UiAddMaterial):
 
         self.cancelBtn.clicked.connect(self.on_cancel)
         self.addBtn.clicked.connect(self.on_add)
+        self.searchHDBtn.clicked.connect(self.open_HD)
+
 
     def on_cancel(self):
         self.close()
@@ -633,7 +648,10 @@ class AddForm(QWidget, UiAddMaterial):
         self.close()
         self.FormClosed.emit()
     
-
+    def open_HD(self):
+        url = QUrl("https://www.homedepot.com/")
+        if not QDesktopServices.openUrl(url):
+            QMessageBox.warning(self, 'Open Url', 'Could not open website')
 
 
 class TaskList(QWidget, Ui_task_widget):

@@ -117,7 +117,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="goProjectButton">
+          <widget class="QPushButton" name="goEstimateBtn">
            <property name="text">
             <string>See Estimate</string>
            </property>
@@ -230,9 +230,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-53</y>
+            <y>0</y>
             <width>923</width>
-            <height>767</height>
+            <height>743</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -264,6 +264,18 @@
              </property>
              <widget class="QWidget" name="page_8">
               <layout class="QVBoxLayout" name="verticalLayout_14">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_7">
                  <item>
@@ -291,6 +303,18 @@
              </widget>
              <widget class="QWidget" name="page_9">
               <layout class="QGridLayout" name="gridLayout">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0,0,0" columnstretch="0,0,0,0">
                  <property name="sizeConstraint">
