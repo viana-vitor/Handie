@@ -138,6 +138,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         self.phoneLineEdit.setText(info[1])
         self.addressLineEdit.setText(info[2])
         self.cityLineEdit.setText(info[3])
+        self.emailLineEdit.setText(info[4])
 
         self.set_materials_table()
         self.check_tasks()
@@ -168,10 +169,12 @@ class ProjectWidget(QWidget, Ui_Projects):
         sql = '''UPDATE customer
                 SET phone = '{phone}',
                     address = '{address}',
-                    city = '{city}'
+                    city = '{city}',
+                    email = '{email}'
                 WHERE id = ?'''.format(phone = self.phoneLineEdit.text(),
                                         address = self.addressLineEdit.text(),
-                                        city = self.cityLineEdit.text()) #### DO NOT FORGET TO ADD EMAIL TO THIS    
+                                        city = self.cityLineEdit.text(),
+                                        email = self.emailLineEdit.text())
         
         cur = self.conn.cursor()
         cur.execute(sql, [self.customer_id])

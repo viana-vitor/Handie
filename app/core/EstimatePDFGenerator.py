@@ -1,4 +1,10 @@
 
+"""
+This code was written based on the code provided at https://github.com/pmaupin/pdfrw/blob/master/examples/rl1/platypus_pdf_template.py
+which allows us to use an existing pdf template as background for a new pdf document.
+
+"""
+
 from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot
 
 from reportlab.pdfgen.canvas import Canvas
@@ -10,6 +16,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
 
+from pathlib import Path
 import os
 
 import textwrap
@@ -48,24 +55,18 @@ class Generator(QRunnable):
     @Slot()
     def run(self):
         template = 'pdf_work/stanford_green.pdf'
-        outfile = 'pdf_work/result.pdf'
+        
+        #downloads_path = str(Path.home() / "Downloads") ##Works for mac
+        if os.name == 'nt':
+            downloads_path = f"{os.getenv('USERPROFILE')}\\Downloads"
+        else:
+            downloads_path = f"{os.getenv('HOME')}/Downloads"
+        
+        outfile = downloads_path + '/{}_estimate.pdf'.format(self.data['customer_name'].replace(" ", ""))
 
         create_pdf(outfile, template, self.data)
         self.signals.file_saved_as.emit(outfile)
         
-        # try:
-
-        #     template = 'pdf_work/stanford_green.pdf'
-        #     outfile = 'pdf_work/result.pdf'
-
-        #     create_pdf(outfile, template, self.data)
-
-        # except Exception as e:
-        #     self.signals.error.emit(str(e))
-        #     return
-
-        # self.signals.file_saved_as.emit(outfile)
-
 
 class MyTemplate(PageTemplate):
     """The kernel of this example, where we use pdfrw to fill in the

@@ -1,2 +1,3 @@
-* Get rid of the variable "total" from all the add_materials function
+
 * Add email and adapt all code for it
+* Make it possible to delete input info on estimate page (fee amount, labor, etc)

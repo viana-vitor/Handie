@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>872</width>
-    <height>719</height>
+    <width>915</width>
+    <height>751</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>809</width>
+            <width>852</width>
             <height>1549</height>
            </rect>
           </property>
@@ -127,45 +127,10 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>City:</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="3">
               <widget class="QLabel" name="emailDataLabel">
                <property name="text">
                 <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="cityDataLabel">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="3">
-              <widget class="QLabel" name="addressDataLabel">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="5">
-              <widget class="QLabel" name="zipDataLabel">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>Address:</string>
                </property>
               </widget>
              </item>
@@ -195,15 +160,36 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="4">
-              <widget class="QLabel" name="label_32">
+             <item row="0" column="5">
+              <widget class="QLabel" name="phoneDataLabel">
                <property name="text">
-                <string>Zip</string>
+                <string/>
                </property>
               </widget>
              </item>
-             <item row="0" column="5">
-              <widget class="QLabel" name="phoneDataLabel">
+             <item row="1" column="3">
+              <widget class="QLabel" name="cityDataLabel">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>City:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Address:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="addressDataLabel">
                <property name="text">
                 <string/>
                </property>

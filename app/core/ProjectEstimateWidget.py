@@ -4,7 +4,8 @@ import json
 import sqlite3
 import os
 
-from PySide6.QtCore import Qt, QThreadPool, Signal
+from PySide6.QtCore import Qt, QThreadPool, Signal, QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import (QWidget, QListWidgetItem, QButtonGroup, QHBoxLayout, QLabel, QPushButton, QHeaderView,
  QLineEdit, QSpinBox, QDoubleSpinBox, QVBoxLayout, QMessageBox, QTextEdit, QDataWidgetMapper)
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery, QSqlTableModel
@@ -54,7 +55,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.phoneDataLabel.setText(str(self.customer_data[1]))
         self.addressDataLabel.setText(str(self.customer_data[2]))
         self.cityDataLabel.setText(self.customer_data[3])
-        self.zipDataLabel.setText(str(self.customer_data[4]))
+        self.emailDataLabel.setText(str(self.customer_data[4]))
   
         self.construction_area_widgets()
         self.tasks_writeup()
@@ -70,6 +71,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.showMaterialButton.clicked.connect(self.show_hide_materials)
         self.addMaterialButton.clicked.connect(self.add_material)
         self.editMaterialBtn.clicked.connect(self.open_edit_form)
+        self.searchHDBtn.clicked.connect(self.open_HD)
 
         self.get_materials_total()
         self.get_fee_from_database(self.conn, self.project_id)
@@ -142,8 +144,15 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.editForm.show()
         self.editForm.FormClosed.connect(self.set_materials_table)
     
+    def open_HD(self):
+        '''Open Home Depot website'''
+        url = QUrl("https://www.homedepot.com/")
+        if not QDesktopServices.openUrl(url):
+            QMessageBox.warning(self, 'Open Url', 'Could not open website')
+    
     
     def get_materials_total(self):
+        '''Calculate total cost for materials'''
 
         sql = 'SELECT (quantity * price) AS total FROM materials WHERE project_id = ?'
 

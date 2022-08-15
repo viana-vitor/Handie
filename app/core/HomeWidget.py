@@ -356,7 +356,8 @@ class HomeWidget(QWidget, Ui_new_home):
 
             new_customer = [
                 self.firstNamelineEdit.text(), self.lastNamelineEdit.text(), self.phoneLineEdit.text(),
-                self.addressLineEdit.text(), self.cityLineEdit.text(), self.zipLineEdit.text()
+                self.addressLineEdit.text(), self.cityLineEdit.text(), self.zipLineEdit.text(),
+                self.emailLineEdit.text()
             ]
 
             new_project = [

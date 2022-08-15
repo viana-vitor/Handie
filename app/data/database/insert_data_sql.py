@@ -22,8 +22,8 @@ def create_connection(db_file):
 
 def add_new_customer(conn, customer):
 
-    sql = ''' INSERT INTO customer (first_name, last_name, phone, address, city, zip)
-            VALUES (?,?,?,?,?,?)'''
+    sql = ''' INSERT INTO customer (first_name, last_name, phone, address, city, zip, email)
+            VALUES (?,?,?,?,?,?, ?)'''
     cur = conn.cursor()
     cur.execute(sql, customer)
     conn.commit()
@@ -33,8 +33,8 @@ def create_new_project(conn, project):
     """
     Create a new project in the projects table
     """
-    sql = ''' INSERT INTO projects(customer_id ,project_name, begin_date, end_date)
-            VALUES(?,?,?,?) '''
+    sql = ''' INSERT INTO projects(customer_id ,project_name, begin_date, end_date, status)
+            VALUES(?,?,?,?,?) '''
 
     cur = conn.cursor()
     cur.execute(sql, project)
@@ -197,7 +197,7 @@ def get_dates(conn, project_id):
 
 def get_customer_data(conn, customer_id):
 
-    sql = ''' SELECT first_name || " " || last_name, phone, address, city, zip FROM customer
+    sql = ''' SELECT first_name || " " || last_name, phone, address, city, email FROM customer
                 WHERE id = ?'''
     
     cur = conn.cursor()

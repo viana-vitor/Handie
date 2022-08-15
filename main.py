@@ -117,6 +117,7 @@ class CustomerWidget(QWidget, Ui_Customers):
             "address": "Address",
             "city" : "City",
             "zip": "Zip Code",
+            "email": "Email"
         }
         for n, t in column_titles.items():
             idx = self.model.fieldIndex(n)
