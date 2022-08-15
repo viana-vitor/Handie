@@ -19,28 +19,30 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QDateE
     QFrame, QGridLayout, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QListWidget,
     QListWidgetItem, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QTableView, QVBoxLayout, QWidget)
+    QSpacerItem, QStackedWidget, QTableView, QVBoxLayout,
+    QWidget)
 
 class Ui_Projects(object):
     def setupUi(self, Projects):
         if not Projects.objectName():
             Projects.setObjectName(u"Projects")
-        Projects.resize(1002, 765)
-        self.verticalLayout_6 = QVBoxLayout(Projects)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        Projects.resize(1068, 810)
+        self.verticalLayout_7 = QVBoxLayout(Projects)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(12, -1, -1, -1)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(Projects)
-        self.pushButton.setObjectName(u"pushButton")
+        self.addNewProjectBtn = QPushButton(Projects)
+        self.addNewProjectBtn.setObjectName(u"addNewProjectBtn")
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.addNewProjectBtn)
 
         self.horizontalSpacer = QSpacerItem(736, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout)
+        self.verticalLayout_7.addLayout(self.horizontalLayout)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -90,6 +92,10 @@ class Ui_Projects(object):
 "    show-decoration-selected: 1; /* make the selection span the entire width of the view */\n"
 "}\n"
 "\n"
+"QListWidget::item {\n"
+"	border-bottom: 1px dashed black;\n"
+"}\n"
+"\n"
 "QListWidget::item:alternate {\n"
 "    background: #EEEEEE;\n"
 "}\n"
@@ -116,9 +122,16 @@ class Ui_Projects(object):
         self.verticalLayout.addWidget(self.listWidget)
 
 
-        self.verticalLayout_6.addLayout(self.verticalLayout)
+        self.verticalLayout_7.addLayout(self.verticalLayout)
 
-        self.scrollArea = QScrollArea(Projects)
+        self.stackedWidget = QStackedWidget(Projects)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.page = QWidget()
+        self.page.setObjectName(u"page")
+        self.verticalLayout_6 = QVBoxLayout(self.page)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.scrollArea = QScrollArea(self.page)
         self.scrollArea.setObjectName(u"scrollArea")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
@@ -131,7 +144,7 @@ class Ui_Projects(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -123, 959, 712))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -236, 1025, 712))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_14 = QLabel(self.scrollAreaWidgetContents)
@@ -467,9 +480,30 @@ class Ui_Projects(object):
 
         self.verticalLayout_6.addWidget(self.scrollArea)
 
+        self.stackedWidget.addWidget(self.page)
+        self.page_2 = QWidget()
+        self.page_2.setObjectName(u"page_2")
+        self.verticalLayout_8 = QVBoxLayout(self.page_2)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.label_16 = QLabel(self.page_2)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setEnabled(False)
+        self.label_16.setFont(font3)
+
+        self.verticalLayout_8.addWidget(self.label_16)
+
+        self.verticalSpacer = QSpacerItem(20, 427, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_8.addItem(self.verticalSpacer)
+
+        self.stackedWidget.addWidget(self.page_2)
+
+        self.verticalLayout_7.addWidget(self.stackedWidget)
+
 
         self.retranslateUi(Projects)
 
+        self.stackedWidget.setCurrentIndex(1)
         self.markCompletedButton.setDefault(True)
 
 
@@ -478,7 +512,7 @@ class Ui_Projects(object):
 
     def retranslateUi(self, Projects):
         Projects.setWindowTitle(QCoreApplication.translate("Projects", u"Form", None))
-        self.pushButton.setText(QCoreApplication.translate("Projects", u"Add new project", None))
+        self.addNewProjectBtn.setText(QCoreApplication.translate("Projects", u"Add new project", None))
         self.searchLineEdit.setPlaceholderText(QCoreApplication.translate("Projects", u"Search project...", None))
         self.label_7.setText(QCoreApplication.translate("Projects", u"Project", None))
         self.label_8.setText(QCoreApplication.translate("Projects", u"Customer", None))
@@ -508,5 +542,6 @@ class Ui_Projects(object):
         self.label_10.setText(QCoreApplication.translate("Projects", u"Materials:", None))
         self.editMaterialBtn.setText(QCoreApplication.translate("Projects", u"Edit", None))
         self.addMaterialbtn.setText(QCoreApplication.translate("Projects", u"Add", None))
+        self.label_16.setText(QCoreApplication.translate("Projects", u"Select a project...", None))
     # retranslateUi
 

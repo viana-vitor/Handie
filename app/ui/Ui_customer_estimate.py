@@ -26,7 +26,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(872, 719)
+        Form.resize(915, 751)
         self.verticalLayout = QVBoxLayout(Form)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.stackedWidget = QStackedWidget(Form)
@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 809, 1549))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 852, 1549))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.label = QLabel(self.scrollAreaWidgetContents)
@@ -91,35 +91,10 @@ class Ui_Form(object):
 
         self.gridLayout.addWidget(self.label_6, 0, 2, 1, 1)
 
-        self.label_3 = QLabel(self.scrollAreaWidgetContents)
-        self.label_3.setObjectName(u"label_3")
-
-        self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
-
         self.emailDataLabel = QLabel(self.scrollAreaWidgetContents)
         self.emailDataLabel.setObjectName(u"emailDataLabel")
 
         self.gridLayout.addWidget(self.emailDataLabel, 0, 3, 1, 1)
-
-        self.cityDataLabel = QLabel(self.scrollAreaWidgetContents)
-        self.cityDataLabel.setObjectName(u"cityDataLabel")
-
-        self.gridLayout.addWidget(self.cityDataLabel, 1, 1, 1, 1)
-
-        self.addressDataLabel = QLabel(self.scrollAreaWidgetContents)
-        self.addressDataLabel.setObjectName(u"addressDataLabel")
-
-        self.gridLayout.addWidget(self.addressDataLabel, 1, 3, 1, 1)
-
-        self.zipDataLabel = QLabel(self.scrollAreaWidgetContents)
-        self.zipDataLabel.setObjectName(u"zipDataLabel")
-
-        self.gridLayout.addWidget(self.zipDataLabel, 1, 5, 1, 1)
-
-        self.label_7 = QLabel(self.scrollAreaWidgetContents)
-        self.label_7.setObjectName(u"label_7")
-
-        self.gridLayout.addWidget(self.label_7, 1, 2, 1, 1)
 
         self.label_10 = QLabel(self.scrollAreaWidgetContents)
         self.label_10.setObjectName(u"label_10")
@@ -138,15 +113,30 @@ class Ui_Form(object):
 
         self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
 
-        self.label_32 = QLabel(self.scrollAreaWidgetContents)
-        self.label_32.setObjectName(u"label_32")
-
-        self.gridLayout.addWidget(self.label_32, 1, 4, 1, 1)
-
         self.phoneDataLabel = QLabel(self.scrollAreaWidgetContents)
         self.phoneDataLabel.setObjectName(u"phoneDataLabel")
 
         self.gridLayout.addWidget(self.phoneDataLabel, 0, 5, 1, 1)
+
+        self.cityDataLabel = QLabel(self.scrollAreaWidgetContents)
+        self.cityDataLabel.setObjectName(u"cityDataLabel")
+
+        self.gridLayout.addWidget(self.cityDataLabel, 1, 3, 1, 1)
+
+        self.label_3 = QLabel(self.scrollAreaWidgetContents)
+        self.label_3.setObjectName(u"label_3")
+
+        self.gridLayout.addWidget(self.label_3, 1, 2, 1, 1)
+
+        self.label_7 = QLabel(self.scrollAreaWidgetContents)
+        self.label_7.setObjectName(u"label_7")
+
+        self.gridLayout.addWidget(self.label_7, 1, 0, 1, 1)
+
+        self.addressDataLabel = QLabel(self.scrollAreaWidgetContents)
+        self.addressDataLabel.setObjectName(u"addressDataLabel")
+
+        self.gridLayout.addWidget(self.addressDataLabel, 1, 1, 1, 1)
 
 
         self.verticalLayout_12.addLayout(self.gridLayout)
@@ -990,16 +980,14 @@ class Ui_Form(object):
         self.label_19.setText(QCoreApplication.translate("Form", u"This section is for contractor view only.", None))
         self.customerDataLabel.setText("")
         self.label_6.setText(QCoreApplication.translate("Form", u"Email:", None))
-        self.label_3.setText(QCoreApplication.translate("Form", u"City:", None))
         self.emailDataLabel.setText("")
-        self.cityDataLabel.setText("")
-        self.addressDataLabel.setText("")
-        self.zipDataLabel.setText("")
-        self.label_7.setText(QCoreApplication.translate("Form", u"Address:", None))
         self.label_10.setText(QCoreApplication.translate("Form", u"Phone #:", None))
         self.label_2.setText(QCoreApplication.translate("Form", u"Customer:", None))
-        self.label_32.setText(QCoreApplication.translate("Form", u"Zip", None))
         self.phoneDataLabel.setText("")
+        self.cityDataLabel.setText("")
+        self.label_3.setText(QCoreApplication.translate("Form", u"City:", None))
+        self.label_7.setText(QCoreApplication.translate("Form", u"Address:", None))
+        self.addressDataLabel.setText("")
         self.label_12.setText(QCoreApplication.translate("Form", u"Construction Area:", None))
         self.label_13.setText(QCoreApplication.translate("Form", u"Estimate:", None))
         self.label_14.setText(QCoreApplication.translate("Form", u"Materials", None))

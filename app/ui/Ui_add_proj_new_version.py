@@ -110,10 +110,10 @@ class Ui_Form(object):
 
         self.horizontalLayout_10.addWidget(self.markCompleteButton)
 
-        self.goProjectButton = QPushButton(self.page)
-        self.goProjectButton.setObjectName(u"goProjectButton")
+        self.goEstimateBtn = QPushButton(self.page)
+        self.goEstimateBtn.setObjectName(u"goEstimateBtn")
 
-        self.horizontalLayout_10.addWidget(self.goProjectButton)
+        self.horizontalLayout_10.addWidget(self.goEstimateBtn)
 
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_10)
@@ -166,7 +166,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -53, 923, 767))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 923, 723))
         self.verticalLayout_6 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.stackedWidget_3 = QStackedWidget(self.scrollAreaWidgetContents)
@@ -184,6 +184,7 @@ class Ui_Form(object):
         self.page_8.setObjectName(u"page_8")
         self.verticalLayout_14 = QVBoxLayout(self.page_8)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_36 = QLabel(self.page_8)
@@ -207,6 +208,7 @@ class Ui_Form(object):
         self.page_9.setObjectName(u"page_9")
         self.gridLayout = QGridLayout(self.page_9)
         self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_7 = QGridLayout()
 #ifndef Q_OS_MAC
         self.gridLayout_7.setSpacing(-1)
@@ -241,6 +243,9 @@ class Ui_Form(object):
 
         self.phoneLineEdit = QLineEdit(self.page_9)
         self.phoneLineEdit.setObjectName(u"phoneLineEdit")
+        self.phoneLineEdit.setInputMethodHints(Qt.ImhNone)
+        self.phoneLineEdit.setCursorPosition(0)
+        self.phoneLineEdit.setCursorMoveStyle(Qt.VisualMoveStyle)
 
         self.gridLayout_7.addWidget(self.phoneLineEdit, 1, 1, 1, 1)
 
@@ -408,37 +413,8 @@ class Ui_Form(object):
 
         self.gridLayout_11.addWidget(self.multipleRoomCheck, 1, 4, 1, 1)
 
-        self.comboBox_2 = QComboBox(self.scrollAreaWidgetContents)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-
-        self.gridLayout_11.addWidget(self.comboBox_2, 4, 3, 1, 1)
-
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.lineEdit = QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit.setObjectName(u"lineEdit")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
-        self.lineEdit.setSizePolicy(sizePolicy1)
-
-        self.horizontalLayout_4.addWidget(self.lineEdit)
-
-        self.pushButton = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton.setObjectName(u"pushButton")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy2)
-        font4 = QFont()
-        font4.setPointSize(12)
-        self.pushButton.setFont(font4)
-
-        self.horizontalLayout_4.addWidget(self.pushButton)
-
 
         self.gridLayout_11.addLayout(self.horizontalLayout_4, 4, 4, 1, 1)
 
@@ -454,11 +430,11 @@ class Ui_Form(object):
 
         self.constructionAreaStacked = QStackedWidget(self.scrollAreaWidgetContents)
         self.constructionAreaStacked.setObjectName(u"constructionAreaStacked")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.constructionAreaStacked.sizePolicy().hasHeightForWidth())
-        self.constructionAreaStacked.setSizePolicy(sizePolicy3)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.MinimumExpanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.constructionAreaStacked.sizePolicy().hasHeightForWidth())
+        self.constructionAreaStacked.setSizePolicy(sizePolicy1)
         self.constructionAreaStacked.setMinimumSize(QSize(0, 300))
         self.constructionAreaStacked.setFrameShape(QFrame.NoFrame)
         self.constructionAreaStacked.setFrameShadow(QFrame.Plain)
@@ -518,21 +494,21 @@ class Ui_Form(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.label = QLabel(self.page_3)
         self.label.setObjectName(u"label")
-        font5 = QFont()
-        font5.setPointSize(13)
-        font5.setBold(False)
-        self.label.setFont(font5)
+        font4 = QFont()
+        font4.setPointSize(13)
+        font4.setBold(False)
+        self.label.setFont(font4)
         self.label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_5.addWidget(self.label)
 
         self.widget = QWidget(self.page_3)
         self.widget.setObjectName(u"widget")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
-        self.widget.setSizePolicy(sizePolicy4)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy2)
         self.widget.setMaximumSize(QSize(16777215, 191))
         self.verticalLayout_10 = QVBoxLayout(self.widget)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
@@ -587,11 +563,11 @@ class Ui_Form(object):
 
         self.materialDescLineEdit = QLineEdit(self.widget)
         self.materialDescLineEdit.setObjectName(u"materialDescLineEdit")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.materialDescLineEdit.sizePolicy().hasHeightForWidth())
-        self.materialDescLineEdit.setSizePolicy(sizePolicy5)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.materialDescLineEdit.sizePolicy().hasHeightForWidth())
+        self.materialDescLineEdit.setSizePolicy(sizePolicy3)
         self.materialDescLineEdit.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
         self.verticalLayout_2.addWidget(self.materialDescLineEdit)
@@ -698,7 +674,7 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_3.setCurrentIndex(0)
+        self.stackedWidget_3.setCurrentIndex(1)
         self.constructionAreaStacked.setCurrentIndex(0)
         self.continueButton.setDefault(True)
         self.addMaterialPushButton.setDefault(False)
@@ -715,12 +691,13 @@ class Ui_Form(object):
         self.label_38.setText(QCoreApplication.translate("Form", u"Current Projects:", None))
         self.label_39.setText(QCoreApplication.translate("Form", u"Materials:", None))
         self.markCompleteButton.setText(QCoreApplication.translate("Form", u"Mark as complete", None))
-        self.goProjectButton.setText(QCoreApplication.translate("Form", u"See Estimate", None))
+        self.goEstimateBtn.setText(QCoreApplication.translate("Form", u"See Estimate", None))
         self.newCustomerButton.setText(QCoreApplication.translate("Form", u"New Customer", None))
         self.existingCustomerButton.setText(QCoreApplication.translate("Form", u"Existing Customer", None))
         self.label_36.setText(QCoreApplication.translate("Form", u"Customer:", None))
         self.label_21.setText(QCoreApplication.translate("Form", u"Phone #", None))
         self.label_22.setText(QCoreApplication.translate("Form", u"City", None))
+        self.phoneLineEdit.setInputMask(QCoreApplication.translate("Form", u"(999)999-9999", None))
         self.label_23.setText(QCoreApplication.translate("Form", u"Address", None))
         self.label_24.setText(QCoreApplication.translate("Form", u"Zip Code", None))
         self.label_25.setText(QCoreApplication.translate("Form", u"Last Name*", None))
@@ -743,9 +720,6 @@ class Ui_Form(object):
         self.kitchenCheck.setText(QCoreApplication.translate("Form", u"Kitchen", None))
         self.bathroomCheck.setText(QCoreApplication.translate("Form", u"Bathroom", None))
         self.multipleRoomCheck.setText(QCoreApplication.translate("Form", u"Multiple Room", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("Form", u"(select other)", None))
-
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Add New", None))
         self.label_5.setText(QCoreApplication.translate("Form", u"No construction area selected", None))
         self.cancelButton.setText(QCoreApplication.translate("Form", u"Cancel", None))
         self.continueButton.setText(QCoreApplication.translate("Form", u"Continue", None))
