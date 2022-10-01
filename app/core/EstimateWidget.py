@@ -35,7 +35,7 @@ class EstimateWidget(QWidget, Ui_estimates):
 
 
             listWidgetItem = QListWidgetItem(self.listWidget)
-            listWidgetItem.setSizeHint(QSize(30, 70))
+            listWidgetItem.setSizeHint(QSize(30, 85))
 
             self.listWidget.addItem(listWidgetItem)
             self.listWidget.setItemWidget(listWidgetItem, myItemWidget)

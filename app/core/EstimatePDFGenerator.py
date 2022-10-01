@@ -157,7 +157,7 @@ def create_pdf(filename, pdf_template_filename, data):
     gen_con_list = []
     for line in general_conditions:
         gen_con_list.append(Paragraph('{}'.format(line), styles['Normal']))
-    list_flow = ListFlowable(gen_con_list)
+    list_flow = ListFlowable(gen_con_list, bulletType='bullet')
     elements.append(list_flow)
 
         

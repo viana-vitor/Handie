@@ -1,3 +1,0 @@
-
-* Add email and adapt all code for it
-* Make it possible to delete input info on estimate page (fee amount, labor, etc)
