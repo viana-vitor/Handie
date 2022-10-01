@@ -36,7 +36,7 @@ class HomeWidget(QWidget, Ui_new_home):
         ########### Initial Page #########
 
         database = r"app/data/database/customer_data.db" #Database path
-        self.conn = insert_data_sql.create_connection(database) #Creates database connection 
+        self.conn = insert_data_sql.create_connection(database) #Creates database connection
         with self.conn:
             self.dict = insert_data_sql.find_current_project(self.conn) #Create dictionary to store ids and names of current projects
 
