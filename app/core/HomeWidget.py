@@ -11,31 +11,35 @@ from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel
 from PySide6.QtWidgets import (QApplication, QDialogButtonBox, QWidget, QMainWindow, QDialog, QVBoxLayout, QLabel, QCheckBox,
  QListWidgetItem, QButtonGroup, QHeaderView, QTableWidgetItem, QMessageBox)
 
-from app.ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
-from app.ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
-import app.data.database.insert_data_sql as insert_data_sql
-import app.data.database.tasks_keywords_json as tasks_keywords_json
-from app.core.ProjectEstimateWidget import ProjectEstimate
+from ..ui.Ui_add_proj_new_version import Ui_Form as Ui_new_home
+from ..ui.Ui_task_list_widget import Ui_Form as Ui_task_widget
+from ..data.database import insert_data_sql
+from ..data.database import tasks_keywords_json
+from .ProjectEstimateWidget import ProjectEstimate
 
 db = QSqlDatabase("QSQLITE")
 db.setDatabaseName("app/data/database/customer_data.db")
 db.open()
 
 
-
 #Home Page widget
 class HomeWidget(QWidget, Ui_new_home):
     
-    EstimatePageSignal = Signal(int, int, int, str) #Signal to go to the project estimate page, passing database keys
+    EstimatePageSignal = Signal(int, int, int, str, str) #Signal to go to the project estimate page, passing database keys
 
-    def __init__(self, parent = None):
+    def __init__(self, basedir, parent = None):
         super(HomeWidget, self).__init__(parent)
         self.setupUi(self)
+        self.basedir = basedir
         
         ##################################
         ########### Initial Page #########
 
-        database = r"app/data/database/customer_data.db" #Database path
+        self.db = QSqlDatabase("QSQLITE")
+        self.db.setDatabaseName(os.path.join(self.basedir, "app/data/database/customer_data.db"))
+        self.db.open()
+
+        database = os.path.join(self.basedir, "app", "data", "database", "customer_data.db") #Database path
         self.conn = insert_data_sql.create_connection(database) #Creates database connection
         with self.conn:
             self.dict = insert_data_sql.find_current_project(self.conn) #Create dictionary to store ids and names of current projects
@@ -130,7 +134,7 @@ class HomeWidget(QWidget, Ui_new_home):
         self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         #self.tableView.horizontalHeader().setStretchLastSection(True)
         
-        query = QSqlQuery("SELECT * FROM materials WHERE project_id = ?", db=db)
+        query = QSqlQuery("SELECT * FROM materials WHERE project_id = ?", db=self.db)
         query.bindValue(0, project_id)
         query.exec()
 
@@ -186,13 +190,13 @@ class HomeWidget(QWidget, Ui_new_home):
         ''' Populate tasks on list widget according to construction area'''
 
         
-        if not os.path.exists("app/data/database/tasks_kw.json"):
-            tasks_keywords_json.main()
+        if not os.path.exists(os.path.join(self.basedir, "app/data/database/tasks_kw.json")):
+            tasks_keywords_json.main(self.basedir)
 
-            with open("app/data/database/tasks_kw.json", "r") as f:
+            with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "r") as f:
                 tasks_data = json.load(f)
         else: 
-            with open("app/data/database/tasks_kw.json", "r") as f:
+            with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "r") as f:
                 tasks_data = json.load(f)
 
         
@@ -245,7 +249,7 @@ class HomeWidget(QWidget, Ui_new_home):
                 
     def add_new_task_keyword(self):
         '''Read data from json tasks, and add new keywords from user imput'''
-        with open("app/data/database/tasks_kw.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "r") as f:
             tasks_data = json.load(f)
 
             # for i in range(self.gridLayout_11.count()):
@@ -277,7 +281,7 @@ class HomeWidget(QWidget, Ui_new_home):
                                 item.setCheckState(Qt.Unchecked)
                                 widget.lineEdit_3.clear()
                                 widget.listWidget_3.addItem(item)
-        with open("app/data/database/tasks_kw.json", "w") as new:
+        with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "w") as new:
             json.dump(tasks_data, new)
         
     
@@ -388,16 +392,16 @@ class HomeWidget(QWidget, Ui_new_home):
                     "tasks": checked_tasks
                 }
 
-        if not os.path.exists("app/data/database/user_tasks.json"):
-            with open("app/data/database/user_tasks.json", "w") as f:
+        if not os.path.exists(os.path.join(self.basedir, "app/data/database/user_tasks.json")):
+            with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "w") as f:
                 json.dump([user_tasks], f)
         else:
-            with open("app/data/database/user_tasks.json", "r") as f:
+            with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
                 user_tasks_data = json.load(f)
 
             user_tasks_data.append(user_tasks)
 
-            with open("app/data/database/user_tasks.json", "w") as new:
+            with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "w") as new:
                 json.dump(user_tasks_data, new)
     
 
@@ -477,7 +481,7 @@ class HomeWidget(QWidget, Ui_new_home):
         customer_id, project_id, task_id = self.project_data()
         self.save_user_json(task_id)
         self.retrieve_table_data(project_id)
-        self.EstimatePageSignal.emit(customer_id, project_id, task_id, 'HomeWidget')
+        self.EstimatePageSignal.emit(customer_id, project_id, task_id, 'HomeWidget', self.basedir)
         
 
         

@@ -1,5 +1,5 @@
 
-import sys
+import sys, os
 import sqlite3
 import json
 
@@ -15,20 +15,22 @@ from app.ui.Ui_add_material_form import Ui_Form as UiAddMaterial
 import app.data.database.insert_data_sql as insert_data_sql
 
 
-db = QSqlDatabase("QSQLITE")
-db.setDatabaseName("app/data/database/customer_data.db")
-db.open()
-
 
 class ProjectWidget(QWidget, Ui_Projects):
     
     CreateNewProject = Signal()
 
-    def __init__(self):
+    def __init__(self, basedir):
         super().__init__()
         self.setupUi(self)
+        self.basedir = basedir
 
-        database = r"app/data/database/customer_data.db" #Database path
+        database = os.path.join(self.basedir, "app/data/database/customer_data.db") #Database path
+        
+        self.db = QSqlDatabase("QSQLITE")
+        self.db.setDatabaseName(database)
+        self.db.open()
+
         self.conn = insert_data_sql.create_connection(database)
         
         self.searchLineEdit.setPlaceholderText("Search...")
@@ -236,7 +238,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         '''Retrieve checked tasks from json'''
         self.uncheck_tasks() ### First uncheck all checkboxes 
 
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_checked_tasks = json.load(f)
         
         for button in self.tasks_button_grp.buttons():
@@ -254,10 +256,10 @@ class ProjectWidget(QWidget, Ui_Projects):
 
         self.tasks_changed = False ## Variable that holds wether user added of deleted a task 
         
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_checked_tasks = json.load(f)
         
-        with open("app/data/database/tasks_kw.json", "r") as n:
+        with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "r") as n:
             tasks_keywords = json.load(n)
 
         
@@ -353,10 +355,10 @@ class ProjectWidget(QWidget, Ui_Projects):
     def tasks_state_changed(self):
         '''Handles creation and destruction of task list widgets when user checks them manually'''
 
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_checked_tasks = json.load(f)
         
-        with open("app/data/database/tasks_kw.json", "r") as n:
+        with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "r") as n:
             tasks_keywords = json.load(n)
 
         
@@ -431,7 +433,7 @@ class ProjectWidget(QWidget, Ui_Projects):
     
     def save_tasks(self):
 
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_checked_tasks = json.load(f)
         
         for dict in user_checked_tasks[::-1]:
@@ -465,14 +467,14 @@ class ProjectWidget(QWidget, Ui_Projects):
                         
                         dict['tasks'][construction_area] = {"Demolition": demo_list, "Rebuild": rebuild_list, "Cosmetic": cosmetic_list}
         
-        with open("app/data/database/user_tasks.json", "w") as n:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "w") as n:
             json.dump(user_checked_tasks, n)
     
     
     def add_new_task_keyword(self):
         '''Read data from json tasks, and add new keywords from user imput'''
 
-        with open("app/data/database/tasks_kw.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "r") as f:
             tasks_data = json.load(f)
 
         for button in self.tasks_button_grp.buttons():
@@ -509,7 +511,7 @@ class ProjectWidget(QWidget, Ui_Projects):
                             widget.listWidget_3.addItem(item)
                             widget.listWidget_3.setItemWidget(item, itemCheckbox)
             
-        with open("app/data/database/tasks_kw.json", "w") as new:
+        with open(os.path.join(self.basedir, "app/data/database/tasks_kw.json"), "w") as new:
             json.dump(tasks_data, new)
 
 
@@ -520,7 +522,7 @@ class ProjectWidget(QWidget, Ui_Projects):
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-        query = QSqlQuery(db=db)
+        query = QSqlQuery(db=self.db)
 
         query.prepare(
             '''SELECT material_name, description, quantity, price, (quantity * price) AS total
@@ -539,7 +541,7 @@ class ProjectWidget(QWidget, Ui_Projects):
 
     def open_edit_form(self):
 
-        self.editForm = EditForm(self.project_id)
+        self.editForm = EditForm(self.project_id, self.basedir)
         self.editForm.show()
         self.editForm.FormClosed.connect(self.set_materials_table)
     
@@ -582,9 +584,15 @@ class EditForm(QWidget, UiEditMaterial):
     
     FormClosed = Signal()
 
-    def __init__(self, project_id):
+    def __init__(self, project_id, basedir):
         super().__init__()
         self.setupUi(self)
+
+        database = os.path.join(basedir, "app/data/database/customer_data.db") #Database path
+        
+        db = QSqlDatabase("QSQLITE")
+        db.setDatabaseName(database)
+        db.open()
 
         self.model = QSqlTableModel(db=db)
 

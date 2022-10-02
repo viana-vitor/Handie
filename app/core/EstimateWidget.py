@@ -1,4 +1,5 @@
 import json
+import os
 
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtWidgets import (QWidget, QLabel, QListWidgetItem, QHBoxLayout)
@@ -11,11 +12,12 @@ import app.data.database.insert_data_sql as insert_data_sql
 
 class EstimateWidget(QWidget, Ui_estimates):
     
-    def __init__(self):
+    def __init__(self, basedir):
         super().__init__()
         self.setupUi(self)
+        self.basedir = basedir
 
-        database = r"app/data/database/customer_data.db" #Database path
+        database = os.path.join(self.basedir, "app/data/database/customer_data.db") #Database path
         self.conn = insert_data_sql.create_connection(database)
 
         with self.conn:
@@ -53,12 +55,12 @@ class EstimateWidget(QWidget, Ui_estimates):
         project_id = itemWidget.project_id
         task_id = itemWidget.task_id
 
-        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, 'EstimateWidget')
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, 'EstimateWidget', self.basedir)
         self.project_estimate.show()
 
     def get_construction_area(self, task_id):
 
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_tasks = json.load(f)
 
         
