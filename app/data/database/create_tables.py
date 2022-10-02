@@ -1,5 +1,6 @@
 import sqlite3
 from sqlite3 import Error
+import os
 
 
 def create_connection(db_file):
@@ -29,8 +30,9 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
-def main():
-    database = r"app/data/database/customer_data.db"
+def main(basedir):
+
+    database = os.path.join(basedir, "app/data/database/customer_data.db")
 
     sql_create_customer_table = """ CREATE TABLE IF NOT EXISTS customer (
                                         id integer PRIMARY KEY,
@@ -96,7 +98,6 @@ def main():
                                             );"""
 
     
-
     # create database connection
     conn = create_connection(database)
 
@@ -113,5 +114,5 @@ def main():
     else:
         print("Error! cannot create the database connection")
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

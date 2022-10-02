@@ -25,10 +25,11 @@ class ProjectEstimate(QWidget, Ui_Form):
 
     HomeWidgetSignal = Signal() #Signal to go back to home page
 
-    def __init__(self, customer_id, project_id, task_id, source):
+    def __init__(self, customer_id, project_id, task_id, source, basedir):
         super().__init__()
         self.setupUi(self)
         self.show()
+        self.basedir = basedir
 
         #Database keys for current project
         self.customer_id = customer_id
@@ -45,8 +46,13 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.total_cost = 0
         self.labor_list = []
         self.fee_list = []
+
+        database = os.path.join(self.basedir, "app/data/database/customer_data.db") #Database path
+
+        self.db = QSqlDatabase("QSQLITE")
+        self.db.setDatabaseName(database)
+        self.db.open()
         
-        database = r"app/data/database/customer_data.db" #Database path
         self.conn = insert_data_sql.create_connection(database) #Creates database connection
         with self.conn:
             self.customer_data = insert_data_sql.get_customer_data(self.conn, self.customer_id) #Customer data
@@ -92,7 +98,7 @@ class ProjectEstimate(QWidget, Ui_Form):
         self.model_materials = QSqlQueryModel()
         self.materialsTableView.setModel(self.model_materials)
 
-        query = QSqlQuery(db=db)
+        query = QSqlQuery(db=self.db)
         query.prepare(
             '''SELECT material_name, description, quantity, price, (quantity * price) AS total
                 FROM materials
@@ -140,7 +146,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     
     def open_edit_form(self):
 
-        self.editForm = EditForm(self.project_id)
+        self.editForm = EditForm(self.project_id, self.basedir)
         self.editForm.show()
         self.editForm.FormClosed.connect(self.set_materials_table)
     
@@ -171,7 +177,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     def construction_area_widgets(self):
         ''' This function populates the construction area part of the estimate with all the tasks for the project'''
         
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_tasks = json.load(f)
         
         index = 7
@@ -367,7 +373,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     def tasks_writeup(self):
         '''Add textEdit to the page for writing project tasks'''
          
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_tasks = json.load(f)
         
         index = 22
@@ -380,7 +386,7 @@ class ProjectEstimate(QWidget, Ui_Form):
                     self.task_text_widget.label.setText(area + ":")
 
         if self.source == 'EstimateWidget': #Load previous entered text if coming from list of estimates on EstimateWidget
-            with open("app/data/database/tasks_writeup.json", "r") as g:
+            with open(os.path.join(self.basedir, "app/data/database/tasks_writeup.json"), "r") as g:
                 tasks_writeup = json.load(g)
             
             for dict in tasks_writeup[::-1]:
@@ -397,7 +403,7 @@ class ProjectEstimate(QWidget, Ui_Form):
     def get_tasks_writeup(self):
         '''Get text from tasks textEdits '''
 
-        with open("app/data/database/user_tasks.json", "r") as f:
+        with open(os.path.join(self.basedir, "app/data/database/user_tasks.json"), "r") as f:
             user_tasks = json.load(f)
 
         tasks = {}
@@ -417,20 +423,20 @@ class ProjectEstimate(QWidget, Ui_Form):
                 "general_conditions": self.generalCondTextEdit.toPlainText()
             }
             
-            if not os.path.exists("app/data/database/tasks_writeup.json"):
-                with open("app/data/database/tasks_writeup.json", "w") as f:
+            if not os.path.exists(os.path.join(self.basedir, "app/data/database/tasks_writeup.json")):
+                with open(os.path.join(self.basedir, "app/data/database/tasks_writeup.json"), "w") as f:
                     tasks_writeup = json.dump([tasks_input], f)
             else:
-                with open("app/data/database/tasks_writeup.json", "r") as f:
+                with open(os.path.join(self.basedir, "app/data/database/tasks_writeup.json"), "r") as f:
                     tasks_writeup = json.load(f)
                 
                 tasks_writeup.append(tasks_input)
 
-                with open("app/data/database/tasks_writeup.json", "w") as new:
+                with open(os.path.join(self.basedir, "app/data/database/tasks_writeup.json"), "w") as new:
                     json.dump(tasks_writeup, new)
         else:
             ##Rewrite data if there is any changes
-            with open("app/data/database/tasks_writeup.json", "r") as f: 
+            with open(os.path.join(self.basedir, "app/data/database/tasks_writeup.json"), "r") as f: 
                 tasks_writeup = json.load(f)
             
             for dict in tasks_writeup[::-1]:
@@ -440,7 +446,7 @@ class ProjectEstimate(QWidget, Ui_Form):
                             dict['job_tasks'][item[0]] = tasks[item[0]]
                     dict['general_conditions'] = self.generalCondTextEdit.toPlainText()
             
-            with open("app/data/database/tasks_writeup.json", "w") as new:
+            with open(os.path.join(self.basedir, "app/data/database/tasks_writeup.json"), "w") as new:
                 json.dump(tasks_writeup, new)
         
 
@@ -576,7 +582,7 @@ class ProjectEstimate(QWidget, Ui_Form):
             'estimate_total': self.estimateTotalCostSpinBox.text()
         }
 
-        g = Generator(data) #call worker thread passing the data
+        g = Generator(data, self.basedir) #call worker thread passing the data
         g.signals.file_saved_as.connect(self.pdf_generated)
         g.signals.error.connect(print) #Print errors to the console
         self.threadpool.start(g)
@@ -613,9 +619,15 @@ class EditForm(QWidget, UiEditMaterial):
 
     FormClosed = Signal()
 
-    def __init__(self, project_id):
+    def __init__(self, project_id, basedir):
         super().__init__()
         self.setupUi(self)
+
+        database = os.path.join(basedir, "app/data/database/customer_data.db") #Database path
+
+        db = QSqlDatabase("QSQLITE")
+        db.setDatabaseName(database)
+        db.open()
 
         self.model = QSqlTableModel(db=db)
 

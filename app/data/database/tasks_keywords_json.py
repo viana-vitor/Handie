@@ -1,5 +1,6 @@
 
 import json
+import os
 
 tasks_dict = {
     
@@ -56,8 +57,8 @@ tasks_dict = {
    }
 }
 
-def main():
+def main(basedir):
     
-    with open("app/data/database/tasks_kw.json", "w") as f:
+    with open(os.path.join(basedir, "app/data/database/tasks_kw.json"), "w") as f:
         json.dump(tasks_dict, f)
 

@@ -47,14 +47,15 @@ class Generator(QRunnable):
     :param data:The data to add to the PDF for generating.
     """
 
-    def __init__(self, data):
+    def __init__(self, data, basedir):
         super().__init__()
         self.data = data
         self.signals = WorkerSignals()
+        self.basedir = basedir
 
     @Slot()
     def run(self):
-        template = 'pdf_work/stanford_green.pdf'
+        template = os.path.join(self.basedir, 'pdf_work/stanford_green.pdf')
         
         #downloads_path = str(Path.home() / "Downloads") ##Works for mac
         if os.name == 'nt':
@@ -62,7 +63,7 @@ class Generator(QRunnable):
         else:
             downloads_path = f"{os.getenv('HOME')}/Downloads"
         
-        outfile = downloads_path + '/{}_estimate.pdf'.format(self.data['customer_name'].replace(" ", ""))
+        outfile = os.path.join(downloads_path, '{}_estimate.pdf'.format(self.data['customer_name'].replace(" ", "")))
 
         create_pdf(outfile, template, self.data)
         self.signals.file_saved_as.emit(outfile)

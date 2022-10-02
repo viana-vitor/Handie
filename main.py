@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import re
 import sqlite3
 
@@ -15,8 +15,10 @@ from app.core.ProjectEstimateWidget import ProjectEstimate
 from app.core.EstimateWidget import EstimateWidget
 import app.data.database.create_tables as create_tables
 
+ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 db = QSqlDatabase("QSQLITE")
-db.setDatabaseName("app/data/database/customer_data.db")
+db.setDatabaseName(os.path.join(ROOT_DIR, "app/data/database/customer_data.db"))
 db.open()
 
 #Create Main Window
@@ -26,7 +28,7 @@ class MainWindow(QMainWindow):
 
         self.resize(1000, 700)
 
-        create_tables.main() #create database tables
+        create_tables.main(ROOT_DIR) #create database tables
 
         self.home_button_checked = True #start at home page
         
@@ -36,23 +38,23 @@ class MainWindow(QMainWindow):
         toolbar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.addToolBar(Qt.LeftToolBarArea, toolbar)
 
-        self.button_home = QAction(QIcon("app/data/img/home.png"), "Home", self)
+        self.button_home = QAction(QIcon(os.path.join(ROOT_DIR, "app/data/img/home.png")), "Home", self)
         self.button_home.setCheckable(True)
         self.button_home.triggered.connect(self.home_toggle)
         self.button_home.setChecked(self.home_button_checked)
         toolbar.addAction(self.button_home)
         
-        self.button_customer = QAction(QIcon("app/data/img/contact.png"), "Customers", self)
+        self.button_customer = QAction(QIcon(os.path.join(ROOT_DIR, "app/data/img/contact.png")), "Customers", self)
         self.button_customer.setCheckable(True)
         self.button_customer.triggered.connect(self.customer_toggle)
         toolbar.addAction(self.button_customer)
 
-        self.button_projects = QAction(QIcon("app/data/img/sketch.png"), "Projects", self)
+        self.button_projects = QAction(QIcon(os.path.join(ROOT_DIR, "app/data/img/sketch.png")), "Projects", self)
         self.button_projects.setCheckable(True)
         self.button_projects.triggered.connect(self.projects_toggle)
         toolbar.addAction(self.button_projects)
 
-        self.button_estimates = QAction(QIcon("app/data/img/budget.png"), "Estimates", self)
+        self.button_estimates = QAction(QIcon(os.path.join(ROOT_DIR, "app/data/img/budget.png")), "Estimates", self)
         self.button_estimates.setCheckable(True)
         self.button_estimates.triggered.connect(self.estimates_toggle)
         toolbar.addAction(self.button_estimates)
@@ -63,13 +65,13 @@ class MainWindow(QMainWindow):
         action_group.addAction(self.button_projects)
         action_group.addAction(self.button_estimates)
         
-        self.home_widget = HomeWidget()
+        self.home_widget = HomeWidget(ROOT_DIR)
         self.setCentralWidget(self.home_widget)
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
     
     
     def home_toggle(self):
-        self.home_widget = HomeWidget()
+        self.home_widget = HomeWidget(ROOT_DIR)
         self.button_home.setChecked(True)
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
         self.setCentralWidget(self.home_widget)
@@ -79,22 +81,22 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.customer_widget)
     
     def projects_toggle(self):
-        self.project_widget = ProjectWidget()
+        self.project_widget = ProjectWidget(ROOT_DIR)
         self.project_widget.CreateNewProject.connect(self.open_new_project_form)
         self.setCentralWidget(self.project_widget)
     
     def estimates_toggle(self):
-        self.estimate_widget = EstimateWidget()
+        self.estimate_widget = EstimateWidget(ROOT_DIR)
         self.setCentralWidget(self.estimate_widget)
 
-    def open_estimate(self, customer_id, project_id, task_id, source):
-        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, source)
+    def open_estimate(self, customer_id, project_id, task_id, source, basedir):
+        self.project_estimate = ProjectEstimate(customer_id, project_id, task_id, source, basedir)
         self.button_estimates.setChecked(True)
         self.project_estimate.HomeWidgetSignal.connect(self.home_toggle)
         self.setCentralWidget(self.project_estimate)
 
     def open_new_project_form(self):
-        self.home_widget = HomeWidget()
+        self.home_widget = HomeWidget(ROOT_DIR)
         self.home_widget.stackedWidget.setCurrentIndex(1)
         self.home_widget.EstimatePageSignal.connect(self.open_estimate)
         self.setCentralWidget(self.home_widget)
@@ -136,8 +138,8 @@ class CustomerWidget(QWidget, Ui_Customers):
 
 
 
-
-app = QApplication(sys.argv)
-w = MainWindow()
-w.show()
-app.exec()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    w = MainWindow()
+    w.show()
+    app.exec()
